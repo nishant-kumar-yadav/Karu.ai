@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Viraasat.ai — One-Tap Digital Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #122038;
+            --navy-light: #1a3050;
+            --teal: #009688;
+            --teal-light: #26a69a;
+            --gold: #D4AF37;
+            --gold-light: #e8c84a;
+            --white: #ffffff;
+            --light: #f5f7fa;
+            --gray: #8892a4;
+            --red: #ef5350;
+            --green: #66bb6a;
+            --shadow: 0 8px 32px rgba(18, 32, 56, 0.12);
+            --shadow-lg: 0 16px 48px rgba(18, 32, 56, 0.18);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--navy);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Top Nav ── */
+        .topnav {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .topnav .logo {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+        .topnav .logo span { color: var(--gold); }
+        .topnav .status {
+            font-size: 0.8em;
+            color: var(--teal-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .topnav .status .dot {
+            width: 8px; height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ── Screens ── */
+        .screen {
+            display: none;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin: 16px 0;
+            box-shadow: var(--shadow);
+        }
+        .card h2 {
+            font-size: 1.2em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h2 .icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+
+        /* ── Inputs ── */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+        .form-group small {
+            color: var(--gray);
+            font-size: 0.75em;
+        }
+        .voice-input-wrap {
+            position: relative;
+        }
+        .voice-input-wrap textarea {
+            padding-right: 56px;
+        }
+        .btn-mic {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--navy);
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .btn-mic:hover { background: var(--teal); }
+        .btn-mic.recording {
+            background: #e53935;
+            animation: mic-pulse 1s ease-in-out infinite;
+        }
+        @keyframes mic-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229,57,53,0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(229,57,53,0); }
+        }
+        .voice-lang-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .voice-lang-row button {
+            padding: 4px 10px;
+            border: 1.5px solid #e8ecf2;
+            border-radius: 16px;
+            background: #fff;
+            font-size: 0.72em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .voice-lang-row button.active {
+            border-color: var(--teal);
+            background: var(--teal);
+            color: #fff;
+        }
+        input[type="text"], input[type="tel"], select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8ecf2;
+            border-radius: var(--radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            transition: border 0.2s;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--teal);
+        }
+        textarea { resize: vertical; min-height: 80px; }
+
+        /* ── Craft Type Chips ── */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid #e8ecf2;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .chip:hover { border-color: var(--teal); }
+        .chip.selected {
+            background: var(--teal);
+            color: var(--white);
+            border-color: var(--teal);
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            color: var(--white);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--navy);
+        }
+        .btn-navy {
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: var(--white);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--teal);
+            color: var(--teal);
+        }
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.85em;
+            width: auto;
+        }
+
+        /* ── Photo Upload ── */
+        .photo-upload {
+            border: 3px dashed #d0d8e8;
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafbfc;
+        }
+        .photo-upload:hover {
+            border-color: var(--teal);
+            background: #f0faf8;
+        }
+        .photo-upload .icon { font-size: 2.5em; margin-bottom: 8px; }
+        .photo-upload p { color: var(--gray); font-size: 0.9em; }
+        .photo-upload input { display: none; }
+
+        .photo-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .photo-preview img {
+            width: 80px; height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #e8ecf2;
+        }
+
+        /* ── Progress Bar ── */
+        .progress-bar {
+            height: 6px;
+            background: #e8ecf2;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal), var(--gold));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* ── Step Indicator ── */
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .step-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #d0d8e8;
+            transition: all 0.3s;
+        }
+        .step-dot.active { background: var(--teal); width: 28px; border-radius: 5px; }
+        .step-dot.done { background: var(--gold); }
+
+        /* ── Loading Overlay ── */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(18, 32, 56, 0.85);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .loading-overlay.active { display: flex; }
+        .spinner {
+            width: 60px; height: 60px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top: 4px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-overlay .text {
+            color: var(--white);
+            font-size: 1.1em;
+            font-weight: 500;
+            text-align: center;
+            max-width: 280px;
+        }
+        .loading-overlay .subtext {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        /* ── Result Cards ── */
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .result-grid > div { position: relative; }
+        .result-grid img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .result-grid img:hover { transform: scale(1.03); }
+        .result-grid .span-2 { grid-column: span 2; }
+
+        /* ── Info Rows ── */
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .info-row:last-child { border: none; }
+        .info-row .label { color: var(--gray); font-size: 0.85em; min-width: 100px; }
+        .info-row .value { font-weight: 500; }
+
+        /* ── Price Card ── */
+        .price-card {
+            background: linear-gradient(135deg, #f0faf8, #e8f5e9);
+            border: 2px solid var(--teal);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+        }
+        .price-card .price { font-size: 2em; font-weight: 800; color: var(--teal); }
+        .price-card .range { color: var(--gray); font-size: 0.85em; margin-top: 4px; }
+
+        /* ── Badge ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        .badge-gold { background: var(--gold); color: var(--navy); }
+        .badge-teal { background: var(--teal); color: var(--white); }
+        .badge-navy { background: var(--navy); color: var(--white); }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--navy);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+            z-index: 300;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ── Share buttons row ── */
+        .share-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .share-row .btn { flex: 1; min-width: 140px; }
+
+        /* ── Monogram display ── */
+        .monogram-display {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: block;
+            box-shadow: var(--shadow);
+        }
+
+        /* ── Hero banner ── */
+        .hero-banner {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero-banner h1 {
+            font-size: 1.8em;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .hero-banner p {
+            color: var(--gray);
+            font-size: 0.95em;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* ── Feature points on results ── */
+        .feature-pill {
+            display: inline-block;
+            background: #f0faf8;
+            color: var(--teal);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            margin: 3px;
+            font-weight: 500;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 500;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 510;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+        .lightbox-img-wrap {
+            position: relative;
+            max-width: 90vw;
+            max-height: 78vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-img-wrap img {
+            max-width: 90vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 12px 60px rgba(0,0,0,0.5);
+            animation: lbFadeIn 0.25s ease;
+        }
+        @keyframes lbFadeIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+        .lightbox-label {
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            margin-top: 16px;
+            text-align: center;
+            text-transform: capitalize;
+        }
+        .lightbox-counter {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8em;
+            margin-top: 4px;
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: none;
+            color: white;
+            font-size: 1.4em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 510;
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+        .lightbox-nav.prev { left: 12px; }
+        .lightbox-nav.next { right: 12px; }
+        .lightbox-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            overflow-x: auto;
+            max-width: 90vw;
+            padding: 4px 0;
+        }
+        .lightbox-thumbs img {
+            width: 56px; height: 56px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.5;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .lightbox-thumbs img:hover { opacity: 0.8; }
+        .lightbox-thumbs img.active {
+            opacity: 1;
+            border-color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<div class="topnav">
+    <div class="logo">VIRAASAT<span>.AI</span></div>
+    <div class="status"><div class="dot"></div> Live</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCREEN 1: Welcome / Phone -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-welcome">
+    <div class="hero-banner">
+        <div style="font-size:3em; margin-bottom:12px;">🏺</div>
+        <h1>Namaste!</h1>
+        <p>Apni craft ko duniya tak pahunchayein. Sirf 60 second mein professional e-commerce listing.</p>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon" style="background:#e8f5e9;">📱</span> Enter Phone</h2>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="inp-phone" placeholder="+91 98765 43210" value="+91">
+        </div>
+        <button class="btn btn-primary" onclick="doRegister()">Send OTP →</button>
+    </div>
+
+    <div class="steps">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCREEN 2: OTP -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-otp">
+    <div class="card">
+        <h2><span class="icon" style="background:#fff3e0;">🔐</span> Verify OTP</h2>
+        <p style="color:var(--gray); margin-bottom:16px; font-size:0.9em;">OTP sent to <strong id="otp-phone"></strong></p>
+        <div class="form-group">
+            <label>Enter OTP</label>
+            <input type="text" id="inp-otp" placeholder="123456" maxlength="6">
+            <small>For demo, enter any 6 digits</small>
+        </div>
+        <button class="btn btn-primary" onclick="doVerify()">Verify →</button>
+    </div>
+
+    <div class="steps">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCREEN 3: Profile Setup -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-profile">
+    <div class="card">
+        <h2><span class="icon" style="background:#e3f2fd;">👤</span> Your Profile</h2>
+
+        <div class="form-group">
+            <label>Name / नाम</label>
+            <input type="text" id="inp-name" placeholder="Ramesh Kumar">
+        </div>
+
+        <div class="form-group">
+            <label>District / जिला</label>
+            <input type="text" id="inp-district" placeholder="Bhagalpur">
+        </div>
+
+        <div class="form-group">
+            <label>State / राज्य</label>
+            <select id="inp-state">
+                <option value="">Select state</option>
+                <option>Andhra Pradesh</option><option>Bihar</option>
+                <option>Gujarat</option><option>Jammu & Kashmir</option>
+                <option>Karnataka</option><option>Kerala</option>
+                <option>Madhya Pradesh</option><option>Maharashtra</option>
+                <option>Odisha</option><option>Rajasthan</option>
+                <option>Tamil Nadu</option><option>Telangana</option>
+                <option>Uttar Pradesh</option><option>West Bengal</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Craft Type / शिल्प</label>
+            <div class="chips" id="craft-chips">
+                <div class="chip" data-val="textiles" onclick="toggleChip(this)">🧵 Textiles</div>
+                <div class="chip" data-val="pottery" onclick="toggleChip(this)">🏺 Pottery</div>
+                <div class="chip" data-val="jewelry" onclick="toggleChip(this)">💍 Jewelry</div>
+                <div class="chip" data-val="woodwork" onclick="toggleChip(this)">🪵 Woodwork</div>
+                <div class="chip" data-val="metalwork" onclick="toggleChip(this)">⚒️ Metalwork</div>
+                <div class="chip" data-val="leather" onclick="toggleChip(this)">👜 Leather</div>
+                <div class="chip" data-val="paintings" onclick="toggleChip(this)">🎨 Paintings</div>
+                <div class="chip" data-val="generic" onclick="toggleChip(this)">✦ Other</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>UPI ID (optional)</label>
+            <input type="text" id="inp-upi" placeholder="9876543210@upi">
+        </div>
+
+        <button class="btn btn-gold" onclick="doCreateProfile()">Create Profile ✨</button>
+    </div>
+
+    <div class="steps">
+        <div class="step-dot done"></div>
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCREEN 4: Dashboard (Profile + Upload) -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-dashboard">
+    <!-- Profile Card -->
+    <div class="card" style="text-align: center;">
+        <img id="dash-monogram" class="monogram-display" src="" alt="Monogram">
+        <h2 style="justify-content: center;" id="dash-name">Artisan Name</h2>
+        <p style="color:var(--gray); font-size:0.9em;" id="dash-location">📍 Location</p>
+        <div style="margin: 8px 0;">
+            <span class="badge badge-gold" id="dash-badge">🥉 New Artisan</span>
+        </div>
+        <div class="progress-bar">
+            <div class="fill" id="dash-progress" style="width: 0%"></div>
+        </div>
+        <p style="font-size:0.8em; color:var(--gray);">Profile: <span id="dash-percent">0</span>% complete</p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="card">
+        <h2><span class="icon" style="background:#fce4ec;">📸</span> Upload Product</h2>
+
+        <div class="photo-upload" onclick="document.getElementById('inp-photos').click()">
+            <div class="icon">📷</div>
+            <p><strong>Tap to add photos</strong></p>
+            <p>1-5 photos (Front / Side / Close-up)</p>
+            <input type="file" id="inp-photos" accept="image/*" multiple onchange="previewPhotos(this)">
+        </div>
+        <div class="photo-preview" id="photo-preview"></div>
+
+        <div class="form-group" style="margin-top: 16px;">
+            <label>Describe your product / उत्पाद का विवरण</label>
+            <div class="voice-input-wrap">
+                <textarea id="inp-voice" placeholder="Tap 🎙️ and speak, or type here..."></textarea>
+                <button class="btn-mic" id="btn-mic" onclick="toggleVoice()" title="Hold to speak">🎙️</button>
+            </div>
+            <div class="voice-lang-row">
+                <button class="active" data-lang="hi-IN" onclick="setVoiceLang(this)">हिन्दी</button>
+                <button data-lang="en-IN" onclick="setVoiceLang(this)">English</button>
+                <button data-lang="bn-IN" onclick="setVoiceLang(this)">বাংলা</button>
+                <button data-lang="ta-IN" onclick="setVoiceLang(this)">தமிழ்</button>
+            </div>
+            <small>Tap 🎙️ to speak or type — Hindi, English, or mix!</small>
+        </div>
+
+        <div class="form-group">
+            <label>Product Type (optional)</label>
+            <input type="text" id="inp-prodtype" placeholder="e.g. Tussar Silk Shawl">
+        </div>
+
+        <div class="form-group">
+            <label>Number of Cards</label>
+            <div class="voice-lang-row" id="card-count-row">
+                <button data-count="3" class="active" onclick="setCardCount(this)">3 — Quick</button>
+                <button data-count="4" onclick="setCardCount(this)">4 — Standard</button>
+                <button data-count="5" onclick="setCardCount(this)">5 — Full</button>
+            </div>
+            <small>3 = Hero + Features + Detail · 4 adds Lifestyle · 5 adds Heritage</small>
+        </div>
+
+        <button class="btn btn-primary" onclick="doGenerate()" id="btn-generate">
+            🚀 Generate E-Commerce Listing
+        </button>
+    </div>
+
+    <!-- Past Products -->
+    <div class="card" id="past-products" style="display:none;">
+        <h2><span class="icon" style="background:#e8eaf6;">📦</span> Your Products</h2>
+        <div id="past-products-list"></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCREEN 5: Results -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+    <div class="card" style="text-align:center;">
+        <div style="font-size:2em; margin-bottom:8px;">🎉</div>
+        <h2 style="justify-content:center;">Listing Ready!</h2>
+        <p style="color:var(--gray); font-size:0.9em;">Professional e-commerce cards generated</p>
+    </div>
+
+    <!-- Generated Images -->
+    <div class="card">
+        <h2><span class="icon" style="background:#e8f5e9;">🖼️</span> Product Cards</h2>
+        <div class="result-grid" id="result-images"></div>
+    </div>
+
+    <!-- Price Advice -->
+    <div class="card" id="result-price-card">
+        <h2><span class="icon" style="background:#e0f2f1;">💰</span> Price Advisor</h2>
+        <div class="price-card">
+            <div class="price" id="result-price">₹0</div>
+            <div class="range" id="result-price-range">Market range: ₹0 — ₹0</div>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="card" id="result-details-card">
+        <h2><span class="icon" style="background:#fff3e0;">📋</span> Product Details</h2>
+        <div id="result-details"></div>
+    </div>
+
+    <!-- Heritage -->
+    <div class="card" id="result-heritage-card">
+        <h2><span class="icon" style="background:#fce4ec;">🏺</span> Heritage Story</h2>
+        <p id="result-heritage"></p>
+    </div>
+
+    <!-- Keywords -->
+    <div class="card" id="result-keywords-card">
+        <h2><span class="icon" style="background:#e3f2fd;">🔍</span> SEO Keywords</h2>
+        <div id="result-keywords"></div>
+    </div>
+
+    <!-- Sharing -->
+    <div class="card">
+        <h2><span class="icon" style="background:#e8f5e9;">📤</span> Share</h2>
+        <div class="share-row">
+            <button class="btn btn-whatsapp btn-sm" onclick="doShare('whatsapp')">💬 WhatsApp</button>
+            <button class="btn btn-instagram btn-sm" onclick="doShare('instagram')">📸 Instagram</button>
+        </div>
+        <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="doShare('landing')">🌐 Landing Page</button>
+            <button class="btn btn-outline btn-sm" onclick="doShare('download')">📥 Download Kit</button>
+            <button class="btn btn-outline btn-sm" onclick="doShare('brand-card')">🪪 Brand Card</button>
+        </div>
+    </div>
+
+    <!-- Processing Info -->
+    <div class="card" style="text-align:center;">
+        <p style="font-size:0.8em; color:var(--gray);">
+            ⏱️ Generated in <strong id="result-time">0</strong>s &nbsp;|&nbsp;
+            🔒 Provenance: <code id="result-hash" style="font-size:0.75em;"></code>
+        </p>
+    </div>
+
+    <button class="btn btn-navy" onclick="goToDashboard()" style="margin-top:8px;">
+        ← Upload Another Product
+    </button>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- Loading Overlay -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="loading-overlay" id="loading">
+    <div class="spinner"></div>
+    <div class="text" id="loading-text">Processing...</div>
+    <div class="subtext" id="loading-sub"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav prev" onclick="navLightbox(-1)">‹</button>
+    <button class="lightbox-nav next" onclick="navLightbox(1)">›</button>
+    <div class="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="">
+    </div>
+    <div class="lightbox-label" id="lightbox-label"></div>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+    <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const API = '';  // Same origin
+let state = {
+    phone: '',
+    artisanId: '',
+    profile: null,
+    currentProductId: '',
+    currentParsedData: null,
+};
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function showLoading(text, sub) {
+    document.getElementById('loading-text').textContent = text;
+    document.getElementById('loading-sub').textContent = sub || '';
+    document.getElementById('loading').classList.add('active');
+}
+
+function hideLoading() {
+    document.getElementById('loading').classList.remove('active');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════════════════
+// API HELPERS
+// ═══════════════════════════════════════════════════════
+async function apiPost(path, body) {
+    const res = await fetch(API + path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+    }
+    return res.json();
+}
+
+async function apiGet(path) {
+    const res = await fetch(API + path);
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+    }
+    return res.json();
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN 1: Register
+// ═══════════════════════════════════════════════════════
+async function doRegister() {
+    const phone = document.getElementById('inp-phone').value.replace(/\s/g, '');
+    if (phone.length < 10) return showToast('Enter a valid phone number');
+
+    try {
+        showLoading('Sending OTP...', 'Firebase SMS');
+        const data = await apiPost('/auth/register', { phone });
+
+        state.phone = phone;
+        document.getElementById('otp-phone').textContent = phone;
+        hideLoading();
+        showScreen('screen-otp');
+        showToast(data.message);
+    } catch (e) {
+        hideLoading();
+        showToast('Error: ' + e.message);
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN 2: Verify OTP
+// ═══════════════════════════════════════════════════════
+async function doVerify() {
+    const otp = document.getElementById('inp-otp').value;
+    if (otp.length < 4) return showToast('Enter OTP');
+
+    try {
+        showLoading('Verifying...', '');
+        const data = await apiPost('/auth/verify', { phone: state.phone, otp });
+        hideLoading();
+
+        if (data.status === 'existing_user') {
+            // Returning user — go to dashboard
+            state.artisanId = data.profile.id;
+            state.profile = data.profile;
+            showDashboard();
+            showToast('Welcome back! 🎉');
+        } else {
+            // New user — go to profile setup
+            showScreen('screen-profile');
+        }
+    } catch (e) {
+        hideLoading();
+        showToast('Error: ' + e.message);
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN 3: Create Profile
+// ═══════════════════════════════════════════════════════
+function toggleChip(el) {
+    el.classList.toggle('selected');
+}
+
+async function doCreateProfile() {
+    const name = document.getElementById('inp-name').value.trim();
+    const district = document.getElementById('inp-district').value.trim();
+    const stateVal = document.getElementById('inp-state').value;
+    const upi = document.getElementById('inp-upi').value.trim();
+
+    const crafts = [...document.querySelectorAll('.chip.selected')].map(c => c.dataset.val);
+
+    if (!name) return showToast('Please enter your name');
+    if (!district) return showToast('Please enter your district');
+    if (!stateVal) return showToast('Please select state');
+    if (crafts.length === 0) return showToast('Select at least one craft');
+
+    try {
+        showLoading('Creating your profile...', 'Generating monogram & brand');
+        const profile = await apiPost('/auth/profile', {
+            phone: state.phone,
+            name, district,
+            state: stateVal,
+            craft_types: crafts,
+            preferred_language: 'hi',
+            upi_id: upi || null,
+        });
+
+        state.artisanId = profile.id;
+        state.profile = profile;
+        hideLoading();
+        showDashboard();
+        showToast('Profile created! 🎉');
+    } catch (e) {
+        hideLoading();
+        showToast('Error: ' + e.message);
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN 4: Dashboard
+// ═══════════════════════════════════════════════════════
+async function showDashboard() {
+    showScreen('screen-dashboard');
+
+    const p = state.profile;
+    document.getElementById('dash-name').textContent = p.name;
+    document.getElementById('dash-location').textContent = `📍 ${p.district}, ${p.state}`;
+
+    const badges = { new: '🥉 New Artisan', active: '🥈 Active Artisan', master: '🥇 Master Artisan', heritage: '💎 Heritage Master' };
+    document.getElementById('dash-badge').textContent = badges[p.badge_level] || '🥉 New';
+
+    // Monogram
+    document.getElementById('dash-monogram').src = API + `/auth/profile/${state.artisanId}/monogram`;
+
+    // Completion
+    try {
+        const comp = await apiGet(`/auth/profile/${state.artisanId}/completion`);
+        document.getElementById('dash-progress').style.width = comp.percentage + '%';
+        document.getElementById('dash-percent').textContent = comp.percentage;
+    } catch (e) {}
+
+    // Past products
+    try {
+        const prods = await apiGet(`/products/artisan/${state.artisanId}`);
+        if (prods.count > 0) {
+            document.getElementById('past-products').style.display = 'block';
+            document.getElementById('past-products-list').innerHTML = prods.products.map(p =>
+                `<div class="info-row">
+                    <span class="label">${p.product_type || 'Product'}</span>
+                    <span class="value"><button class="btn btn-sm btn-outline" onclick="viewProduct('${p.id}')">View →</button></span>
+                </div>`
+            ).join('');
+        }
+    } catch (e) {}
+}
+
+function goToDashboard() {
+    // Refresh profile
+    apiGet(`/auth/profile/${state.artisanId}`).then(p => {
+        state.profile = p;
+        showDashboard();
+    }).catch(() => showDashboard());
+}
+
+// ═══════════════════════════════════════════════════════
+// Photo Preview
+// ═══════════════════════════════════════════════════════
+function previewPhotos(input) {
+    const preview = document.getElementById('photo-preview');
+    preview.innerHTML = '';
+    for (const file of input.files) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        preview.appendChild(img);
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// VOICE INPUT — Web Speech API
+// ═══════════════════════════════════════════════════════
+let voiceLang = 'hi-IN';
+let recognition = null;
+let isRecording = false;
+
+function setVoiceLang(btn) {
+    document.querySelectorAll('.voice-lang-row button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    voiceLang = btn.dataset.lang;
+}
+
+function toggleVoice() {
+    if (isRecording) {
+        stopVoice();
+    } else {
+        startVoice();
+    }
+}
+
+function startVoice() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert('Speech recognition not supported in this browser. Please use Chrome.');
+        return;
+    }
+    recognition = new SpeechRecognition();
+    recognition.lang = voiceLang;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    const textarea = document.getElementById('inp-voice');
+    const existingText = textarea.value;
+    const btn = document.getElementById('btn-mic');
+    let finalTranscript = '';
+
+    recognition.onstart = () => {
+        isRecording = true;
+        btn.classList.add('recording');
+        btn.innerHTML = '⏹';
+    };
+
+    recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript + ' ';
+            } else {
+                interim += event.results[i][0].transcript;
+            }
+        }
+        textarea.value = (existingText ? existingText + ' ' : '') + finalTranscript + interim;
+    };
+
+    recognition.onerror = (event) => {
+        console.warn('Speech error:', event.error);
+        stopVoice();
+    };
+
+    recognition.onend = () => {
+        // Finalize text
+        if (finalTranscript) {
+            textarea.value = (existingText ? existingText + ' ' : '') + finalTranscript.trim();
+        }
+        stopVoice();
+    };
+
+    recognition.start();
+}
+
+function stopVoice() {
+    if (recognition) { try { recognition.stop(); } catch(e) {} }
+    isRecording = false;
+    const btn = document.getElementById('btn-mic');
+    btn.classList.remove('recording');
+    btn.innerHTML = '🎙️';
+}
+
+// ═══════════════════════════════════════════════════════
+// GENERATE — The Big Pipeline
+// ═══════════════════════════════════════════════════════
+function setCardCount(btn) {
+    document.querySelectorAll('#card-count-row button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+async function doGenerate() {
+    const files = document.getElementById('inp-photos').files;
+    const voice = document.getElementById('inp-voice').value;
+    const prodtype = document.getElementById('inp-prodtype').value;
+    const numCards = document.querySelector('#card-count-row button.active')?.dataset.count || '5';
+
+    if (!files.length) return showToast('Please add at least one photo');
+
+    const formData = new FormData();
+    formData.append('artisan_id', state.artisanId);
+    formData.append('voice_description', voice);
+    formData.append('product_type', prodtype);
+    formData.append('preferred_language', 'hi');
+    formData.append('num_cards', numCards);
+    for (const f of files) {
+        formData.append('photos', f);
+    }
+
+    try {
+        showLoading(
+            '🏺 Generating your listing...',
+            'AI is analyzing your product, creating images, writing descriptions...'
+        );
+
+        // Animate loading messages
+        const msgs = [
+            ['📸 Analyzing your photos...', 'Detecting product details'],
+            ['🎨 Creating studio shots...', 'Inpainting backgrounds'],
+            ['✍️ Writing descriptions...', 'Hindi + English + Hashtags'],
+            ['💰 Researching prices...', 'Finding fair market value'],
+            ['🏺 Adding heritage story...', 'Connecting to craft tradition'],
+            ['🖼️ Applying text overlays...', 'Crisp typography with Pillow'],
+            ['🔒 Generating QR code...', 'Provenance verification hash'],
+            ['✨ Almost done...', 'Finalizing your cards'],
+        ];
+        let msgIdx = 0;
+        const msgInterval = setInterval(() => {
+            msgIdx = (msgIdx + 1) % msgs.length;
+            document.getElementById('loading-text').textContent = msgs[msgIdx][0];
+            document.getElementById('loading-sub').textContent = msgs[msgIdx][1];
+        }, 3000);
+
+        const res = await fetch(API + '/products/generate', {
+            method: 'POST',
+            body: formData,
+        });
+
+        clearInterval(msgInterval);
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || `HTTP ${res.status}`);
+        }
+
+        const result = await res.json();
+        hideLoading();
+        showResults(result);
+
+    } catch (e) {
+        hideLoading();
+        showToast('Error: ' + e.message);
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN 5: Show Results
+// ═══════════════════════════════════════════════════════
+function showResults(result) {
+    state.currentProductId = result.product_id;
+    state.currentParsedData = result.parsed_data;
+
+    showScreen('screen-results');
+
+    // Images
+    const imgGrid = document.getElementById('result-images');
+    const cardLabels = { hero: 'Hero Shot', features: 'Features', heritage: 'Heritage', macro: 'Detail', lifestyle: 'Lifestyle' };
+
+    imgGrid.innerHTML = result.cards.map((card, i) => {
+        const ct = card.card_type;
+        const cls = i === 0 ? 'span-2' : '';
+        const src = `${API}/products/${result.product_id}/card/${ct}`;
+        return `<div class="${cls}" style="position:relative;">
+                    <img src="${src}" 
+                         alt="${cardLabels[ct] || ct}" title="Click to view — ${cardLabels[ct] || ct}"
+                         onclick="openLightbox(${i})"
+                         onerror="this.parentElement.style.display='none'">
+                    <span style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+                          background:rgba(18,32,56,0.7);color:white;padding:3px 12px;border-radius:12px;
+                          font-size:0.72em;font-weight:500;pointer-events:none;">${cardLabels[ct] || ct}</span>
+                </div>`;
+    }).join('');
+
+    // Store lightbox data
+    window._lbImages = result.cards.map(card => ({
+        src: `${API}/products/${result.product_id}/card/${card.card_type}`,
+        label: cardLabels[card.card_type] || card.card_type,
+    }));
+
+    // Price
+    const pd = result.parsed_data;
+    document.getElementById('result-price').textContent = `₹${pd.price_recommended || '—'}`;
+    document.getElementById('result-price-range').textContent =
+        `Market range: ₹${pd.price_min || '?'} — ₹${pd.price_max || '?'}`;
+
+    // Details
+    const details = document.getElementById('result-details');
+    details.innerHTML = `
+        <div class="info-row"><span class="label">Product</span><span class="value">${pd.product_type}</span></div>
+        <div class="info-row"><span class="label">Materials</span><span class="value">${(pd.materials || []).join(', ')}</span></div>
+        <div class="info-row"><span class="label">Description</span><span class="value">${pd.description}</span></div>
+    `;
+
+    // Heritage
+    if (pd.heritage_story) {
+        document.getElementById('result-heritage-card').style.display = 'block';
+        document.getElementById('result-heritage').textContent = pd.heritage_story;
+    }
+
+    // Keywords
+    if (pd.seo_keywords && pd.seo_keywords.length) {
+        document.getElementById('result-keywords-card').style.display = 'block';
+        document.getElementById('result-keywords').innerHTML =
+            pd.seo_keywords.map(k => `<span class="feature-pill">${k}</span>`).join('');
+    }
+
+    // Features
+    if (pd.features && pd.features.length) {
+        details.innerHTML += `<div style="margin-top:12px;">
+            ${pd.features.map(f => `<span class="feature-pill">✦ ${f}</span>`).join('')}
+        </div>`;
+    }
+
+    // Meta
+    document.getElementById('result-time').textContent = result.processing_time_seconds;
+    document.getElementById('result-hash').textContent = result.provenance_hash.slice(0, 16) + '...';
+}
+
+// ═══════════════════════════════════════════════════════
+// SHARING
+// ═══════════════════════════════════════════════════════
+async function doShare(platform) {
+    const pid = state.currentProductId;
+    if (!pid) return showToast('No product to share');
+
+    try {
+        if (platform === 'whatsapp') {
+            const data = await apiGet(`/sharing/${pid}/whatsapp`);
+            if (data.deep_link) window.open(data.deep_link, '_blank');
+            showToast('WhatsApp share ready!');
+        } else if (platform === 'instagram') {
+            const data = await apiGet(`/sharing/${pid}/instagram`);
+            await navigator.clipboard.writeText(data.caption);
+            showToast('Caption copied! Open Instagram and paste.');
+        } else if (platform === 'landing') {
+            window.open(`${API}/sharing/${pid}/landing-page`, '_blank');
+        } else if (platform === 'download') {
+            window.open(`${API}/sharing/${pid}/download-kit`, '_blank');
+        } else if (platform === 'brand-card') {
+            window.open(`${API}/sharing/${pid}/brand-card`, '_blank');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message);
+    }
+}
+
+async function viewProduct(productId) {
+    state.currentProductId = productId;
+    try {
+        const product = await apiGet(`/products/${productId}`);
+        state.currentParsedData = product.description_json;
+        showResults({
+            product_id: productId,
+            cards: (product.generated_images || []).map(f => ({
+                card_type: f.replace('Viraasat_', '').replace('.png', ''),
+                filename: f,
+            })),
+            parsed_data: product.description_json || {},
+            provenance_hash: product.provenance_hash || '',
+            processing_time_seconds: '—',
+        });
+    } catch (e) {
+        showToast('Error loading product');
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════════════════
+let _lbIdx = 0;
+window._lbImages = [];
+
+function openLightbox(idx) {
+    const imgs = window._lbImages;
+    if (!imgs.length) return;
+    _lbIdx = idx;
+    _renderLightbox();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function navLightbox(dir) {
+    const imgs = window._lbImages;
+    _lbIdx = (_lbIdx + dir + imgs.length) % imgs.length;
+    _renderLightbox();
+}
+
+function _renderLightbox() {
+    const imgs = window._lbImages;
+    const item = imgs[_lbIdx];
+    const mainImg = document.getElementById('lightbox-img');
+    mainImg.src = item.src;
+    mainImg.alt = item.label;
+    document.getElementById('lightbox-label').textContent = item.label;
+    document.getElementById('lightbox-counter').textContent = `${_lbIdx + 1} / ${imgs.length}`;
+
+    // Thumbnails
+    const thumbs = document.getElementById('lightbox-thumbs');
+    thumbs.innerHTML = imgs.map((img, i) =>
+        `<img src="${img.src}" alt="${img.label}" class="${i === _lbIdx ? 'active' : ''}"
+              onclick="openLightbox(${i})" onerror="this.style.display='none'">`
+    ).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT — keyboard shortcuts
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('lightbox');
+    if (lb.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') navLightbox(-1);
+        else if (e.key === 'ArrowRight') navLightbox(1);
+        return;
+    }
+    if (e.key === 'Enter') {
+        const active = document.querySelector('.screen.active');
+        if (active) {
+            const btn = active.querySelector('.btn');
+            if (btn) btn.click();
+        }
+    }
+});
+
+// Close lightbox on backdrop click
+document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') closeLightbox();
+});
+</script>
+
+</body>
+</html>

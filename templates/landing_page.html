@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{product_name}} — Viraasat.ai</title>
+    <meta name="description" content="{{description}} | Handcrafted by {{artisan_name}} from {{artisan_location}}">
+    <meta name="keywords" content="{{seo_keywords}}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{product_name}} — Handcrafted by {{artisan_name}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://viraasat.ai/p/{{product_id}}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #122038;
+            --teal: #009688;
+            --gold: #D4AF37;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: var(--light);
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 100%);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+        }
+        .header .logo { font-size: 1.2em; font-weight: 700; letter-spacing: 2px; }
+        .header .logo span { color: var(--gold); }
+
+        /* ── Container ── */
+        .container { max-width: 860px; margin: 0 auto; padding: 20px; }
+
+        /* ── Hero ── */
+        .hero {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin: -40px 20px 24px;
+            position: relative;
+        }
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--gold), #e8c84a);
+            color: var(--navy);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .price-tag {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--teal);
+            margin: 12px 0;
+        }
+        .price-range {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* ── Image Gallery ── */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        .gallery img:hover { transform: scale(1.02); }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 16px 0;
+            box-shadow: var(--shadow);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h2 .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+        }
+
+        /* ── Features ── */
+        .features-list { list-style: none; padding: 0; }
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .features-list li::before {
+            content: "✦";
+            color: var(--teal);
+            font-weight: bold;
+        }
+        .features-list li:last-child { border: none; }
+
+        /* ── Artisan ── */
+        .artisan-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .artisan-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.8em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .artisan-info h3 { margin-bottom: 4px; }
+        .artisan-info p { color: #666; font-size: 0.9em; }
+        .badge-label {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        /* ── CTA Buttons ── */
+        .cta-section {
+            text-align: center;
+            padding: 24px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            margin: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .btn-upi { background: var(--teal); color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-share { background: var(--navy); color: white; }
+
+        /* ── Heritage ── */
+        .heritage-section {
+            background: linear-gradient(135deg, #f6f0e4, #faf7f0);
+            border-left: 4px solid var(--gold);
+        }
+
+        /* ── Provenance ── */
+        .provenance {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #999;
+        }
+        .provenance code {
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 0.85em;
+        }
+        .footer strong { color: var(--navy); }
+
+        /* ── Mobile ── */
+        @media (max-width: 600px) {
+            .hero { padding: 24px; margin: -30px 10px 16px; }
+            .hero h1 { font-size: 1.5em; }
+            .gallery { grid-template-columns: 1fr; }
+            .artisan-card { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">VIRAASAT<span>.AI</span></div>
+        <p style="font-size:0.8em; opacity:0.7; margin-top:4px;">Empowering India's Artisans</p>
+    </div>
+
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="verified-badge">✓ Verified Product</div>
+            <h1>{{product_name}}</h1>
+            <div class="price-tag">₹{{price}}</div>
+            <div class="price-range">Market range: ₹{{price_min}} — ₹{{price_max}}</div>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="gallery">
+            <img src="/products/{{product_id}}/card/hero" alt="{{product_name}} — Hero Shot" loading="lazy">
+            <img src="/products/{{product_id}}/card/lifestyle" alt="{{product_name}} — Lifestyle" loading="lazy">
+            <img src="/products/{{product_id}}/card/features" alt="{{product_name}} — Features" loading="lazy">
+            <img src="/products/{{product_id}}/card/heritage" alt="{{product_name}} — Heritage" loading="lazy">
+            <img src="/products/{{product_id}}/card/macro" alt="{{product_name}} — Detail" loading="lazy">
+        </div>
+
+        <!-- Description -->
+        <div class="card">
+            <h2><span class="icon" style="background:#e8f5e9;">📦</span> About This Product</h2>
+            <p>{{description}}</p>
+            <p style="margin-top:12px;"><strong>Materials:</strong> {{materials}}</p>
+        </div>
+
+        <!-- Features -->
+        <div class="card">
+            <h2><span class="icon" style="background:#e0f2f1;">✦</span> Features</h2>
+            <ul class="features-list">
+                {{features_list}}
+            </ul>
+        </div>
+
+        <!-- Heritage -->
+        <div class="card heritage-section">
+            <h2><span class="icon" style="background:#fff8e1;">🏺</span> Heritage & Story</h2>
+            <p>{{heritage_story}}</p>
+            <p style="margin-top:12px; font-style:italic; color:#666;">{{cultural_significance}}</p>
+        </div>
+
+        <!-- Artisan -->
+        <div class="card">
+            <h2><span class="icon" style="background:#fce4ec;">👤</span> Meet the Artisan</h2>
+            <div class="artisan-card">
+                <div class="artisan-avatar">{{artisan_name}}</div>
+                <div class="artisan-info">
+                    <h3>{{artisan_name}}</h3>
+                    <p>📍 {{artisan_location}}</p>
+                    <p>🏺 {{artisan_craft}}</p>
+                    <span class="badge-label">{{badge_level}} Artisan</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="card cta-section">
+            <h2 style="justify-content:center;"><span class="icon" style="background:#e8eaf6;">💫</span> Get This Product</h2>
+            <div>
+                <a href="{{upi_link}}" class="btn btn-upi">💰 Pay via UPI</a>
+                <a href="https://wa.me/?text=I'm%20interested%20in%20{{product_name}}%20on%20Viraasat.ai" class="btn btn-whatsapp">💬 WhatsApp</a>
+            </div>
+        </div>
+
+        <!-- Provenance -->
+        <div class="provenance">
+            <p>Provenance ID: <code>{{provenance_hash}}</code></p>
+            <p>Verified on Viraasat.ai — Tamper-proof product authentication</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Powered by <strong>Viraasat.ai</strong></p>
+        <p>One-Tap Digital Agency for India's Artisans</p>
+    </div>
+</body>
+</html>
