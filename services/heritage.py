@@ -63,35 +63,26 @@ async def get_heritage_info(
         artisan_story=artisan_story or "No personal story shared yet",
     )
 
-    # Try with search grounding first
-    try:
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model=FLASH_MODEL,
-            contents=[prompt],
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT"],
-                response_mime_type="application/json",
-                tools=[types.Tool(google_search=types.GoogleSearch())],
-            ),
-        )
-    except Exception:
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model=FLASH_MODEL,
-            contents=[prompt],
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT"],
-                response_mime_type="application/json",
-            ),
-        )
+    response = await asyncio.to_thread(
+        client.models.generate_content,
+        model=FLASH_MODEL,
+        contents=[prompt],
+        config=types.GenerateContentConfig(
+            response_modalities=["TEXT"],
+            response_mime_type="application/json",
+        ),
+    )
 
     raw = response.text.strip()
     json_match = re.search(r"\{.*\}", raw, re.DOTALL)
     if json_match:
         raw = json_match.group(0)
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Heritage JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {}
 
 
 # ═══════════════════════════════════════════════════════════
@@ -129,4 +120,8 @@ Return JSON:
     if json_match:
         raw = json_match.group(0)
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Heritage map JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {}

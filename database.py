@@ -152,3 +152,20 @@ async def get_scan_stats(product_id: str) -> dict[str, Any]:
         actions[act] = actions.get(act, 0) + 1
 
     return {"total_scans": total, "actions": actions}
+
+
+async def get_scans_for_artisan(artisan_id: str) -> list[dict]:
+    """Get all scan events across all products for an artisan."""
+    client = _get_client()
+    if client:
+        # Get artisan's products first, then their scans
+        products = await get_products_by_artisan(artisan_id)
+        product_ids = [p["id"] for p in products]
+        if not product_ids:
+            return []
+        result = client.table("scans").select("*").in_("product_id", product_ids).execute()
+        return result.data
+    # In-memory fallback
+    products = await get_products_by_artisan(artisan_id)
+    product_ids = {p["id"] for p in products}
+    return [s for s in _mem_scans if s.get("product_id") in product_ids]

@@ -146,8 +146,23 @@ async def landing_page(product_id: str):
     else:
         template = _fallback_template()
 
+    # Dynamic image gallery
+    product_name = desc.get("product_type", "Handcrafted Product")
+    card_types = [
+        ("hero", "Hero Shot"),
+        ("lifestyle", "Lifestyle"),
+        ("features", "Features"),
+        ("heritage", "Heritage"),
+        ("macro", "Detail")
+    ]
+    gallery_html = ""
+    for ct, label in card_types:
+        if (OUTPUT_DIR / product_id / f"Viraasat_{ct}.png").exists():
+            gallery_html += f'<img src="/products/{product_id}/card/{ct}" alt="{product_name} — {label}" loading="lazy">\n            '
+    
     # Fill template
-    html = template.replace("{{product_name}}", desc.get("product_type", "Handcrafted Product"))
+    html = template.replace("{{image_gallery}}", gallery_html.strip())
+    html = html.replace("{{product_name}}", product_name)
     html = html.replace("{{description}}", desc.get("description", ""))
     html = html.replace("{{price}}", str(desc.get("price_recommended", "")))
     html = html.replace("{{price_min}}", str(desc.get("price_min", "")))
@@ -284,6 +299,11 @@ async def record_qr_scan(
     action: str = "viewed",
 ):
     """Record a QR scan event."""
+    # Verify product exists before recording
+    product = await db.get_product(product_id)
+    if not product:
+        raise HTTPException(404, "Product not found")
+
     import time
     await db.record_scan({
         "id": str(__import__("uuid").uuid4()),

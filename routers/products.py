@@ -67,10 +67,17 @@ async def generate_product(
     if not profile:
         raise HTTPException(404, "Artisan not found")
 
-    # ── Read uploaded photos ──
+    # ── Read + validate uploaded photos ──
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+    ALLOWED_TYPES = {"image/jpeg", "image/png", "image/webp"}
+
     photo_bytes_list = []
     for photo in photos:
+        if photo.content_type and photo.content_type not in ALLOWED_TYPES:
+            raise HTTPException(400, f"Invalid file type '{photo.content_type}'. Only JPEG, PNG, WebP allowed.")
         data = await photo.read()
+        if len(data) > MAX_FILE_SIZE:
+            raise HTTPException(400, f"File '{photo.filename}' too large ({len(data) // 1024 // 1024}MB). Max 10MB.")
         photo_bytes_list.append(data)
 
     if not photo_bytes_list:
@@ -86,6 +93,7 @@ async def generate_product(
     location = f"{profile.district}, {profile.state}"
 
     # ── Phase 1: AI Parse + Enrich (parallel with heritage + price) ──
+    t_phase1 = time.time()
     parse_task = parse_and_enrich(
         product_image_bytes=primary_photo,
         voice_text=voice_description,
@@ -105,6 +113,7 @@ async def generate_product(
     parsed, heritage_data = await asyncio.gather(
         parse_task, heritage_task, return_exceptions=True
     )
+    logger.info(f"⏱️ Phase 1 (parse + heritage): {time.time() - t_phase1:.1f}s")
 
     # Handle parse failures
     if isinstance(parsed, Exception):
@@ -134,7 +143,8 @@ async def generate_product(
         is_handcrafted=parsed.is_handcrafted,
     )
 
-    # ── Phase 3: Image Generation (the slow part — parallelized) ──
+    # ── Phase 3: Image Generation + Trust Engine (parallelized) ──
+    t_phase2 = time.time()
     clamped_cards = max(3, min(5, num_cards))
     image_task = generate_all_cards(
         product_image_bytes=primary_photo,
@@ -143,13 +153,26 @@ async def generate_product(
         num_cards=clamped_cards,
     )
 
-    # Run image gen + price in parallel
-    cards_result, price_result = await asyncio.gather(
-        image_task, price_task, return_exceptions=True
+    # Pre-compute trust score in parallel with images (saves ~7-15s)
+    from services.trust_engine import compute_authenticity_score
+    trust_task = compute_authenticity_score(
+        profile=profile.model_dump(),
+        parsed_data=parsed.model_dump(),
+        product_image_bytes=primary_photo,
     )
+
+    # Run image gen + price + trust in parallel
+    cards_result, price_result, trust_result = await asyncio.gather(
+        image_task, price_task, trust_task, return_exceptions=True
+    )
+    logger.info(f"⏱️ Phase 2 (images + price + trust): {time.time() - t_phase2:.1f}s")
 
     cards = cards_result if not isinstance(cards_result, Exception) else {}
     price_data = price_result if not isinstance(price_result, Exception) else {}
+    trust_data = trust_result if not isinstance(trust_result, Exception) else None
+
+    if isinstance(trust_result, Exception):
+        logger.warning(f"Trust engine failed (will retry in enrich): {trust_result}")
 
     if isinstance(cards_result, Exception):
         logger.error(f"Image generation failed: {cards_result}")
@@ -162,10 +185,13 @@ async def generate_product(
         parsed.price_recommended = price_data.get("recommended_price", 0)
 
     # ── Phase 4: Pillow Overlays (instant, CPU only) ──
+    t_phase3 = time.time()
+    # Use pre-computed trust score for overlays if available
+    current_trust = trust_data["trust_score"] if trust_data else profile.trust_score
     provenance_hash = generate_provenance_hash(
         artisan_id=artisan_id,
         product_image_bytes=primary_photo,
-        trust_score=profile.trust_score,
+        trust_score=current_trust,
     )
 
     qr_data = f"https://viraasat.ai/verify/{provenance_hash[:16]}"
@@ -177,35 +203,50 @@ async def generate_product(
         craft_type=category,
         region=location,
         qr_data=qr_data,
-        trust_score=profile.trust_score,
+        trust_score=current_trust,
     )
+    logger.info(f"⏱️ Phase 3 (overlays): {time.time() - t_phase3:.1f}s")
 
-    # ── Phase 5: Save images + metadata ──
+    # ── Phase 5: Save original photos to disk ──
+    original_filenames = []
+    for i, photo_data in enumerate(photo_bytes_list):
+        photo_filename = f"original_{i}.jpg"
+        photo_path = product_dir / photo_filename
+        with open(str(photo_path), "wb") as f:
+            f.write(photo_data)
+        original_filenames.append(photo_filename)
+
+    # ── Phase 6: Save generated cards + metadata ──
     saved_cards = []
     for card_type, img in final_cards.items():
         filename = f"Viraasat_{card_type}.png"
         filepath = product_dir / filename
         img.save(str(filepath), "PNG")
 
-        # Compliance check
-        compliance = check_compliance(img)
+        # Compliance check — only meaningful for hero card (e-commerce listing)
+        # Other cards (heritage, lifestyle, macro) intentionally have non-white backgrounds
+        if card_type == "hero":
+            compliance = check_compliance(img)
+            status = "✓ Platform Ready" if compliance["platform_ready"] else "⚠ Check issues"
+        else:
+            status = "✓ Ready"
 
         saved_cards.append(GeneratedCard(
             card_type=card_type,
             filename=filename,
-            description=f"{card_type.title()} card — {'✓ Platform Ready' if compliance['platform_ready'] else '⚠ Check issues'}",
+            description=f"{card_type.title()} card — {status}",
         ))
 
-    # ── Phase 6: Save to DB + enrich profile ──
+    # ── Phase 7: Save to DB + enrich profile ──
     product_data = {
         "id": product_id,
         "artisan_id": artisan_id,
         "product_type": parsed.product_type,
         "materials": parsed.materials,
         "description_json": parsed.model_dump(),
-        "original_photos": [f"photo_{i}.jpg" for i in range(len(photo_bytes_list))],
+        "original_photos": original_filenames,
         "generated_images": [c.filename for c in saved_cards],
-        "trust_score": profile.trust_score,
+        "trust_score": current_trust,
         "provenance_hash": provenance_hash,
         "price_suggested": parsed.price_recommended,
         "seo_keywords": parsed.seo_keywords,
@@ -213,10 +254,14 @@ async def generate_product(
     }
     await db.create_product(product_data)
 
-    # Auto-enrich artisan profile
+    # Auto-enrich artisan profile (pass pre-computed trust to skip re-calling Gemini)
     from PIL import Image
     primary_img = Image.open(BytesIO(primary_photo))
-    await enrich_profile_from_product(artisan_id, parsed.model_dump(), primary_img)
+    updated_profile = await enrich_profile_from_product(
+        artisan_id, parsed.model_dump(), primary_img,
+        product_image_bytes=primary_photo,
+        pre_computed_trust=trust_data,
+    )
 
     elapsed = round(time.time() - start, 1)
 
@@ -226,7 +271,7 @@ async def generate_product(
         cards=saved_cards,
         parsed_data=parsed,
         provenance_hash=provenance_hash,
-        trust_score=profile.trust_score,
+        trust_score=updated_profile.trust_score,
         processing_time_seconds=elapsed,
     )
 

@@ -136,6 +136,13 @@ async def parse_and_enrich(
                 "macro_focus_area", "description_amazon", "description_instagram", "description_whatsapp"):
         if data.get(key) is None:
             data[key] = ""
+            
+    # CRITICAL: Fix for is_handcrafted boolean validation error
+    is_hc = data.get("is_handcrafted")
+    if isinstance(is_hc, str):
+        data["is_handcrafted"] = is_hc.lower() == "true"
+    elif is_hc is None:
+        data["is_handcrafted"] = True
 
     # Log key context fields for debugging
     logger.info(f"Parsed product: {data.get('product_type', '?')}")
@@ -243,7 +250,11 @@ async def ab_test_images(image_a_bytes: bytes, image_b_bytes: bytes) -> dict:
     json_match = re.search(r"\{.*\}", raw, re.DOTALL)
     if json_match:
         raw = json_match.group(0)
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"A/B test JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {"winner": "A", "confidence": 0.5, "reasoning": "Parse error", "variant_a_score": 50, "variant_b_score": 50}
 
 
 # ═══════════════════════════════════════════════════════════
@@ -282,4 +293,8 @@ async def extract_voice_intro(transcript: str) -> dict:
     json_match = re.search(r"\{.*\}", raw, re.DOTALL)
     if json_match:
         raw = json_match.group(0)
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Voice intro JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {}
