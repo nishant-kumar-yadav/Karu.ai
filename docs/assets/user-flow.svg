@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" fill="none">
+  <rect width="1400" height="700" fill="#FCFBF7"/>
+  <text x="70" y="92" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">Complete Product Flow</text>
+  <text x="70" y="128" fill="#5B6472" font-family="Segoe UI, Arial, sans-serif" font-size="18">From artisan onboarding to commerce-ready assets and distribution</text>
+
+  <g>
+    <rect x="70" y="190" width="180" height="110" rx="24" fill="#122038"/>
+    <text x="100" y="235" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">1. Phone OTP</text>
+    <text x="100" y="268" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="16">Demo accepts any</text>
+    <text x="100" y="290" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="16">6-digit code</text>
+  </g>
+
+  <g>
+    <rect x="320" y="190" width="180" height="110" rx="24" fill="#009688"/>
+    <text x="350" y="235" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">2. Profile Setup</text>
+    <text x="350" y="268" fill="#E6FFFA" font-family="Segoe UI, Arial, sans-serif" font-size="16">Name, district,</text>
+    <text x="350" y="290" fill="#E6FFFA" font-family="Segoe UI, Arial, sans-serif" font-size="16">state, craft, UPI</text>
+  </g>
+
+  <g>
+    <rect x="570" y="190" width="180" height="110" rx="24" fill="#D4AF37"/>
+    <text x="600" y="235" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">3. Upload Input</text>
+    <text x="600" y="268" fill="#3E3415" font-family="Segoe UI, Arial, sans-serif" font-size="16">1-5 photos +</text>
+    <text x="600" y="290" fill="#3E3415" font-family="Segoe UI, Arial, sans-serif" font-size="16">voice or text</text>
+  </g>
+
+  <g>
+    <rect x="820" y="190" width="220" height="110" rx="24" fill="#7C3AED"/>
+    <text x="850" y="235" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">4. AI Orchestration</text>
+    <text x="850" y="268" fill="#E9D5FF" font-family="Segoe UI, Arial, sans-serif" font-size="16">Parse, heritage, price,</text>
+    <text x="850" y="290" fill="#E9D5FF" font-family="Segoe UI, Arial, sans-serif" font-size="16">image generation</text>
+  </g>
+
+  <g>
+    <rect x="1110" y="190" width="220" height="110" rx="24" fill="#BE123C"/>
+    <text x="1140" y="235" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">5. Card Assembly</text>
+    <text x="1140" y="268" fill="#FFE4E6" font-family="Segoe UI, Arial, sans-serif" font-size="16">Pillow overlays, QR,</text>
+    <text x="1140" y="290" fill="#FFE4E6" font-family="Segoe UI, Arial, sans-serif" font-size="16">provenance, save</text>
+  </g>
+
+  <g>
+    <rect x="190" y="430" width="230" height="120" rx="24" fill="#E0F2FE" stroke="#7DD3FC"/>
+    <text x="220" y="475" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Dashboard Update</text>
+    <text x="220" y="508" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">Profile enrichment, badge</text>
+    <text x="220" y="530" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">growth, completion score</text>
+  </g>
+
+  <g>
+    <rect x="495" y="430" width="230" height="120" rx="24" fill="#DCFCE7" stroke="#86EFAC"/>
+    <text x="525" y="475" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Results Screen</text>
+    <text x="525" y="508" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">Cards, pricing, keywords,</text>
+    <text x="525" y="530" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">features, heritage story</text>
+  </g>
+
+  <g>
+    <rect x="800" y="430" width="230" height="120" rx="24" fill="#FEF3C7" stroke="#FCD34D"/>
+    <text x="830" y="475" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Share & Export</text>
+    <text x="830" y="508" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">WhatsApp, Instagram,</text>
+    <text x="830" y="530" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">landing page, download kit</text>
+  </g>
+
+  <g>
+    <rect x="1105" y="430" width="230" height="120" rx="24" fill="#FCE7F3" stroke="#F9A8D4"/>
+    <text x="1135" y="475" fill="#122038" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Track & Iterate</text>
+    <text x="1135" y="508" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">QR scans, A/B testing,</text>
+    <text x="1135" y="530" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="16">negotiation coaching</text>
+  </g>
+
+  <path d="M250 245H320" stroke="#122038" stroke-width="4"/>
+  <path d="M500 245H570" stroke="#122038" stroke-width="4"/>
+  <path d="M750 245H820" stroke="#122038" stroke-width="4"/>
+  <path d="M1040 245H1110" stroke="#122038" stroke-width="4"/>
+  <path d="M1220 300V360H305V430" stroke="#122038" stroke-width="4"/>
+  <path d="M1220 360H610V430" stroke="#122038" stroke-width="4"/>
+  <path d="M1220 360H915V430" stroke="#122038" stroke-width="4"/>
+  <path d="M1220 360V430" stroke="#122038" stroke-width="4"/>
+</svg>

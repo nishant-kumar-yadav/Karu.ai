@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" fill="none">
+  <rect width="1400" height="840" fill="#0D1117"/>
+  <rect x="40" y="40" width="1320" height="760" rx="28" fill="#111827" stroke="#243041"/>
+  <text x="80" y="105" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">KARU.ai System Architecture</text>
+  <text x="80" y="142" fill="#9CA3AF" font-family="Segoe UI, Arial, sans-serif" font-size="18">Static artisan-facing frontend, FastAPI orchestration layer, AI services, storage, and export channels</text>
+
+  <rect x="80" y="190" width="260" height="150" rx="22" fill="#172033" stroke="#31415B"/>
+  <text x="110" y="235" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Frontend SPA</text>
+  <text x="110" y="270" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">`/static/index.html`</text>
+  <text x="110" y="300" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">Phone auth</text>
+  <text x="110" y="328" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">Profile onboarding</text>
+
+  <rect x="410" y="190" width="260" height="150" rx="22" fill="#17352B" stroke="#2F6B56"/>
+  <text x="440" y="235" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">FastAPI App</text>
+  <text x="440" y="270" fill="#D1FAE5" font-family="Segoe UI, Arial, sans-serif" font-size="18">`main.py`</text>
+  <text x="440" y="300" fill="#D1FAE5" font-family="Segoe UI, Arial, sans-serif" font-size="18">CORS + static mounts</text>
+  <text x="440" y="328" fill="#D1FAE5" font-family="Segoe UI, Arial, sans-serif" font-size="18">Router composition</text>
+
+  <rect x="740" y="190" width="260" height="150" rx="22" fill="#332714" stroke="#7C5D20"/>
+  <text x="770" y="235" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Routers</text>
+  <text x="770" y="270" fill="#FDE68A" font-family="Segoe UI, Arial, sans-serif" font-size="18">`/auth`</text>
+  <text x="770" y="300" fill="#FDE68A" font-family="Segoe UI, Arial, sans-serif" font-size="18">`/products`</text>
+  <text x="770" y="328" fill="#FDE68A" font-family="Segoe UI, Arial, sans-serif" font-size="18">`/sharing`</text>
+
+  <rect x="1070" y="190" width="260" height="150" rx="22" fill="#301A24" stroke="#6C314C"/>
+  <text x="1100" y="235" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Persistence</text>
+  <text x="1100" y="270" fill="#FBCFE8" font-family="Segoe UI, Arial, sans-serif" font-size="18">Supabase tables</text>
+  <text x="1100" y="300" fill="#FBCFE8" font-family="Segoe UI, Arial, sans-serif" font-size="18">or in-memory fallback</text>
+  <text x="1100" y="328" fill="#FBCFE8" font-family="Segoe UI, Arial, sans-serif" font-size="18">artisans, products, scans</text>
+
+  <rect x="160" y="430" width="290" height="150" rx="22" fill="#1F2937" stroke="#415165"/>
+  <text x="190" y="475" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">AI Pipeline</text>
+  <text x="190" y="510" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">Gemini parse + enrich</text>
+  <text x="190" y="538" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">Price grounding</text>
+  <text x="190" y="566" fill="#D1D5DB" font-family="Segoe UI, Arial, sans-serif" font-size="18">Heritage research</text>
+
+  <rect x="555" y="430" width="290" height="150" rx="22" fill="#1B3142" stroke="#3A708E"/>
+  <text x="585" y="475" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Image Services</text>
+  <text x="585" y="510" fill="#BFDBFE" font-family="Segoe UI, Arial, sans-serif" font-size="18">Background inpainting</text>
+  <text x="585" y="538" fill="#BFDBFE" font-family="Segoe UI, Arial, sans-serif" font-size="18">Card generation</text>
+  <text x="585" y="566" fill="#BFDBFE" font-family="Segoe UI, Arial, sans-serif" font-size="18">Prompt templates by craft</text>
+
+  <rect x="950" y="430" width="290" height="150" rx="22" fill="#2B2232" stroke="#66517A"/>
+  <text x="980" y="475" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Pillow Engine</text>
+  <text x="980" y="510" fill="#E9D5FF" font-family="Segoe UI, Arial, sans-serif" font-size="18">Overlays + compliance</text>
+  <text x="980" y="538" fill="#E9D5FF" font-family="Segoe UI, Arial, sans-serif" font-size="18">QR + provenance hash</text>
+  <text x="980" y="566" fill="#E9D5FF" font-family="Segoe UI, Arial, sans-serif" font-size="18">Monograms + brand cards</text>
+
+  <rect x="300" y="650" width="320" height="100" rx="20" fill="#17352B" stroke="#2F6B56"/>
+  <text x="330" y="692" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Output Artifacts</text>
+  <text x="330" y="724" fill="#D1FAE5" font-family="Segoe UI, Arial, sans-serif" font-size="18">hero, features, macro, lifestyle, heritage cards</text>
+
+  <rect x="760" y="650" width="340" height="100" rx="20" fill="#332714" stroke="#7C5D20"/>
+  <text x="790" y="692" fill="#F9FAFB" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Distribution Layer</text>
+  <text x="790" y="724" fill="#FDE68A" font-family="Segoe UI, Arial, sans-serif" font-size="18">WhatsApp, Instagram, landing page, ZIP kit, analytics</text>
+
+  <path d="M340 265H410" stroke="#5EEAD4" stroke-width="4"/>
+  <path d="M670 265H740" stroke="#5EEAD4" stroke-width="4"/>
+  <path d="M1000 265H1070" stroke="#5EEAD4" stroke-width="4"/>
+  <path d="M540 340V400" stroke="#60A5FA" stroke-width="4"/>
+  <path d="M540 400H305V430" stroke="#60A5FA" stroke-width="4"/>
+  <path d="M540 400H700V430" stroke="#60A5FA" stroke-width="4"/>
+  <path d="M540 400H1095V430" stroke="#60A5FA" stroke-width="4"/>
+  <path d="M305 580V625H460V650" stroke="#34D399" stroke-width="4"/>
+  <path d="M700 580V625H460V650" stroke="#34D399" stroke-width="4"/>
+  <path d="M1095 580V625H930V650" stroke="#FBBF24" stroke-width="4"/>
+  <path d="M460 750H760" stroke="#FBBF24" stroke-width="4"/>
+</svg>
