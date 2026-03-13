@@ -179,7 +179,7 @@ def create_features_card(
     )
 
     # ── Step 3: Feature items — clean bullets + wrapped text ──
-    if features is None:
+    if not features:
         features = ["Premium Quality", "Handcrafted", "Durable", "Authentic", "Eco-Friendly"]
 
     num_features = min(len(features), 5)
@@ -755,47 +755,16 @@ def apply_overlays(
             title = "PREMIUM FEATURES"
         result["features"] = create_features_card(cards["features"], title, features_list)
 
-    # Card 3: Heritage — story labels
+    # Card 3: Heritage — clean image, no overlay
     if "heritage" in cards:
-        is_handcrafted = parsed_data.get("is_handcrafted", True)
-        badge_label = craft_type if (is_handcrafted and craft_type) else parsed_data.get("product_type", "")
-        result["heritage"] = create_heritage_card(
-            cards["heritage"],
-            heritage_text=parsed_data.get("heritage_story", ""),
-            craft_type=badge_label,
-            region=region,
-        )
+        result["heritage"] = cards["heritage"]
 
-    # Card 4: Macro — texture label
+    # Card 4: Macro — clean image, no overlay
     if "macro" in cards:
-        raw_macro = parsed_data.get("macro_focus_area", "") or parsed_data.get("texture_description", "")
-        # Extract a short label: take first phrase (before comma/period/—) and cap length
-        if raw_macro:
-            import re as _re
-            short = _re.split(r"[,\.\—\-;]", raw_macro)[0].strip()
-            # If still long, take first 4-5 words
-            words = short.split()
-            macro_label = " ".join(words[:5]) if len(words) > 5 else short
-        else:
-            macro_label = "DETAIL CLOSE-UP"
-        result["macro"] = create_macro_card(
-            cards["macro"],
-            texture_label=macro_label,
-            material=", ".join(parsed_data.get("materials", [])),
-        )
+        result["macro"] = cards["macro"]
 
-    # Card 5: Lifestyle — brand overlay
+    # Card 5: Lifestyle — clean image, no overlay
     if "lifestyle" in cards:
-        is_handcrafted = parsed_data.get("is_handcrafted", True)
-        if is_handcrafted and craft_type:
-            tagline = f"{craft_type.title()} Artisan"
-        else:
-            product_type = parsed_data.get("product_type", "")
-            tagline = product_type if product_type else ""
-        result["lifestyle"] = create_lifestyle_card(
-            cards["lifestyle"],
-            brand_name=artisan_name or "VIRAASAT",
-            tagline=tagline,
-        )
+        result["lifestyle"] = cards["lifestyle"]
 
     return result

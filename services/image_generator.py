@@ -18,7 +18,7 @@ from PIL import Image, ImageFilter
 
 from config import GEMINI_API_KEY, GEMINI_API_KEYS, IMAGE_MODEL, FLASH_MODEL, OUTPUT_SIZE, PADDING_PX
 from models import GeminiParsedOutput
-from templates.prompts import get_filled_prompt, CARD_TYPES, CONSTRAINT_SUFFIX
+from templates.prompts import get_filled_prompt, CARD_TYPES
 
 logger = logging.getLogger(__name__)
 
@@ -66,13 +66,25 @@ async def inpaint_background(
         config=types.GenerateContentConfig(
             response_modalities=["IMAGE"],
             image_config=types.ImageConfig(aspect_ratio="1:1"),
+            safety_settings=[
+                types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_ONLY_HIGH"),
+            ],
         ),
     )
 
     parts = response.parts or []
     image_parts = [p for p in parts if p.inline_data]
     if not image_parts:
-        raise RuntimeError("Inpainting returned no image")
+        reason = "unknown"
+        if response.candidates:
+            reason = getattr(response.candidates[0], 'finish_reason', 'unknown')
+        block = getattr(response, 'prompt_feedback', None)
+        if block:
+            reason = f"{reason}, block_reason={getattr(block, 'block_reason', '?')}"
+        raise RuntimeError(f"Inpainting returned no image (reason: {reason})")
 
     return Image.open(BytesIO(image_parts[0].inline_data.data))
 
@@ -108,13 +120,25 @@ async def generate_image(
         config=types.GenerateContentConfig(
             response_modalities=["IMAGE"],
             image_config=types.ImageConfig(aspect_ratio="1:1"),
+            safety_settings=[
+                types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_ONLY_HIGH"),
+                types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_ONLY_HIGH"),
+            ],
         ),
     )
 
     parts = response.parts or []
     image_parts = [p for p in parts if p.inline_data]
     if not image_parts:
-        raise RuntimeError("Image generation returned no image")
+        reason = "unknown"
+        if response.candidates:
+            reason = getattr(response.candidates[0], 'finish_reason', 'unknown')
+        block = getattr(response, 'prompt_feedback', None)
+        if block:
+            reason = f"{reason}, block_reason={getattr(block, 'block_reason', '?')}"
+        raise RuntimeError(f"Image generation returned no image (reason: {reason})")
 
     return Image.open(BytesIO(image_parts[0].inline_data.data))
 
@@ -181,13 +205,16 @@ async def generate_all_cards(
         "macro_focus_area": parsed.macro_focus_area or parsed.texture_description or "the surface texture and material quality",
     }
 
-    async def _gen_card(card_type: str, api_client: genai.Client) -> tuple[str, Image.Image]:
+    async def _gen_card(card_type: str, api_client: genai.Client, use_fallback: bool = False) -> tuple[str, Image.Image]:
         bg = BACKGROUND_PROMPTS.get(card_type)
+
+        # Use fallback model if requested (for retries)
+        model_to_use = FAST_IMAGE_MODEL if use_fallback else None
 
         if card_type == "hero":
             # Full generation — Gemini can restyle/arrange product beautifully
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=model_to_use)
 
         elif card_type == "features":
             # Use fast model — features card gets text overlay so quality matters less
@@ -195,14 +222,14 @@ async def generate_all_cards(
             img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=FAST_IMAGE_MODEL)
 
         elif card_type == "macro":
-            # Use the actual product photo enhanced — or generate macro
+            # Use fast model by default for macro — it's just a closeup
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=FAST_IMAGE_MODEL)
 
         else:
             # Heritage & Lifestyle — full generation with reference
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=model_to_use)
 
         img = postprocess(img)
         return (card_type, img)
@@ -229,7 +256,7 @@ async def generate_all_cards(
     if retry_types:
         logger.info(f"Retrying {len(retry_types)} failed card(s): {retry_types}")
         offset = len(types_to_gen)  # shift the index so retries get different keys
-        retry_tasks = [_gen_card(ct, _get_client(offset + i)) for i, ct in enumerate(retry_types)]
+        retry_tasks = [_gen_card(ct, _get_client(offset + i), use_fallback=True) for i, ct in enumerate(retry_types)]
         retry_results = await asyncio.gather(*retry_tasks, return_exceptions=True)
         for i, result in enumerate(retry_results):
             if isinstance(result, Exception):
@@ -239,6 +266,73 @@ async def generate_all_cards(
             cards[card_type] = img
 
     return cards
+
+
+async def generate_cards_streaming(
+    product_image_bytes: bytes,
+    parsed: GeminiParsedOutput,
+    category: str = "generic",
+    num_cards: int = 5,
+):
+    """
+    Generate product cards in parallel and YIELD them as they complete.
+    Yields (card_type, PIL.Image).
+    """
+    template_values = {
+        "product_description": parsed.description or parsed.product_type,
+        "material": ", ".join(parsed.materials) if parsed.materials else "premium material",
+        "color_description": parsed.color_description or "rich, vibrant colors",
+        "texture_description": parsed.texture_description or "fine detailed texture",
+        "unique_details": parsed.unique_details or "intricate details",
+        "lifestyle_setting": parsed.lifestyle_setting or "a modern, well-lit room with minimal decor",
+        "heritage_setting": parsed.heritage_setting or "a premium brand showcase with elegant lighting",
+        "macro_focus_area": parsed.macro_focus_area or parsed.texture_description or "the surface texture and material quality",
+    }
+
+    async def _safe_gen_card(card_type: str, api_client: genai.Client, use_fallback: bool = False):
+        try:
+            model_to_use = FAST_IMAGE_MODEL if use_fallback else None
+            bg = BACKGROUND_PROMPTS.get(card_type)
+            
+            if card_type == "hero":
+                prompt = get_filled_prompt(category, card_type, template_values)
+                img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=model_to_use)
+            elif card_type == "features":
+                prompt = get_filled_prompt(category, card_type, template_values)
+                img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=FAST_IMAGE_MODEL)
+            elif card_type == "macro":
+                prompt = get_filled_prompt(category, card_type, template_values)
+                img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=FAST_IMAGE_MODEL)
+            else:
+                prompt = get_filled_prompt(category, card_type, template_values)
+                img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=model_to_use)
+            
+            img = postprocess(img)
+            return (card_type, img, None)
+        except Exception as e:
+            logger.warning(f"Card '{card_type}' failed: {e}")
+            return (card_type, None, e)
+
+    types_to_gen = CARD_PRESETS.get(num_cards) or CARD_TYPES
+    num_keys = len(_clients)
+    
+    tasks = [_safe_gen_card(ct, _get_client(i)) for i, ct in enumerate(types_to_gen)]
+    retry_types = []
+    
+    for coro in list(asyncio.as_completed(tasks)):
+        card_type, img, err = await coro
+        if not err:
+            yield card_type, img
+        else:
+            retry_types.append(card_type)
+            
+    if retry_types:
+        offset = len(types_to_gen)
+        retry_tasks = [_safe_gen_card(ct, _get_client(offset + i), use_fallback=True) for i, ct in enumerate(retry_types)]
+        for coro in list(asyncio.as_completed(retry_tasks)):
+            card_type, img, err = await coro
+            if not err:
+                yield card_type, img
 
 
 # ═══════════════════════════════════════════════════════════

@@ -8,40 +8,20 @@
 
 # ── Layer 3: Universal Constraints (always appended) ──────
 
-CONSTRAINT_SUFFIX = """
-STRICT RULES:
-- NO text, NO words, NO watermarks, NO logos, NO labels, NO annotations anywhere in the image.
-- NO human hands, fingers, or body parts visible.
-- Product must be the ONLY sharp subject in the frame.
-- Photorealistic quality. 8K ultra-sharp focus. Professional studio lighting.
-- Maintain EXACT color fidelity, shape, and proportions of the reference product photo.
-- The product must look identical to the reference — same brand markings, colors, shape.
-- Camera sensor: full-frame 50mm equivalent. Shallow depth of field for lifestyle shots.
-- Color grading: warm, premium, magazine-quality.
-- MUST be ONE single continuous photograph. NOT a collage, NOT a grid, NOT multiple panels.
+STUDIO_CONSTRAINT = """
+Product-only studio photograph. Clean image, no text overlays or graphics. 
+Preserve exact product colors, shape, and proportions from reference. 
+Photorealistic, 8K resolution, professional commercial quality.
 """
 
-# ── Hero-specific constraint (allows styling, prevents fabrication) ────
-
-HERO_CONSTRAINT = """
-STRICT RULES:
-- NO text, NO words, NO watermarks, NO logos, NO labels, NO annotations anywhere in the image.
-- NO human hands, fingers, or body parts visible.
-- Product must be the ONLY subject in the frame.
-- Photorealistic quality. 8K ultra-sharp focus. Professional studio lighting.
-- You MAY restyle the product presentation: fold it neatly, stack it, arrange it elegantly, drape it beautifully.
-- You MUST preserve the EXACT color, EXACT material, and EXACT texture of the reference product. A blue towel MUST remain blue. A brass vase MUST remain brass.
-- Do NOT add ANY items, accessories, packaging, pouches, manuals, brushes, boxes, or props that are not visible in the reference photo. ONLY the product itself.
-- Do NOT change what the product IS. Do not turn a single towel into a set of 3. Do not add patterns or designs that don't exist.
-- Camera sensor: full-frame 50mm equivalent.
-- Color grading: warm, premium, magazine-quality.
-- MUST be ONE single continuous photograph. NOT a collage, NOT a grid, NOT multiple panels.
+CREATIVE_CONSTRAINT = """
+Single continuous photograph, not a collage. Product colors and form preserved 
+from reference. Photorealistic, professional quality. No text or graphics.
 """
 
 NEGATIVE_PROMPT = (
     "text, words, letters, numbers, watermark, logo, label, annotation, "
-    "human hands, fingers, blurry, low quality, cartoon, illustration, "
-    "distorted, deformed, extra limbs, bad anatomy"
+    "blurry, low quality, cartoon, illustration, distorted"
 )
 
 
@@ -243,29 +223,22 @@ CATEGORY_TEMPLATES: dict[str, dict[str, str]] = {
             "The white space on the right will be used for text overlay — it MUST be empty."
         ),
         "heritage": (
-            "The EXACT same {product_description} from the reference photo placed in this scene: "
-            "{heritage_setting}. "
-            "IMPORTANT: The background must be DIRECTLY RELEVANT to this specific product. "
-            "Do NOT use generic rustic/artisan/fireplace/workshop backgrounds. "
-            "Rich, cinematic lighting. The product is razor-sharp in the foreground. "
-            "Background has creamy bokeh. Premium editorial photography mood. "
-            "The setting must make logical sense for someone discovering this product's origin."
+            "Editorial product photograph: place this {product_description} in "
+            "{heritage_setting}. Product is the sharp focal point. Warm cinematic "
+            "bokeh, golden-hour lighting. 50mm f/1.8 full-frame. Preserve product "
+            "colors and form. Premium magazine-quality storytelling photograph."
         ),
         "macro": (
-            "A SINGLE extreme macro close-up photograph of {product_description}, zoomed in on "
-            "{macro_focus_area}. ONE continuous image, NOT a collage, NOT multiple panels. "
-            "Shot with a 100mm macro lens at f/2.8. Fill the ENTIRE frame with this one detail. "
-            "Razor-sharp focus. {color_description}. Controlled studio lighting creating "
-            "micro-shadows that reveal depth. Creamy bokeh on out-of-focus areas. "
-            "CRITICAL: This must be ONE single photograph, not a grid or collage of multiple shots."
+            "Extreme macro close-up of {product_description}, focusing tightly on "
+            "{macro_focus_area}. Canon RF 100mm f/2.8L Macro, f/2.8. Fill the frame "
+            "with this single detail. Studio side-lighting reveals texture depth. "
+            "{color_description}. Creamy bokeh. Single continuous photograph."
         ),
         "lifestyle": (
-            "The EXACT same {product_description} from the reference styled in this setting: "
-            "{lifestyle_setting}. "
-            "The product is the focal point at the center of the scene. "
-            "Natural daylight. Shot on Hasselblad. Warm, aspirational, editorial quality. "
-            "The setting must feel like a real-life moment where someone is USING this product. "
-            "Magazine-quality lifestyle photography."
+            "Lifestyle product photograph of this {product_description} in "
+            "{lifestyle_setting}. Product placed naturally as focal point. Soft natural "
+            "daylight, 85mm f/1.4, shallow depth of field. Warm aspirational atmosphere. "
+            "Minimal props. Product colors match reference. Editorial photograph."
         ),
     },
 }
@@ -293,4 +266,4 @@ def get_filled_prompt(category: str, card_type: str, values: dict[str, str]) -> 
     import re
     filled = re.sub(r"\{[a-z_]+\}", "", filled)
 
-    return filled.strip() + "\n" + (HERO_CONSTRAINT if card_type == "hero" else CONSTRAINT_SUFFIX)
+    return filled.strip() + "\n" + (STUDIO_CONSTRAINT if card_type in ("hero", "features") else CREATIVE_CONSTRAINT)
