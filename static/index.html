@@ -1,282 +1,255 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
-  />
-  <title>KARU.ai — One-Tap Digital Agency</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0905" />
+  <meta name="description" content="KARU.ai helps artisans launch digital storefronts with AI-generated product listings, pricing insights, and share-ready assets." />
+  <title>KARU.ai — AI Digital Agency for Artisans</title>
+
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <!-- =========================
-         TOP NAV
-    ========================== -->
+  <div class="ambient" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-lines" aria-hidden="true"></div>
+
+  <div class="app">
+    <!-- ─── TOPNAV ──────────────────────────────── -->
     <header class="topnav">
       <div class="topnav-inner">
-        <div class="logo-wrap" aria-label="KARU.ai">
-          <div class="logo-mark">
-            <i class="bi bi-bank"></i>
-          </div>
-
-          <div class="logo-text">
-            <div class="logo">KARU<span>.AI</span></div>
-            <div class="logo-sub">One-Tap Digital Agency</div>
-          </div>
+        <div class="topnav-left">
+          <a href="#" class="logo-link" aria-label="KARU.ai home">
+            <div class="logo-mark"><i class="bi bi-bank"></i></div>
+            <div>
+              <div class="logo-name">KARU<span>.AI</span></div>
+              <div class="logo-tagline">One-Tap Digital Agency</div>
+            </div>
+          </a>
+          <nav class="nav-links" aria-label="Primary">
+            <button class="nav-btn active" type="button" data-go-screen="screen-welcome">Home</button>
+            <button class="nav-btn" type="button" data-go-screen="screen-dashboard">Studio</button>
+            <button class="nav-btn" type="button" data-go-screen="screen-results">Results</button>
+          </nav>
         </div>
-
-        <div class="status" aria-live="polite">
-          <div class="dot"></div>
-          <span>Live Platform</span>
+        <div class="topnav-right">
+          <div class="status-chip">
+            <div class="status-dot"></div>
+            <span>Live Platform</span>
+          </div>
+          <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="bi bi-sun"></i>
+          </button>
         </div>
       </div>
     </header>
 
-    <main class="app-main">
-      <!-- =========================
-           SCREEN 1 — WELCOME
-      ========================== -->
+    <main>
+      <!-- ─── WELCOME ────────────────────────────── -->
       <section class="screen active" id="screen-welcome" aria-labelledby="welcome-title">
-        <div class="auth-shell">
-          <div class="auth-hero">
-            <div class="auth-hero-badge">
-              <i class="bi bi-stars"></i>
-              <span>Trusted onboarding for artisans</span>
+        <div class="welcome-shell">
+          <!-- Left: Hero copy -->
+          <div>
+            <div class="hero-eyebrow">
+              <div class="eyebrow-badge"><i class="bi bi-stars"></i> Trusted by artisans</div>
+              <div class="live-badge"><i class="bi bi-lightning-charge-fill"></i> AI Commerce Ready</div>
             </div>
 
-            <div class="auth-brand-mark">
-              <i class="bi bi-bank"></i>
-            </div>
-
-            <h1 id="welcome-title">Welcome to KARU.ai</h1>
-            <p>
-              Launch your digital storefront in minutes with AI-powered product cards,
-              brand identity, and instant commerce-ready assets.
+            <h1 class="hero-title" id="welcome-title">
+              Build a <em>premium digital storefront</em> for every handmade product.
+            </h1>
+            <p class="hero-body">
+              KARU.ai helps artisans create polished product cards, pricing ideas, storytelling copy, and share-ready assets in minutes — all from a simple phone-first workflow.
             </p>
 
-            <div class="auth-trust-row">
-              <div class="trust-chip">
-                <i class="bi bi-lightning-charge"></i>
-                <span>Fast setup</span>
+            <div class="hero-features">
+              <div class="hero-feat">
+                <div class="hero-feat-icon"><i class="bi bi-image"></i></div>
+                <div class="hero-feat-text"><strong>AI Visual Cards</strong><span>Generate clean, premium commerce creatives instantly</span></div>
               </div>
-              <div class="trust-chip">
-                <i class="bi bi-shield-check"></i>
-                <span>Secure OTP</span>
+              <div class="hero-feat">
+                <div class="hero-feat-icon"><i class="bi bi-translate"></i></div>
+                <div class="hero-feat-text"><strong>Multilingual</strong><span>Describe products in voice or text, any language</span></div>
               </div>
-              <div class="trust-chip">
-                <i class="bi bi-phone"></i>
-                <span>Mobile-first</span>
+              <div class="hero-feat">
+                <div class="hero-feat-icon"><i class="bi bi-cash-coin"></i></div>
+                <div class="hero-feat-text"><strong>Smart Pricing</strong><span>AI-suggested price ranges for your craft</span></div>
               </div>
+              <div class="hero-feat">
+                <div class="hero-feat-icon"><i class="bi bi-share"></i></div>
+                <div class="hero-feat-text"><strong>Share-Ready</strong><span>WhatsApp, Instagram, and landing page assets</span></div>
+              </div>
+            </div>
+
+            <div class="trust-pills">
+              <div class="trust-pill"><i class="bi bi-lightning-charge"></i><span>2-min setup</span></div>
+              <div class="trust-pill"><i class="bi bi-shield-check"></i><span>Secure OTP</span></div>
+              <div class="trust-pill"><i class="bi bi-phone"></i><span>Mobile-first</span></div>
+              <div class="trust-pill"><i class="bi bi-globe2"></i><span>Share-ready</span></div>
             </div>
           </div>
 
-          <div class="auth-card auth-card-premium">
-            <div class="auth-card-topline">Step 1 of 4</div>
+          <!-- Right: Auth card -->
+          <div>
+            <div class="gold-card auth-card">
+              <div class="steps-bar">
+                <div class="step-seg active"></div>
+                <div class="step-seg"></div>
+                <div class="step-seg"></div>
+                <div class="step-seg"></div>
+              </div>
+              <div class="auth-card-label">Step 1 of 4 — Authentication</div>
 
-            <h2 class="auth-title">
-              <span class="icon icon-green">
-                <i class="bi bi-phone"></i>
-              </span>
-              Continue with Phone
-            </h2>
+              <h2 class="auth-h2">
+                <span class="icon"><i class="bi bi-phone"></i></span>
+                Continue with Phone
+              </h2>
+              <p class="auth-sub">Enter your mobile number to receive a one-time verification code. Used only for secure account access.</p>
 
-            <p class="auth-subtitle">
-              Enter your mobile number to receive a one-time verification code.
-            </p>
-
-            <div class="form-group">
-              <label for="inp-phone">Mobile Number</label>
-
-              <div class="phone-field">
-                <div class="phone-country">
-                  <i class="bi bi-geo-alt"></i>
-                  <span>IN</span>
-                  <strong>+91</strong>
+              <div class="form-group">
+                <label class="form-label" for="inp-phone">Mobile Number</label>
+                <div class="phone-field">
+                  <div class="phone-prefix"><i class="bi bi-geo-alt"></i> IN <strong>+91</strong></div>
+                  <input type="tel" id="inp-phone" placeholder="98765 43210" inputmode="numeric" autocomplete="tel-national" />
                 </div>
-
-                <input
-                  type="tel"
-                  id="inp-phone"
-                  class="phone-input"
-                  placeholder="98765 43210"
-                  inputmode="numeric"
-                  autocomplete="tel-national"
-                />
               </div>
 
-              <small>Your number is used only for account verification.</small>
-            </div>
+              <button class="btn btn-primary" type="button" id="btn-register">
+                <i class="bi bi-arrow-right-circle"></i>
+                Send Verification Code
+              </button>
 
-            <button class="btn btn-primary btn-auth" type="button" id="btn-register">
-              <i class="bi bi-arrow-right-circle"></i>
-              <span>Send Verification Code</span>
-            </button>
-
-            <div class="auth-footer-note">
-              <i class="bi bi-shield-lock"></i>
-              <span>Encrypted verification flow for secure login</span>
+              <div class="divider"></div>
+              <div class="welcome-preview glass-card">
+                <div class="card-eyebrow">What you get</div>
+                <div class="welcome-preview-list">
+                  <div><i class="bi bi-check2-circle"></i><span>Product story + SEO keywords</span></div>
+                  <div><i class="bi bi-check2-circle"></i><span>Recommended pricing and export kit</span></div>
+                  <div><i class="bi bi-check2-circle"></i><span>Brand-ready listing cards in one flow</span></div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="steps auth-steps" aria-label="Progress">
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
         </div>
       </section>
 
-      <!-- =========================
-           SCREEN 2 — OTP
-      ========================== -->
+      <!-- ─── OTP ───────────────────────────────── -->
       <section class="screen" id="screen-otp" aria-labelledby="otp-title">
         <div class="auth-shell">
-          <div class="auth-card auth-card-premium otp-card">
-            <div class="auth-card-topline">Step 2 of 4</div>
+          <div class="gold-card auth-card">
+            <div class="steps-bar">
+              <div class="step-seg done"></div>
+              <div class="step-seg active"></div>
+              <div class="step-seg"></div>
+              <div class="step-seg"></div>
+            </div>
+            <div class="auth-card-label">Step 2 of 4 — Verification</div>
 
-            <h2 class="auth-title" id="otp-title">
-              <span class="icon icon-orange">
-                <i class="bi bi-shield-lock"></i>
-              </span>
+            <h2 class="auth-h2" id="otp-title">
+              <span class="icon"><i class="bi bi-shield-lock"></i></span>
               Verify Your Number
             </h2>
+            <p class="auth-sub">We sent a 6-digit code to <strong id="otp-phone"></strong></p>
 
-            <p class="auth-subtitle">
-              We sent a 6-digit verification code to
-              <strong id="otp-phone"></strong>
-            </p>
-
-            <div class="otp-boxes" id="otp-boxes" aria-label="Enter OTP">
-              <input type="text" maxlength="1" class="otp-digit" />
-              <input type="text" maxlength="1" class="otp-digit" />
-              <input type="text" maxlength="1" class="otp-digit" />
-              <input type="text" maxlength="1" class="otp-digit" />
-              <input type="text" maxlength="1" class="otp-digit" />
-              <input type="text" maxlength="1" class="otp-digit" />
+            <div class="form-group">
+              <label class="form-label">Enter OTP Code</label>
+              <div class="otp-grid" id="otp-boxes" aria-label="Enter OTP">
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+                <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" />
+              </div>
+              <input type="hidden" id="inp-otp" />
             </div>
-
-            <input type="hidden" id="inp-otp" />
 
             <div class="otp-meta">
-              <span><i class="bi bi-clock-history"></i> Code expires soon</span>
-              <button type="button" class="link-btn" id="btn-resend-otp">Resend code</button>
+              <span><i class="bi bi-clock-history"></i> Code expires in 5:00</span>
+              <button type="button" id="btn-resend-otp">Resend code</button>
             </div>
 
-            <button class="btn btn-primary btn-auth" type="button" id="btn-verify">
+            <button class="btn btn-primary" type="button" id="btn-verify">
               <i class="bi bi-patch-check"></i>
-              <span>Verify & Continue</span>
+              Verify &amp; Continue
             </button>
 
-            <div class="auth-footer-note">
-              <i class="bi bi-info-circle"></i>
-              <span>For demo, enter any 6 digits</span>
-            </div>
+            <p class="form-hint" style="margin-top: 16px; text-align: center;"><i class="bi bi-info-circle"></i> For demo, enter any 6 digits</p>
           </div>
-        </div>
-
-        <div class="steps auth-steps" aria-label="Progress">
-          <div class="step-dot done"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
         </div>
       </section>
 
-      <!-- =========================
-           SCREEN 3 — PROFILE
-      ========================== -->
+      <!-- ─── PROFILE ───────────────────────────── -->
       <section class="screen" id="screen-profile" aria-labelledby="profile-title">
-        <div class="profile-setup-shell">
-          <aside class="profile-side-card">
-            <div class="profile-side-icon">
-              <i class="bi bi-person-badge"></i>
-            </div>
-
-            <h3>Create Your Artisan Identity</h3>
-            <p>
-              Add your details, choose your craft category, and upload a profile photo
-              to make your storefront feel real and trustworthy.
-            </p>
-
-            <div class="profile-side-points">
-              <div><i class="bi bi-check2-circle"></i><span>Personal brand identity</span></div>
-              <div><i class="bi bi-check2-circle"></i><span>Professional storefront feel</span></div>
-              <div><i class="bi bi-check2-circle"></i><span>Better buyer trust</span></div>
+        <div class="profile-shell">
+          <!-- Aside -->
+          <aside>
+            <div class="glass-card profile-aside">
+              <div class="profile-aside-icon"><i class="bi bi-person-badge"></i></div>
+              <h3>Create Your Artisan Identity</h3>
+              <p>Add your details, choose your craft, and upload a photo to make your storefront feel trusted, human, and premium.</p>
+              <div class="profile-aside-points">
+                <div><i class="bi bi-check2-circle"></i><span>Personal brand identity</span></div>
+                <div><i class="bi bi-check2-circle"></i><span>Professional storefront feel</span></div>
+                <div><i class="bi bi-check2-circle"></i><span>Better buyer trust</span></div>
+                <div><i class="bi bi-check2-circle"></i><span>Commerce-ready profile</span></div>
+              </div>
             </div>
           </aside>
 
-          <div class="card profile-form-card">
-            <div class="auth-card-topline">Step 3 of 4</div>
+          <!-- Form -->
+          <div class="gold-card profile-form">
+            <div class="steps-bar">
+              <div class="step-seg done"></div>
+              <div class="step-seg done"></div>
+              <div class="step-seg active"></div>
+              <div class="step-seg"></div>
+            </div>
+            <div class="auth-card-label">Step 3 of 4 — Profile Setup</div>
 
-            <h2 id="profile-title">
-              <span class="icon icon-blue">
-                <i class="bi bi-person"></i>
-              </span>
-              Your Profile
-            </h2>
+            <h2 id="profile-title"><i class="bi bi-person"></i> Your Profile</h2>
+            <p class="auth-sub" style="margin-bottom: 24px;">Fill in your details to personalise your artisan storefront.</p>
 
-            <div class="profile-photo-block">
-              <div class="profile-photo-preview-wrap">
-                <img
-                  id="profile-photo-preview"
-                  class="profile-photo-preview hidden"
-                  alt="Profile preview"
-                />
-                <div id="profile-photo-placeholder" class="profile-photo-placeholder">
-                  <i class="bi bi-person-circle"></i>
-                </div>
+            <!-- Photo upload -->
+            <div class="photo-block">
+              <div class="photo-preview-wrap">
+                <img id="profile-photo-preview" class="photo-preview hidden" alt="Profile preview" />
+                <div id="profile-photo-placeholder" class="photo-placeholder"><i class="bi bi-person-circle"></i></div>
               </div>
-
-              <div class="profile-photo-content">
-                <h4>Add Profile Photo</h4>
-                <p>This photo will appear on your artisan dashboard and brand identity.</p>
-
-                <div class="profile-photo-actions">
-                  <label for="inp-profile-photo" class="btn btn-outline btn-sm profile-upload-btn">
-                    <i class="bi bi-upload"></i>
-                    <span>Upload Photo</span>
-                  </label>
-
-                  <input
-                    type="file"
-                    id="inp-profile-photo"
-                    accept="image/*"
-                    hidden
-                  />
-                </div>
+              <div class="photo-content">
+                <h4>Profile Photo</h4>
+                <p>Appears on your artisan dashboard and brand identity.</p>
+                <label for="inp-profile-photo" class="photo-upload-label">
+                  <i class="bi bi-upload"></i> Upload Photo
+                </label>
+                <input type="file" id="inp-profile-photo" accept="image/*" hidden />
               </div>
             </div>
 
-            <div class="profile-grid">
+            <div class="form-grid-2">
               <div class="form-group">
-                <label for="inp-name">Name / नाम</label>
+                <label class="form-label" for="inp-name">Name / नाम</label>
                 <input type="text" id="inp-name" placeholder="Ramesh Kumar" />
               </div>
-
               <div class="form-group">
-                <label for="inp-district">District / जिला</label>
+                <label class="form-label" for="inp-district">District / जिला</label>
                 <input type="text" id="inp-district" placeholder="Bhagalpur" />
               </div>
             </div>
 
             <div class="form-group">
-              <label for="inp-state">State / राज्य</label>
+              <label class="form-label" for="inp-state">State / राज्य</label>
               <select id="inp-state">
-                <option value="">Select state</option>
+                <option value="">Select your state</option>
                 <option>Andhra Pradesh</option>
                 <option>Arunachal Pradesh</option>
                 <option>Assam</option>
@@ -286,7 +259,7 @@
                 <option>Gujarat</option>
                 <option>Haryana</option>
                 <option>Himachal Pradesh</option>
-                <option>Jammu & Kashmir</option>
+                <option>Jammu &amp; Kashmir</option>
                 <option>Jharkhand</option>
                 <option>Karnataka</option>
                 <option>Kerala</option>
@@ -311,774 +284,465 @@
             </div>
 
             <div class="form-group">
-              <label>Craft Type / शिल्प</label>
-
-              <div class="chips chips-elevated" id="craft-chips">
-                <button class="chip" type="button" data-val="textiles">
-                  <i class="bi bi-scissors"></i>
-                  <span>Textiles</span>
-                </button>
-
-                <button class="chip" type="button" data-val="pottery">
-                  <i class="bi bi-bank"></i>
-                  <span>Pottery</span>
-                </button>
-
-                <button class="chip" type="button" data-val="jewelry">
-                  <i class="bi bi-gem"></i>
-                  <span>Jewelry</span>
-                </button>
-
-                <button class="chip" type="button" data-val="woodwork">
-                  <i class="bi bi-tree"></i>
-                  <span>Woodwork</span>
-                </button>
-
-                <button class="chip" type="button" data-val="metalwork">
-                  <i class="bi bi-wrench-adjustable-circle"></i>
-                  <span>Metalwork</span>
-                </button>
-
-                <button class="chip" type="button" data-val="leather">
-                  <i class="bi bi-handbag"></i>
-                  <span>Leather</span>
-                </button>
-
-                <button class="chip" type="button" data-val="paintings">
-                  <i class="bi bi-palette"></i>
-                  <span>Paintings</span>
-                </button>
-
-                <button class="chip" type="button" data-val="generic">
-                  <i class="bi bi-grid"></i>
-                  <span>Other</span>
-                </button>
+              <label class="form-label">Craft Type / शिल्प</label>
+              <div class="chips" id="craft-chips">
+                <button class="chip" type="button" data-val="textiles"><i class="bi bi-scissors"></i> Textiles</button>
+                <button class="chip" type="button" data-val="pottery"><i class="bi bi-bank"></i> Pottery</button>
+                <button class="chip" type="button" data-val="jewelry"><i class="bi bi-gem"></i> Jewelry</button>
+                <button class="chip" type="button" data-val="woodwork"><i class="bi bi-tree"></i> Woodwork</button>
+                <button class="chip" type="button" data-val="metalwork"><i class="bi bi-wrench-adjustable-circle"></i> Metalwork</button>
+                <button class="chip" type="button" data-val="leather"><i class="bi bi-handbag"></i> Leather</button>
+                <button class="chip" type="button" data-val="paintings"><i class="bi bi-palette"></i> Paintings</button>
+                <button class="chip" type="button" data-val="generic"><i class="bi bi-grid"></i> Other</button>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="inp-upi">UPI ID (optional)</label>
-              <input type="text" id="inp-upi" placeholder="9876543210@upi" />
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="inp-upi">UPI ID (optional)</label>
+                <input type="text" id="inp-upi" placeholder="9876543210@upi" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="inp-language">Preferred Language</label>
+                <select id="inp-language">
+                  <option value="hi">हिन्दी (Hindi)</option>
+                  <option value="en">English</option>
+                  <option value="bn">বাংলা (Bengali)</option>
+                  <option value="ta">தமிழ் (Tamil)</option>
+                  <option value="te">తెలుగు (Telugu)</option>
+                  <option value="mr">मराठी (Marathi)</option>
+                </select>
+              </div>
             </div>
 
-            <button class="btn btn-gold btn-auth" type="button" id="btn-create-profile">
+            <button class="btn btn-primary" type="button" id="btn-create-profile">
               <i class="bi bi-person-check"></i>
-              <span>Create Profile</span>
+              Create Profile &amp; Enter Studio
             </button>
           </div>
         </div>
-
-        <div class="steps auth-steps" aria-label="Progress">
-          <div class="step-dot done"></div>
-          <div class="step-dot done"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-        </div>
       </section>
 
-      <!-- =========================
-           SCREEN 4 — DASHBOARD
-      ========================== -->
+      <!-- ─── DASHBOARD ─────────────────────────── -->
       <section class="screen dashboard-screen" id="screen-dashboard" aria-labelledby="dashboard-greeting">
-        <section class="dashboard-hero">
-          <div class="dashboard-hero-glow dashboard-hero-glow-one"></div>
-          <div class="dashboard-hero-glow dashboard-hero-glow-two"></div>
+        <div class="dashboard-shell">
 
-          <div class="dashboard-hero-content">
-            <div class="dashboard-hero-left">
-              <div class="dashboard-hero-badge">
-                <i class="bi bi-stars"></i>
-                <span>AI Studio Active</span>
+          <!-- Hero -->
+          <div class="dash-hero glass-card">
+            <div class="dash-hero-glow dash-hero-glow-1"></div>
+            <div class="dash-hero-glow dash-hero-glow-2"></div>
+            <div class="dash-hero-inner">
+              <div class="dash-hero-copy">
+                <div class="dash-hero-badge"><i class="bi bi-stars"></i> AI Studio Active</div>
+                <h1 id="dashboard-greeting">Good Evening, Artisan</h1>
+                <p class="dash-hero-desc">Your AI-powered digital agency — generate listings, pricing insights, and share-ready assets in minutes.</p>
+                <div class="dash-hero-tags">
+                  <span class="dash-hero-tag"><i class="bi bi-lightning-charge"></i> Fast workflow</span>
+                  <span class="dash-hero-tag"><i class="bi bi-shield-check"></i> Smart generation</span>
+                  <span class="dash-hero-tag"><i class="bi bi-palette"></i> Premium visuals</span>
+                </div>
               </div>
-
-              <h1 id="dashboard-greeting">Good Evening, Artisan</h1>
-
-              <p class="dashboard-hero-desc">
-                Craft your next product story with AI. Upload once, generate premium
-                product listings in seconds, and grow your artisan identity with a
-                storefront that feels modern, beautiful, and trustworthy.
-              </p>
-
-              <div class="dashboard-hero-quick-tags">
-                <span><i class="bi bi-lightning-charge"></i> Fast workflow</span>
-                <span><i class="bi bi-shield-check"></i> Smart generation</span>
-                <span><i class="bi bi-palette"></i> Premium visuals</span>
-              </div>
-            </div>
-
-            <div class="dashboard-hero-right">
-              <div class="hero-mini-stat hero-mini-stat-highlight">
-                <strong id="hero-stat-listings">0</strong>
-                <span>Total Listings</span>
-              </div>
-
-              <div class="hero-mini-stat">
-                <strong id="hero-stat-profile">0%</strong>
-                <span>Profile Ready</span>
-              </div>
-
-              <div class="hero-mini-stat">
-                <strong>Live</strong>
-                <span>Studio Mode</span>
-              </div>
-
-              <div class="hero-mini-stat">
-                <strong id="hero-stat-streak">0</strong>
-                <span>Creative Streak</span>
+              <div class="dash-hero-stats">
+                <div class="dash-hero-stat highlight">
+                  <strong id="hero-stat-listings">0</strong>
+                  <span>Listings</span>
+                </div>
+                <div class="dash-hero-stat">
+                  <strong id="hero-stat-profile">0%</strong>
+                  <span>Profile</span>
+                </div>
+                <div class="dash-hero-stat">
+                  <strong>Live</strong>
+                  <span>Studio</span>
+                </div>
+                <div class="dash-hero-stat">
+                  <strong id="hero-stat-streak">0</strong>
+                  <span>Streak</span>
+                </div>
               </div>
             </div>
           </div>
-        </section>
 
-        <section class="dashboard-grid">
-          <!-- LEFT -->
-          <aside class="dashboard-panel dashboard-left">
-            <div class="dashboard-card artisan-card">
-              <div class="section-mini-title">Artisan Identity</div>
-
-              <div class="artisan-top">
-                <div class="artisan-avatar-wrap">
-                  <div class="avatar-ring"></div>
-                  <img
-                    id="dash-monogram"
-                    class="monogram-display dashboard-avatar"
-                    src=""
-                    alt="Artisan Profile"
-                  />
-                </div>
-
-                <div class="artisan-meta">
-                  <h2 id="dash-name">Artisan Name</h2>
-                  <p class="card-subtle artisan-location" id="dash-location">District, State</p>
-
-                  <div class="badge-wrap dashboard-badge-wrap">
-                    <span class="badge badge-gold" id="dash-badge">New Artisan</span>
+          <!-- 3-col grid -->
+          <div class="dash-grid">
+            <!-- Left panel -->
+            <div class="dash-panel">
+              <!-- Artisan Identity -->
+              <div class="glass-card dash-card">
+                <div class="card-eyebrow">Artisan Identity</div>
+                <div class="artisan-top">
+                  <div id="dash-avatar-wrap">
+                    <div class="artisan-avatar-placeholder" id="dash-monogram-placeholder">A</div>
+                    <img id="dash-monogram" class="artisan-avatar hidden" src="" alt="Artisan" />
+                  </div>
+                  <div class="artisan-meta">
+                    <h2 id="dash-name">Artisan Name</h2>
+                    <p class="artisan-location" id="dash-location">District, State</p>
+                    <div class="artisan-badge"><i class="bi bi-award"></i> <span id="dash-badge">New Artisan</span></div>
                   </div>
                 </div>
-              </div>
 
-              <div class="dashboard-progress-block">
-                <div class="progress-label-row">
+                <div class="progress-row">
                   <span>Profile Completion</span>
                   <strong><span id="dash-percent">0</span>%</strong>
                 </div>
+                <div class="progress-bar"><div class="progress-fill" id="dash-progress" style="width: 0%"></div></div>
 
-                <div class="progress-bar dashboard-progress">
-                  <div class="fill" id="dash-progress" style="width: 0%"></div>
+                <div class="stats-3">
+                  <div class="stat-box"><strong id="stat-listings">0</strong><span>Listings</span></div>
+                  <div class="stat-box"><strong id="stat-drafts">0</strong><span>Drafts</span></div>
+                  <div class="stat-box"><strong id="stat-shares">0</strong><span>Shares</span></div>
+                </div>
+
+                <div class="card-eyebrow">Achievements</div>
+                <div class="achieve-pills">
+                  <span class="achieve-pill"><i class="bi bi-award"></i> New Artisan</span>
+                  <span class="achieve-pill"><i class="bi bi-lightning-charge"></i> AI Ready</span>
+                  <span class="achieve-pill"><i class="bi bi-brush"></i> Creative</span>
+                  <span class="achieve-pill"><i class="bi bi-globe2"></i> Multilingual</span>
                 </div>
               </div>
 
-              <div class="dashboard-stats-grid">
-                <div class="dashboard-stat-card">
-                  <strong id="stat-listings">0</strong>
-                  <span>Listings</span>
-                </div>
-
-                <div class="dashboard-stat-card">
-                  <strong id="stat-drafts">0</strong>
-                  <span>Drafts</span>
-                </div>
-
-                <div class="dashboard-stat-card">
-                  <strong id="stat-shares">0</strong>
-                  <span>Shares</span>
-                </div>
-              </div>
-
-              <div class="achievement-block">
-                <div class="section-mini-title">Achievements</div>
-
-                <div class="achievement-list">
-                  <span class="achievement-pill">
-                    <i class="bi bi-award"></i>
-                    New Artisan
-                  </span>
-                  <span class="achievement-pill">
-                    <i class="bi bi-lightning-charge"></i>
-                    AI Ready
-                  </span>
-                  <span class="achievement-pill">
-                    <i class="bi bi-brush"></i>
-                    Creative Studio
-                  </span>
-                  <span class="achievement-pill">
-                    <i class="bi bi-globe2"></i>
-                    Multilingual
-                  </span>
+              <!-- Quick Actions -->
+              <div class="glass-card dash-card">
+                <div class="card-eyebrow">Quick Actions</div>
+                <div class="card-h3">Shortcuts</div>
+                <div class="quick-actions">
+                  <button class="quick-action-btn" type="button"><i class="bi bi-file-earmark-plus"></i><span>New Draft</span></button>
+                  <button class="quick-action-btn" type="button"><i class="bi bi-grid-3x3-gap"></i><span>Templates</span></button>
+                  <button class="quick-action-btn" type="button"><i class="bi bi-bar-chart-line"></i><span>Insights</span></button>
+                  <button class="quick-action-btn" type="button"><i class="bi bi-share"></i><span>Share</span></button>
                 </div>
               </div>
             </div>
 
-            <div class="dashboard-card quick-actions-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">Quick Actions</div>
-                  <h3>Shortcuts</h3>
-                </div>
-              </div>
-
-              <div class="quick-actions-list">
-                <button class="quick-action-btn" type="button">
-                  <i class="bi bi-file-earmark-plus"></i>
-                  <span>New Draft</span>
-                </button>
-
-                <button class="quick-action-btn" type="button">
-                  <i class="bi bi-grid-3x3-gap"></i>
-                  <span>Templates</span>
-                </button>
-
-                <button class="quick-action-btn" type="button">
-                  <i class="bi bi-bar-chart-line"></i>
-                  <span>Insights</span>
-                </button>
-
-                <button class="quick-action-btn" type="button">
-                  <i class="bi bi-share"></i>
-                  <span>Share Center</span>
-                </button>
-              </div>
-            </div>
-          </aside>
-
-          <!-- CENTER -->
-          <main class="dashboard-panel dashboard-center">
-            <div class="dashboard-card upload-studio-card">
-              <div class="studio-header">
-                <div>
-                  <div class="section-mini-title">AI Product Studio</div>
-                  <h2 class="studio-title">Create New Listing</h2>
-                  <p class="card-subtle">
-                    Upload product photos, describe the craft, select your preferred
-                    output style, and let KARU.AI generate elegant commerce-ready cards.
-                  </p>
-                </div>
-
-                <div class="studio-live-pill">
-                  <i class="bi bi-magic"></i>
-                  <span>Smart Generate</span>
-                </div>
-              </div>
-
-              <div class="studio-upload-area">
-                <div
-                  class="photo-upload dashboard-upload-box"
-                  id="upload-trigger"
-                  role="button"
-                  tabindex="0"
-                  aria-label="Upload product photos"
-                >
-                  <div class="studio-upload-bg"></div>
-
-                  <div class="icon upload-big-icon">
-                    <i class="bi bi-cloud-arrow-up"></i>
+            <!-- Center panel -->
+            <div class="dash-panel">
+              <!-- Studio card -->
+              <div class="glass-card dash-card">
+                <div class="studio-header">
+                  <div>
+                    <div class="card-eyebrow">AI Product Studio</div>
+                    <h2 style="font-family: var(--font-display); font-size: 26px; font-weight: 600; margin-bottom: 6px;">Create New Listing</h2>
+                    <p style="font-size: 13px; color: var(--text-2);">Upload product photos, describe the craft, and let KARU.ai generate premium commerce-ready cards.</p>
                   </div>
+                  <div class="studio-live-pill"><i class="bi bi-magic"></i> Smart Generate</div>
+                </div>
 
+                <div class="studio-helpers">
+                  <div class="studio-helper"><i class="bi bi-camera"></i><span>1–5 product photos</span></div>
+                  <div class="studio-helper"><i class="bi bi-mic"></i><span>Voice supported</span></div>
+                  <div class="studio-helper"><i class="bi bi-translate"></i><span>Hindi + English</span></div>
+                </div>
+
+                <!-- Upload zone -->
+                <div class="upload-zone" id="upload-trigger" role="button" tabindex="0" aria-label="Upload product photos">
+                  <i class="bi bi-cloud-arrow-up upload-icon"></i>
                   <h3>Upload Product Photos</h3>
-                  <p>Add 1–5 images to create better product storytelling</p>
-
-                  <div class="upload-helper-pills">
-                    <span>Front View</span>
-                    <span>Side Angle</span>
-                    <span>Close-up</span>
-                    <span>Texture Shot</span>
+                  <p>Add 1–5 images for better product storytelling</p>
+                  <div class="upload-hint-pills">
+                    <span class="upload-hint-pill">Front View</span>
+                    <span class="upload-hint-pill">Side Angle</span>
+                    <span class="upload-hint-pill">Close-up</span>
+                    <span class="upload-hint-pill">Texture Shot</span>
                   </div>
+                  <input type="file" id="inp-photos" accept="image/*" multiple hidden />
+                </div>
+                <div class="photo-preview-strip" id="photo-preview"></div>
 
-                  <input
-                    type="file"
-                    id="inp-photos"
-                    accept="image/*"
-                    multiple
-                    hidden
-                  />
+                <!-- Description -->
+                <div class="form-group">
+                  <label class="form-label" for="inp-voice">Describe your product / उत्पाद का विवरण</label>
+                  <div class="voice-wrap">
+                    <textarea id="inp-voice" placeholder="Example: Handmade clay diya with traditional design, मिट्टी से बना handmade diya, festive use, warm earthy finish..."></textarea>
+                    <button class="btn-mic" id="btn-mic" type="button" title="Speak">
+                      <i class="bi bi-mic-fill"></i>
+                    </button>
+                  </div>
+                  <div class="voice-lang-row" id="voice-lang-row">
+                    <button class="voice-lang-btn active" type="button" data-lang="hi-IN">हिन्दी</button>
+                    <button class="voice-lang-btn" type="button" data-lang="en-IN">English</button>
+                    <button class="voice-lang-btn" type="button" data-lang="bn-IN">বাংলা</button>
+                    <button class="voice-lang-btn" type="button" data-lang="ta-IN">தமிழ்</button>
+                  </div>
                 </div>
 
-                <div class="photo-preview dashboard-photo-preview" id="photo-preview"></div>
-              </div>
-
-              <div class="studio-form-grid">
-                <div class="studio-main-inputs">
-                  <div class="form-group mt-16">
-                    <label for="inp-voice">Describe your product / उत्पाद का विवरण</label>
-
-                    <div class="voice-input-wrap premium-textarea-wrap">
-                      <textarea
-                        id="inp-voice"
-                        placeholder="Example: Handmade clay diya with traditional design, मिट्टी से बना handmade diya, festive use, warm earthy finish..."
-                      ></textarea>
-
-                      <button
-                        class="btn-mic"
-                        id="btn-mic"
-                        type="button"
-                        title="Speak"
-                      >
-                        <i class="bi bi-mic-fill"></i>
-                      </button>
-                    </div>
-
-                    <div class="voice-lang-row" id="voice-lang-row">
-                      <button class="active" type="button" data-lang="hi-IN">हिन्दी</button>
-                      <button type="button" data-lang="en-IN">English</button>
-                      <button type="button" data-lang="bn-IN">বাংলা</button>
-                      <button type="button" data-lang="ta-IN">தமிழ்</button>
-                    </div>
-
-                    <small>
-                      Voice and text input supported for multilingual product descriptions.
-                    </small>
+                <!-- Type + Card count -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="inp-prodtype">Product Type</label>
+                    <input type="text" id="inp-prodtype" placeholder="e.g. Handmade Clay Vase" />
                   </div>
-
-                  <div class="studio-dual-grid">
-                    <div class="form-group">
-                      <label for="inp-prodtype">Product Type</label>
-                      <input
-                        type="text"
-                        id="inp-prodtype"
-                        placeholder="e.g. Handmade Clay Vase"
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label>Card Output Style</label>
-
-                      <div class="card-style-options" id="card-count-row">
-                        <button type="button" data-count="3" class="active">
-                          <strong>3</strong>
-                          <span>Quick</span>
-                        </button>
-
-                        <button type="button" data-count="4">
-                          <strong>4</strong>
-                          <span>Standard</span>
-                        </button>
-
-                        <button type="button" data-count="5">
-                          <strong>5</strong>
-                          <span>Full</span>
-                        </button>
-                      </div>
-
-                      <small>
-                        Quick for speed, Standard for balance, Full for complete brand storytelling.
-                      </small>
+                  <div class="form-group">
+                    <label class="form-label">Card Output Style</label>
+                    <div class="card-count-row" id="card-count-row">
+                      <button type="button" data-count="3" class="card-count-btn active"><strong>3</strong><span>Quick</span></button>
+                      <button type="button" data-count="4" class="card-count-btn"><strong>4</strong><span>Standard</span></button>
+                      <button type="button" data-count="5" class="card-count-btn"><strong>5</strong><span>Full</span></button>
                     </div>
                   </div>
-
-                  <button
-                    class="btn btn-primary dashboard-generate-btn"
-                    type="button"
-                    id="btn-generate"
-                  >
-                    <i class="bi bi-stars"></i>
-                    <span>Generate Smart Listing</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="dashboard-card recent-creations-card"
-              id="past-products"
-              style="display: none;"
-            >
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">Recent Creations</div>
-                  <h3>Your Product Listings</h3>
-                </div>
-              </div>
-
-              <div id="past-products-list" class="recent-products-list"></div>
-            </div>
-          </main>
-
-          <!-- RIGHT -->
-          <aside class="dashboard-panel dashboard-right">
-            <div class="dashboard-card ai-assistant-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">AI Assistant</div>
-                  <h3>Smart Suggestions</h3>
                 </div>
 
-                <div class="assistant-icon-wrap">
+                <!-- Advanced -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="inp-story-tone">Story Tone</label>
+                    <select id="inp-story-tone">
+                      <option value="premium">Premium</option>
+                      <option value="heritage">Heritage</option>
+                      <option value="minimal">Minimal</option>
+                      <option value="festival">Festival</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="inp-platform-focus">Platform Focus</label>
+                    <select id="inp-platform-focus">
+                      <option value="whatsapp">WhatsApp Catalog</option>
+                      <option value="instagram">Instagram</option>
+                      <option value="marketplace">Marketplace</option>
+                      <option value="landing">Landing Page</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" type="button" id="btn-generate" style="margin-top: 4px;">
                   <i class="bi bi-stars"></i>
-                </div>
+                  Generate Smart Listing
+                </button>
               </div>
 
-              <div class="assistant-suggestions">
-                <div class="assistant-tip">
-                  <i class="bi bi-check2-circle"></i>
-                  <div>
-                    <strong>Add one close-up image</strong>
-                    <p>Texture shots usually improve listing quality and buyer trust.</p>
-                  </div>
-                </div>
-
-                <div class="assistant-tip">
-                  <i class="bi bi-translate"></i>
-                  <div>
-                    <strong>Multilingual ready</strong>
-                    <p>Your workflow supports Hindi and English-friendly product copy.</p>
-                  </div>
-                </div>
-
-                <div class="assistant-tip">
-                  <i class="bi bi-grid-1x2"></i>
-                  <div>
-                    <strong>Best format: Standard</strong>
-                    <p>4-card output balances speed, details, and elegant storytelling.</p>
-                  </div>
-                </div>
+              <!-- Recent creations -->
+              <div class="glass-card dash-card" id="past-products" style="display: none;">
+                <div class="card-eyebrow">Recent Creations</div>
+                <div class="card-h3">Your Product Listings</div>
+                <div id="past-products-list"></div>
               </div>
             </div>
 
-            <div class="dashboard-card quality-card">
-              <div class="section-mini-title">Quality Overview</div>
-
-              <div class="quality-score-wrap">
-                <div class="quality-score-circle">
-                  <strong>86</strong>
-                  <span>/100</span>
+            <!-- Right panel -->
+            <div class="dash-panel">
+              <!-- AI Assistant -->
+              <div class="glass-card dash-card">
+                <div class="section-row">
+                  <div>
+                    <div class="card-eyebrow">AI Assistant</div>
+                    <div class="card-h3" style="margin-bottom: 0;">Smart Suggestions</div>
+                  </div>
+                  <div class="section-row-icon"><i class="bi bi-stars"></i></div>
                 </div>
+                <div class="assistant-tips" id="assistant-suggestions">
+                  <div class="assistant-tip">
+                    <i class="bi bi-check2-circle"></i>
+                    <div><strong>Add a close-up image</strong><p>Texture shots improve listing quality and buyer trust significantly.</p></div>
+                  </div>
+                  <div class="assistant-tip">
+                    <i class="bi bi-translate"></i>
+                    <div><strong>Multilingual ready</strong><p>Your workflow supports Hindi and English-friendly product copy.</p></div>
+                  </div>
+                  <div class="assistant-tip">
+                    <i class="bi bi-grid-1x2"></i>
+                    <div><strong>Best format: Standard</strong><p>4-card output balances speed, detail, and elegant storytelling.</p></div>
+                  </div>
+                </div>
+              </div>
 
-                <div class="quality-copy">
-                  <h4>Studio Quality Score</h4>
-                  <p class="card-subtle">
-                    Better images, material details, and handcrafted story improve the final output quality.
-                  </p>
+              <!-- Quality Score -->
+              <div class="glass-card dash-card">
+                <div class="card-eyebrow">Quality Overview</div>
+                <div class="quality-wrap">
+                  <div class="quality-circle" id="quality-circle" style="--pct: 86;">
+                    <div class="quality-circle-inner">
+                      <strong id="quality-score-number">86</strong>
+                      <span>/100</span>
+                    </div>
+                  </div>
+                  <div class="quality-label">
+                    <h4>Studio Quality Score</h4>
+                    <p>Better images and descriptions improve the output quality.</p>
+                  </div>
+                </div>
+                <div class="quality-checks">
+                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Photo count</span></div>
+                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Description strength</span></div>
+                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Craft clarity</span></div>
+                </div>
+              </div>
+
+              <!-- Suggested Modes -->
+              <div class="glass-card dash-card">
+                <div class="card-eyebrow">Suggested Modes</div>
+                <div class="template-pills-wrap">
+                  <span class="template-pill">Traditional</span>
+                  <span class="template-pill">Luxury</span>
+                  <span class="template-pill">Minimal</span>
+                  <span class="template-pill">Festival</span>
+                  <span class="template-pill">Heritage</span>
                 </div>
               </div>
             </div>
-
-            <div class="dashboard-card inspiration-card">
-              <div class="section-mini-title">Suggested Modes</div>
-
-              <div class="template-pills">
-                <span class="template-pill">Traditional</span>
-                <span class="template-pill">Luxury</span>
-                <span class="template-pill">Minimal</span>
-                <span class="template-pill">Festival</span>
-                <span class="template-pill">Heritage</span>
-              </div>
-            </div>
-          </aside>
-        </section>
+          </div>
+        </div>
       </section>
 
-      <!-- =========================
-           SCREEN 5 — RESULTS
-      ========================== -->
+      <!-- ─── RESULTS ────────────────────────────── -->
       <section class="screen results-screen" id="screen-results" aria-labelledby="results-title">
-        <section class="results-hero">
-          <div class="results-hero-bg results-hero-bg-one"></div>
-          <div class="results-hero-bg results-hero-bg-two"></div>
-
+        <!-- Hero -->
+        <div class="results-hero">
           <div class="results-hero-inner">
-            <div class="results-hero-left">
-              <div class="results-status-badge">
-                <i class="bi bi-stars"></i>
-                <span>AI Listing Generated Successfully</span>
-              </div>
-
-              <div class="results-title-wrap">
-                <div class="premium-success-icon">
-                  <i class="bi bi-check2-circle"></i>
-                </div>
-
-                <div>
-                  <h1 id="results-title">Listing Ready!</h1>
-                  <p class="results-hero-subtitle">
-                    Your professional e-commerce assets are ready to use. Review the cards,
-                    pricing insight, SEO keywords, and heritage story before sharing.
-                  </p>
-                </div>
-              </div>
-
+            <div>
+              <div class="results-success-badge"><i class="bi bi-stars"></i> AI Listing Generated Successfully</div>
+              <h1 id="results-title">Listing Ready!</h1>
+              <p>Your professional e-commerce assets are ready. Review cards, pricing, SEO keywords, and heritage story before sharing.</p>
               <div class="results-meta-pills">
-                <div class="results-meta-pill">
-                  <i class="bi bi-images"></i>
-                  <span id="results-card-count">0 Cards</span>
-                </div>
-
-                <div class="results-meta-pill">
-                  <i class="bi bi-clock-history"></i>
-                  <span><strong id="result-time">0</strong>s generation time</span>
-                </div>
-
-                <div class="results-meta-pill">
-                  <i class="bi bi-patch-check"></i>
-                  <span>Ready to share</span>
-                </div>
+                <div class="results-meta-pill"><i class="bi bi-images"></i><span id="results-card-count">0 Cards</span></div>
+                <div class="results-meta-pill"><i class="bi bi-clock-history"></i><span><strong id="result-time">0</strong>s generation time</span></div>
+                <div class="results-meta-pill"><i class="bi bi-patch-check"></i><span>Ready to share</span></div>
               </div>
             </div>
-
-            <div class="results-hero-right">
-              <div class="results-summary-card">
-                <div class="summary-stat">
-                  <strong id="result-price-main">₹0</strong>
-                  <span>Recommended Price</span>
-                </div>
-
-                <div class="summary-stat">
-                  <strong id="result-keyword-count">0</strong>
-                  <span>SEO Keywords</span>
-                </div>
-
-                <div class="summary-stat">
-                  <strong id="result-feature-count">0</strong>
-                  <span>Key Features</span>
-                </div>
-              </div>
+            <div class="results-summary">
+              <div class="results-summary-stat"><strong id="result-price-main">₹0</strong><span>Recommended Price</span></div>
+              <div class="results-summary-stat"><strong id="result-keyword-count">0</strong><span>SEO Keywords</span></div>
+              <div class="results-summary-stat"><strong id="result-feature-count">0</strong><span>Key Features</span></div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section class="results-layout">
-          <div class="results-main-column">
-            <div class="premium-results-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">
-                    <i class="bi bi-card-image"></i>
-                    Generated Visual Assets
-                  </div>
-                  <h2>Product Cards</h2>
-                </div>
-
-                <div class="results-card-toolbar">
-                  <span class="toolbar-pill">
-                    <i class="bi bi-arrows-fullscreen"></i>
-                    Tap image to preview
-                  </span>
-                </div>
-              </div>
-
-              <div class="result-grid premium-result-grid" id="result-images"></div>
-            </div>
-
-            <div class="results-double-grid">
-              <div class="premium-results-card result-price-card-premium" id="result-price-card">
+        <div class="results-shell">
+          <div class="results-layout">
+            <div class="results-main">
+              <!-- Image grid -->
+              <div class="glass-card result-card">
                 <div class="section-row">
                   <div>
-                    <div class="section-mini-title">
-                      <i class="bi bi-cash-stack"></i>
-                      Smart Pricing
-                    </div>
-                    <h3>Price Advisor</h3>
+                    <div class="card-eyebrow"><i class="bi bi-card-image"></i> Generated Visual Assets</div>
+                    <div class="card-h3" style="margin-bottom: 0;">Product Cards</div>
                   </div>
+                  <span style="font-size: 11px; color: var(--text-3);">Tap to preview</span>
+                </div>
+                <div class="image-grid" id="result-images"></div>
+              </div>
+
+              <!-- Price + Keywords double -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="glass-card result-card" id="result-price-card">
+                  <div class="card-eyebrow"><i class="bi bi-cash-stack"></i> Smart Pricing</div>
+                  <div class="card-h3">Price Advisor</div>
+                  <div class="price-display">
+                    <div class="price-big" id="result-price">₹0</div>
+                    <div class="price-range" id="result-price-range">Market range: ₹0 — ₹0</div>
+                  </div>
+                  <div class="price-insight"><i class="bi bi-graph-up-arrow"></i><span>Balanced pricing based on craft positioning and quality.</span></div>
                 </div>
 
-                <div class="price-card premium-price-card">
-                  <div class="price-card-top">
-                    <div class="price-label">Recommended</div>
-                    <div class="price" id="result-price">₹0</div>
-                  </div>
-
-                  <div class="range" id="result-price-range">Market range: ₹0 — ₹0</div>
-
-                  <div class="price-insight-strip">
-                    <i class="bi bi-graph-up-arrow"></i>
-                    <span>Balanced pricing based on your craft positioning and presentation quality.</span>
-                  </div>
+                <div class="glass-card result-card" id="result-keywords-card">
+                  <div class="card-eyebrow"><i class="bi bi-search"></i> Discoverability</div>
+                  <div class="card-h3">SEO Keywords</div>
+                  <div id="result-keywords" class="keyword-wrap"></div>
                 </div>
               </div>
 
-              <div class="premium-results-card" id="result-keywords-card">
+              <!-- Details -->
+              <div class="glass-card result-card" id="result-details-card">
+                <div class="card-eyebrow"><i class="bi bi-card-checklist"></i> Product Intelligence</div>
+                <div class="card-h3">Product Details</div>
+                <div id="result-details"></div>
+              </div>
+
+              <!-- Heritage -->
+              <div class="glass-card result-card" id="result-heritage-card">
+                <div class="card-eyebrow"><i class="bi bi-bank2"></i> Storytelling Layer</div>
+                <div class="card-h3">Heritage Story</div>
+                <p id="result-heritage" class="heritage-text"></p>
+              </div>
+            </div>
+
+            <!-- Side -->
+            <div class="results-side">
+              <!-- Share -->
+              <div class="glass-card result-card">
                 <div class="section-row">
                   <div>
-                    <div class="section-mini-title">
-                      <i class="bi bi-search"></i>
-                      Discoverability
-                    </div>
-                    <h3>SEO Keywords</h3>
+                    <div class="card-eyebrow"><i class="bi bi-share"></i> Distribution</div>
+                    <div class="card-h3" style="margin-bottom: 0;">Share &amp; Export</div>
                   </div>
+                  <div class="section-row-icon"><i class="bi bi-send-check"></i></div>
                 </div>
-
-                <div id="result-keywords" class="premium-keyword-wrap"></div>
-              </div>
-            </div>
-
-            <div class="premium-results-card" id="result-details-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">
-                    <i class="bi bi-card-checklist"></i>
-                    Product Intelligence
-                  </div>
-                  <h3>Product Details</h3>
+                <div class="share-row">
+                  <button class="btn btn-whatsapp" type="button" data-share="whatsapp"><i class="bi bi-whatsapp"></i> WhatsApp</button>
+                  <button class="btn btn-instagram" type="button" data-share="instagram"><i class="bi bi-instagram"></i> Instagram</button>
+                </div>
+                <div class="share-actions">
+                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="landing"><i class="bi bi-globe2"></i> Open Landing Page</button>
+                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="download"><i class="bi bi-download"></i> Download Kit</button>
+                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="brand-card"><i class="bi bi-person-vcard"></i> Open Brand Card</button>
                 </div>
               </div>
 
-              <div id="result-details"></div>
-            </div>
-
-            <div class="premium-results-card" id="result-heritage-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">
-                    <i class="bi bi-bank2"></i>
-                    Storytelling Layer
-                  </div>
-                  <h3>Heritage Story</h3>
-                </div>
+              <!-- Metadata -->
+              <div class="glass-card result-card">
+                <div class="card-eyebrow"><i class="bi bi-shield-check"></i> Traceability</div>
+                <div class="card-h3">Generation Metadata</div>
+                <div class="provenance-line"><span>Processing Time</span><strong><span id="result-time-side">0</span>s</strong></div>
+                <div class="provenance-line"><span>Provenance Hash</span><code id="result-hash">—</code></div>
               </div>
 
-              <p id="result-heritage" class="card-subtle heritage-text premium-heritage-text"></p>
+              <button class="btn btn-navy" style="width: 100%;" type="button" id="btn-back-dashboard">
+                <i class="bi bi-arrow-left"></i> Upload Another Product
+              </button>
             </div>
           </div>
-
-          <aside class="results-side-column">
-            <div class="premium-results-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">
-                    <i class="bi bi-share"></i>
-                    Distribution
-                  </div>
-                  <h3>Share & Export</h3>
-                </div>
-
-                <div class="assistant-icon-wrap">
-                  <i class="bi bi-send-check"></i>
-                </div>
-              </div>
-
-              <div class="share-row premium-share-row">
-                <button class="btn btn-whatsapp premium-share-btn" type="button" data-share="whatsapp">
-                  <i class="bi bi-whatsapp"></i>
-                  <span>Share on WhatsApp</span>
-                </button>
-
-                <button class="btn btn-instagram premium-share-btn" type="button" data-share="instagram">
-                  <i class="bi bi-instagram"></i>
-                  <span>Copy Instagram Caption</span>
-                </button>
-              </div>
-
-              <div class="premium-share-actions">
-                <button class="btn btn-outline" type="button" data-share="landing">
-                  <i class="bi bi-globe2"></i>
-                  <span>Open Landing Page</span>
-                </button>
-
-                <button class="btn btn-outline" type="button" data-share="download">
-                  <i class="bi bi-download"></i>
-                  <span>Download Kit</span>
-                </button>
-
-                <button class="btn btn-outline" type="button" data-share="brand-card">
-                  <i class="bi bi-person-vcard"></i>
-                  <span>Open Brand Card</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="premium-results-card">
-              <div class="section-row">
-                <div>
-                  <div class="section-mini-title">
-                    <i class="bi bi-shield-check"></i>
-                    Traceability
-                  </div>
-                  <h3>Generation Metadata</h3>
-                </div>
-              </div>
-
-              <div class="provenance-box">
-                <div class="provenance-line">
-                  <span>Processing Time</span>
-                  <strong><span id="result-time-side">0</span>s</strong>
-                </div>
-
-                <div class="provenance-line provenance-code-row">
-                  <span>Provenance Hash</span>
-                  <code id="result-hash">—</code>
-                </div>
-              </div>
-            </div>
-
-            <button class="btn btn-navy premium-back-btn" type="button" id="btn-back-dashboard">
-              <i class="bi bi-arrow-left"></i>
-              <span>Upload Another Product</span>
-            </button>
-          </aside>
-        </section>
+        </div>
       </section>
     </main>
 
-    <!-- =========================
-         LOADING
-    ========================== -->
+    <!-- ─── LOADING ─────────────────────────────── -->
     <div class="loading-overlay" id="loading" aria-hidden="true">
-      <div class="spinner-wrap">
+      <div class="spinner-shell">
         <div class="spinner-glow"></div>
         <div class="spinner"></div>
       </div>
-      <div class="text" id="loading-text">Processing...</div>
-      <div class="subtext" id="loading-sub"></div>
+      <div class="loading-text" id="loading-text">Processing...</div>
+      <div class="loading-sub" id="loading-sub"></div>
     </div>
 
-    <!-- =========================
-         LIGHTBOX
-    ========================== -->
+    <!-- ─── LIGHTBOX ────────────────────────────── -->
     <div class="lightbox" id="lightbox">
-      <button class="lightbox-close" type="button" id="lightbox-close">
-        <i class="bi bi-x-lg"></i>
-      </button>
-
-      <button class="lightbox-nav prev" type="button" id="lightbox-prev">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-
-      <button class="lightbox-nav next" type="button" id="lightbox-next">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-
-      <div class="lightbox-img-wrap">
-        <img id="lightbox-img" src="" alt="" />
-      </div>
-
+      <button class="lightbox-close" type="button" id="lightbox-close"><i class="bi bi-x-lg"></i></button>
+      <button class="lightbox-nav prev" type="button" id="lightbox-prev"><i class="bi bi-chevron-left"></i></button>
+      <button class="lightbox-nav next" type="button" id="lightbox-next"><i class="bi bi-chevron-right"></i></button>
+      <div class="lightbox-img-wrap"><img id="lightbox-img" src="" alt="" /></div>
       <div class="lightbox-label" id="lightbox-label"></div>
       <div class="lightbox-counter" id="lightbox-counter"></div>
       <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
     </div>
 
-    <!-- =========================
-         TOAST
-    ========================== -->
-    <div class="toast" id="toast"></div>
+    <!-- ─── TOAST ───────────────────────────────── -->
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
   </div>
 
   <script>
     const API = "";
 
     const state = {
-      phone: "",
-      artisanId: "",
-      profile: null,
-      currentProductId: "",
-      currentParsedData: null,
-      profilePhotoFile: null,
-      profilePhotoPreview: "",
-      voiceLang: "hi-IN",
-      recognition: null,
-      isRecording: false,
-      lightboxIndex: 0,
-      lightboxImages: [],
-      generateMessageTimer: null
+      phone: "", artisanId: "", profile: null,
+      currentProductId: "", currentParsedData: null,
+      profilePhotoFile: null, profilePhotoPreview: "",
+      voiceLang: "hi-IN", recognition: null, isRecording: false,
+      lightboxIndex: 0, lightboxImages: [], generateMessageTimer: null,
+      theme: localStorage.getItem("karu-theme") || "dark"
     };
 
-    const $ = (selector, scope = document) => scope.querySelector(selector);
-    const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
     const el = {
+      body: document.body,
       screens: $$(".screen"),
       loading: $("#loading"),
       loadingText: $("#loading-text"),
       loadingSub: $("#loading-sub"),
       toast: $("#toast"),
+      themeToggle: $("#theme-toggle"),
 
       inpPhone: $("#inp-phone"),
       otpPhone: $("#otp-phone"),
@@ -1093,12 +757,14 @@
       inpDistrict: $("#inp-district"),
       inpState: $("#inp-state"),
       inpUpi: $("#inp-upi"),
+      inpLanguage: $("#inp-language"),
       craftChips: $$(".chip", $("#craft-chips")),
 
       dashName: $("#dash-name"),
       dashLocation: $("#dash-location"),
       dashBadge: $("#dash-badge"),
       dashMonogram: $("#dash-monogram"),
+      dashMonogramPlaceholder: $("#dash-monogram-placeholder"),
       dashPercent: $("#dash-percent"),
       dashProgress: $("#dash-progress"),
       heroStatListings: $("#hero-stat-listings"),
@@ -1110,6 +776,8 @@
       dashboardGreeting: $("#dashboard-greeting"),
       pastProducts: $("#past-products"),
       pastProductsList: $("#past-products-list"),
+      qualityScoreNumber: $("#quality-score-number"),
+      qualityCircle: $("#quality-circle"),
 
       uploadTrigger: $("#upload-trigger"),
       inpPhotos: $("#inp-photos"),
@@ -1119,6 +787,8 @@
       voiceLangRow: $("#voice-lang-row"),
       inpProdType: $("#inp-prodtype"),
       cardCountRow: $("#card-count-row"),
+      inpStoryTone: $("#inp-story-tone"),
+      inpPlatformFocus: $("#inp-platform-focus"),
 
       resultImages: $("#result-images"),
       resultPrice: $("#result-price"),
@@ -1143,787 +813,484 @@
       lightboxThumbs: $("#lightbox-thumbs")
     };
 
+    /* ─── THEME ─────────────────────────────────── */
+    function applyTheme(theme) {
+      state.theme = theme;
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("karu-theme", theme);
+      if (el.themeToggle) {
+        el.themeToggle.innerHTML = theme === "dark"
+          ? '<i class="bi bi-sun"></i>'
+          : '<i class="bi bi-moon-stars"></i>';
+      }
+    }
+    function toggleTheme() { applyTheme(state.theme === "dark" ? "light" : "dark"); }
+
+    /* ─── SCREEN NAV ─────────────────────────────── */
     function showScreen(id) {
-      el.screens.forEach((screen) => screen.classList.remove("active"));
+      el.screens.forEach(s => s.classList.remove("active"));
       const target = document.getElementById(id);
       if (target) target.classList.add("active");
+      $$(".nav-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.goScreen === id);
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    /* ─── LOADING ────────────────────────────────── */
     function showLoading(text, sub = "") {
       el.loadingText.textContent = text;
       el.loadingSub.textContent = sub;
+      el.loading.setAttribute("aria-hidden", "false");
       el.loading.classList.add("active");
     }
-
     function hideLoading() {
       el.loading.classList.remove("active");
+      el.loading.setAttribute("aria-hidden", "true");
     }
 
+    /* ─── TOAST ─────────────────────────────────── */
     function showToast(message) {
       el.toast.textContent = message;
       el.toast.classList.add("show");
-
-      clearTimeout(el.toast._timer);
-      el.toast._timer = setTimeout(() => {
-        el.toast.classList.remove("show");
-      }, 3000);
+      clearTimeout(el.toast._t);
+      el.toast._t = setTimeout(() => el.toast.classList.remove("show"), 3000);
     }
 
+    /* ─── API ───────────────────────────────────── */
     async function apiGet(path) {
       const res = await fetch(API + path);
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || `HTTP ${res.status}`);
-      }
-
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `HTTP ${res.status}`); }
       return res.json();
     }
-
     async function apiPost(path, body) {
-      const res = await fetch(API + path, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || `HTTP ${res.status}`);
-      }
-
+      const res = await fetch(API + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `HTTP ${res.status}`); }
       return res.json();
     }
 
-    function getFormattedGreeting() {
-      const hour = new Date().getHours();
-      if (hour < 12) return "Good Morning";
-      if (hour < 17) return "Good Afternoon";
-      return "Good Evening";
+    /* ─── UTILS ─────────────────────────────────── */
+    function getGreeting() {
+      const h = new Date().getHours();
+      return h < 12 ? "Good Morning" : h < 17 ? "Good Afternoon" : "Good Evening";
+    }
+    function sanitize(v) {
+      return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
     }
 
-    function sanitizeHTML(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function syncOtpValue() {
-      el.otpHidden.value = el.otpDigits.map((input) => input.value.trim()).join("");
-    }
-
-    function initOtpInputs() {
-      if (!el.otpDigits.length) return;
-
-      el.otpDigits.forEach((input, index) => {
-        input.setAttribute("inputmode", "numeric");
+    /* ─── OTP ───────────────────────────────────── */
+    function syncOtp() { el.otpHidden.value = el.otpDigits.map(i => i.value).join(""); }
+    function resetOtp() { el.otpDigits.forEach(i => i.value = ""); syncOtp(); el.otpDigits[0]?.focus(); }
+    function initOtp() {
+      el.otpDigits.forEach((input, idx) => {
         input.setAttribute("autocomplete", "one-time-code");
-
-        input.addEventListener("input", (event) => {
-          const clean = event.target.value.replace(/\D/g, "").slice(0, 1);
-          event.target.value = clean;
-          syncOtpValue();
-
-          if (clean && index < el.otpDigits.length - 1) {
-            el.otpDigits[index + 1].focus();
+        input.addEventListener("input", e => {
+          const c = e.target.value.replace(/\D/g,"").slice(0,1);
+          e.target.value = c; syncOtp();
+          if (c && idx < el.otpDigits.length - 1) el.otpDigits[idx + 1].focus();
+        });
+        input.addEventListener("keydown", e => {
+          if (e.key === "Backspace") {
+            if (input.value) { input.value = ""; syncOtp(); e.preventDefault(); return; }
+            if (idx > 0) el.otpDigits[idx - 1].focus();
           }
         });
-
-        input.addEventListener("keydown", (event) => {
-          if (event.key === "Backspace") {
-            if (input.value) {
-              input.value = "";
-              syncOtpValue();
-              event.preventDefault();
-              return;
-            }
-
-            if (index > 0) {
-              el.otpDigits[index - 1].focus();
-            }
-          }
-        });
-
-        input.addEventListener("paste", (event) => {
-          event.preventDefault();
-
-          const pasted = (event.clipboardData || window.clipboardData)
-            .getData("text")
-            .replace(/\D/g, "")
-            .slice(0, 6);
-
-          if (!pasted) return;
-
-          el.otpDigits.forEach((box, i) => {
-            box.value = pasted[i] || "";
-          });
-
-          syncOtpValue();
-          const focusIndex = Math.min(pasted.length, el.otpDigits.length - 1);
-          el.otpDigits[focusIndex].focus();
+        input.addEventListener("paste", e => {
+          e.preventDefault();
+          const p = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g,"").slice(0,6);
+          if (!p) return;
+          el.otpDigits.forEach((box, i) => { box.value = p[i] || ""; });
+          syncOtp();
+          el.otpDigits[Math.min(p.length, el.otpDigits.length - 1)].focus();
         });
       });
     }
 
-    function resetOtpInputs() {
-      el.otpDigits.forEach((input) => {
-        input.value = "";
-      });
-      syncOtpValue();
-      if (el.otpDigits[0]) el.otpDigits[0].focus();
-    }
-
+    /* ─── PROFILE PHOTO ──────────────────────────── */
     function previewProfilePhoto(input) {
       const file = input.files?.[0];
       if (!file) return;
-
       state.profilePhotoFile = file;
-
-      if (state.profilePhotoPreview) {
-        URL.revokeObjectURL(state.profilePhotoPreview);
-      }
-
+      if (state.profilePhotoPreview) URL.revokeObjectURL(state.profilePhotoPreview);
       state.profilePhotoPreview = URL.createObjectURL(file);
-
       el.profilePhotoPreview.src = state.profilePhotoPreview;
       el.profilePhotoPreview.classList.remove("hidden");
       el.profilePhotoPlaceholder.classList.add("hidden");
-
       showToast("Profile photo added");
     }
 
-    function getSelectedCrafts() {
-      return el.craftChips
-        .filter((chip) => chip.classList.contains("selected"))
-        .map((chip) => chip.dataset.val);
-    }
+    /* ─── CRAFT CHIPS ────────────────────────────── */
+    function getSelectedCrafts() { return el.craftChips.filter(c => c.classList.contains("selected")).map(c => c.dataset.val); }
+    function toggleChip(chip) { chip.classList.toggle("selected"); }
 
-    function toggleChip(chip) {
-      chip.classList.toggle("selected");
-    }
-
+    /* ─── AUTH FLOWS ─────────────────────────────── */
     async function doRegister() {
-      const phoneRaw = el.inpPhone.value.replace(/\s/g, "").trim();
-      const phone = phoneRaw.startsWith("+91") ? phoneRaw : `+91${phoneRaw}`;
-
-      if (phone.replace(/\D/g, "").length < 12) {
-        showToast("Enter a valid phone number");
-        return;
-      }
-
+      const raw = el.inpPhone.value.replace(/\s/g,"").trim();
+      const phone = raw.startsWith("+91") ? raw : `+91${raw}`;
+      if (phone.replace(/\D/g,"").length < 12) { showToast("Enter a valid phone number"); return; }
       try {
         showLoading("Sending verification code...", "Secure OTP delivery");
-
         const data = await apiPost("/auth/register", { phone });
-
         state.phone = phone;
         el.otpPhone.textContent = phone;
-
-        hideLoading();
-        resetOtpInputs();
-        showScreen("screen-otp");
+        hideLoading(); resetOtp(); showScreen("screen-otp");
         showToast(data.message || "Verification code sent");
-      } catch (error) {
-        hideLoading();
-        showToast("Error: " + error.message);
-      }
+      } catch (e) { hideLoading(); showToast("Error: " + e.message); }
     }
 
     async function doVerify() {
-      syncOtpValue();
-      const otp = el.otpHidden.value;
-
-      if (otp.length < 6) {
-        showToast("Enter OTP");
-        return;
-      }
-
+      syncOtp();
+      if (el.otpHidden.value.length < 6) { showToast("Enter all 6 digits"); return; }
       try {
         showLoading("Verifying...", "");
-
-        const data = await apiPost("/auth/verify", {
-          phone: state.phone,
-          otp
-        });
-
+        const data = await apiPost("/auth/verify", { phone: state.phone, otp: el.otpHidden.value });
         hideLoading();
-
         if (data.status === "existing_user") {
           state.artisanId = data.profile.id;
           state.profile = data.profile;
           await showDashboard();
           showToast("Welcome back");
-        } else {
-          showScreen("screen-profile");
-        }
-      } catch (error) {
-        hideLoading();
-        showToast("Error: " + error.message);
-      }
+        } else { showScreen("screen-profile"); }
+      } catch (e) { hideLoading(); showToast("Error: " + e.message); }
     }
 
     async function doCreateProfile() {
       const name = el.inpName.value.trim();
       const district = el.inpDistrict.value.trim();
       const stateVal = el.inpState.value;
-      const upi = el.inpUpi.value.trim();
       const crafts = getSelectedCrafts();
-
-      if (!name) {
-        showToast("Please enter your name");
-        return;
-      }
-
-      if (!district) {
-        showToast("Please enter your district");
-        return;
-      }
-
-      if (!stateVal) {
-        showToast("Please select state");
-        return;
-      }
-
-      if (!crafts.length) {
-        showToast("Select at least one craft");
-        return;
-      }
-
+      if (!name) return showToast("Please enter your name");
+      if (!district) return showToast("Please enter your district");
+      if (!stateVal) return showToast("Please select your state");
+      if (!crafts.length) return showToast("Select at least one craft");
       try {
-        showLoading("Creating your profile...", "Generating monogram and brand");
-
+        showLoading("Creating your profile...", "Generating identity and brand");
         const profile = await apiPost("/auth/profile", {
-          phone: state.phone,
-          name,
-          district,
-          state: stateVal,
+          phone: state.phone, name, district, state: stateVal,
           craft_types: crafts,
-          preferred_language: "hi",
-          upi_id: upi || null
+          preferred_language: el.inpLanguage?.value || "hi",
+          upi_id: el.inpUpi.value.trim() || null
         });
-
         state.artisanId = profile.id;
         state.profile = profile;
-
-        if (state.profilePhotoPreview) {
-          state.profile.custom_profile_photo = state.profilePhotoPreview;
-        }
-
-        hideLoading();
-        await showDashboard();
-        showToast("Profile created");
-      } catch (error) {
-        hideLoading();
-        showToast("Error: " + error.message);
-      }
+        if (state.profilePhotoPreview) state.profile.custom_profile_photo = state.profilePhotoPreview;
+        hideLoading(); await showDashboard(); showToast("Profile created!");
+      } catch (e) { hideLoading(); showToast("Error: " + e.message); }
     }
 
-    function getBadgeText(level) {
-      const badgeMap = {
-        new: "New Artisan",
-        active: "Active Artisan",
-        master: "Master Artisan",
-        heritage: "Heritage Master"
-      };
-
-      return badgeMap[level] || "New Artisan";
+    /* ─── DASHBOARD ──────────────────────────────── */
+    function getBadge(level) {
+      return { new: "New Artisan", active: "Active Artisan", master: "Master Artisan", heritage: "Heritage Master" }[level] || "New Artisan";
     }
 
-    function updateDashboardStats({ listings = 0, completion = 0, drafts = 0, shares = 0 }) {
+    function calcQuality() {
+      let score = 40;
+      score += Math.min([...(el.inpPhotos.files || [])].length * 8, 24);
+      score += Math.min(Math.floor(el.inpVoice.value.trim().length / 12), 24);
+      if (el.inpProdType.value.trim()) score += 8;
+      return Math.min(score, 100);
+    }
+
+    function updateQuality() {
+      const q = calcQuality();
+      if (el.qualityScoreNumber) el.qualityScoreNumber.textContent = q;
+      if (el.qualityCircle) el.qualityCircle.style.setProperty("--pct", q);
+    }
+
+    function updateStats({ listings = 0, completion = 0, drafts = 0, shares = 0 }) {
       el.heroStatListings.textContent = listings;
       el.heroStatProfile.textContent = `${completion}%`;
       el.heroStatStreak.textContent = listings > 0 ? Math.min(listings, 7) : 0;
-
       el.statListings.textContent = listings;
       el.statDrafts.textContent = drafts;
       el.statShares.textContent = shares;
-
       el.dashPercent.textContent = completion;
       el.dashProgress.style.width = `${completion}%`;
     }
 
     async function showDashboard() {
       showScreen("screen-dashboard");
-
       const profile = state.profile || {};
-      const fullName = profile.name || "Artisan Name";
-      const location = `${profile.district || ""}${profile.district && profile.state ? ", " : ""}${profile.state || ""}` || "District, State";
+      const name = profile.name || "Artisan Name";
+      const location = [profile.district, profile.state].filter(Boolean).join(", ") || "District, State";
 
-      el.dashName.textContent = fullName;
+      el.dashName.textContent = name;
       el.dashLocation.textContent = location;
-      el.dashBadge.textContent = getBadgeText(profile.badge_level);
-      el.dashboardGreeting.textContent = `${getFormattedGreeting()}, ${fullName}`;
+      el.dashBadge.textContent = getBadge(profile.badge_level);
+      el.dashboardGreeting.textContent = `${getGreeting()}, ${name}`;
 
-      if (profile.custom_profile_photo) {
-        el.dashMonogram.src = profile.custom_profile_photo;
-      } else if (state.profilePhotoPreview) {
-        el.dashMonogram.src = state.profilePhotoPreview;
+      // Avatar
+      const photo = profile.custom_profile_photo || state.profilePhotoPreview;
+      if (photo) {
+        el.dashMonogram.src = photo;
+        el.dashMonogram.classList.remove("hidden");
+        el.dashMonogramPlaceholder.classList.add("hidden");
       } else if (state.artisanId) {
         el.dashMonogram.src = API + `/auth/profile/${state.artisanId}/monogram`;
+        el.dashMonogram.classList.remove("hidden");
+        el.dashMonogramPlaceholder.classList.add("hidden");
+      } else {
+        el.dashMonogramPlaceholder.textContent = name[0]?.toUpperCase() || "A";
       }
 
-      let completion = 0;
-      let listingsCount = 0;
-
-      try {
-        const comp = await apiGet(`/auth/profile/${state.artisanId}/completion`);
-        completion = Number(comp.percentage || 0);
-      } catch (_) {}
-
+      let completion = 0, listingsCount = 0;
+      try { const c = await apiGet(`/auth/profile/${state.artisanId}/completion`); completion = Number(c.percentage || 0); } catch (_) {}
       try {
         const prods = await apiGet(`/products/artisan/${state.artisanId}`);
         const products = prods.products || [];
         listingsCount = Number(prods.count || products.length || 0);
-
         if (listingsCount > 0) {
           el.pastProducts.style.display = "block";
-          el.pastProductsList.innerHTML = products.map((product) => {
-            return `
-              <div class="info-row">
-                <span class="label">${sanitizeHTML(product.product_type || "Product")}</span>
-                <span class="value">
-                  <button class="btn btn-sm btn-outline" type="button" onclick="viewProduct('${sanitizeHTML(product.id)}')">
-                    <i class="bi bi-eye"></i>
-                    <span>View</span>
-                  </button>
-                </span>
-              </div>
-            `;
-          }).join("");
-        } else {
-          el.pastProducts.style.display = "none";
-          el.pastProductsList.innerHTML = "";
-        }
-      } catch (_) {
-        el.pastProducts.style.display = "none";
-        el.pastProductsList.innerHTML = "";
-      }
+          el.pastProductsList.innerHTML = products.map(p => `
+            <div class="recent-row">
+              <span>${sanitize(p.product_type || "Product")}</span>
+              <button class="btn btn-sm btn-gold-outline" type="button" onclick="viewProduct('${sanitize(p.id)}')">
+                <i class="bi bi-eye"></i> View
+              </button>
+            </div>
+          `).join("");
+        } else { el.pastProducts.style.display = "none"; }
+      } catch (_) { el.pastProducts.style.display = "none"; }
 
-      updateDashboardStats({
-        listings: listingsCount,
-        completion,
-        drafts: Math.max(0, Math.floor(listingsCount / 2)),
-        shares: Math.max(0, listingsCount * 3)
-      });
+      updateStats({ listings: listingsCount, completion, drafts: Math.max(0, Math.floor(listingsCount / 2)), shares: Math.max(0, listingsCount * 3) });
+      updateQuality();
     }
 
     async function goToDashboard() {
-      try {
-        const profile = await apiGet(`/auth/profile/${state.artisanId}`);
-        state.profile = profile;
-
-        if (state.profilePhotoPreview) {
-          state.profile.custom_profile_photo = state.profilePhotoPreview;
-        }
-      } catch (_) {
-        if (state.profilePhotoPreview && state.profile) {
-          state.profile.custom_profile_photo = state.profilePhotoPreview;
-        }
-      }
-
+      try { const p = await apiGet(`/auth/profile/${state.artisanId}`); state.profile = p; } catch (_) {}
+      if (state.profilePhotoPreview && state.profile) state.profile.custom_profile_photo = state.profilePhotoPreview;
       await showDashboard();
     }
 
+    /* ─── PHOTOS ─────────────────────────────────── */
     function previewPhotos(input) {
       const files = [...(input.files || [])];
       el.photoPreview.innerHTML = "";
-
       if (!files.length) return;
-
-      files.forEach((file, index) => {
+      files.forEach((file, i) => {
         const url = URL.createObjectURL(file);
-        const wrapper = document.createElement("div");
-        wrapper.className = "preview-thumb";
-
-        wrapper.innerHTML = `
-          <img src="${url}" alt="Product preview ${index + 1}" />
-        `;
-
-        el.photoPreview.appendChild(wrapper);
+        const wrap = document.createElement("div");
+        wrap.className = "photo-thumb";
+        wrap.innerHTML = `<img src="${url}" alt="Product preview ${i + 1}" />`;
+        el.photoPreview.appendChild(wrap);
       });
-
-      showToast(`${files.length} photo(s) added`);
+      updateQuality();
+      showToast(`${files.length} photo${files.length > 1 ? "s" : ""} added`);
     }
 
-    function setVoiceLang(button) {
-      const buttons = $$("button", el.voiceLangRow);
-      buttons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-      state.voiceLang = button.dataset.lang;
+    /* ─── VOICE ─────────────────────────────────── */
+    function setVoiceLang(btn) {
+      $$("button", el.voiceLangRow).forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      state.voiceLang = btn.dataset.lang;
     }
-
     function stopVoice() {
-      if (state.recognition) {
-        try {
-          state.recognition.stop();
-        } catch (_) {}
-      }
-
+      try { state.recognition?.stop(); } catch (_) {}
       state.isRecording = false;
       el.btnMic.classList.remove("recording");
       el.btnMic.innerHTML = '<i class="bi bi-mic-fill"></i>';
     }
-
     function startVoice() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-      if (!SpeechRecognition) {
-        alert("Speech recognition not supported in this browser. Please use Chrome.");
-        return;
-      }
-
-      const recognition = new SpeechRecognition();
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { alert("Speech recognition not supported. Please use Chrome."); return; }
+      const recognition = new SR();
       recognition.lang = state.voiceLang;
       recognition.continuous = true;
       recognition.interimResults = true;
-
-      const existingText = el.inpVoice.value.trim();
-      let finalTranscript = "";
-
+      const existing = el.inpVoice.value.trim();
+      let final = "";
       state.recognition = recognition;
-
-      recognition.onstart = () => {
-        state.isRecording = true;
-        el.btnMic.classList.add("recording");
-        el.btnMic.innerHTML = '<i class="bi bi-stop-fill"></i>';
-      };
-
-      recognition.onresult = (event) => {
+      recognition.onstart = () => { state.isRecording = true; el.btnMic.classList.add("recording"); el.btnMic.innerHTML = '<i class="bi bi-stop-fill"></i>'; };
+      recognition.onresult = e => {
         let interim = "";
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript + " ";
-          } else {
-            interim += transcript;
-          }
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const t = e.results[i][0].transcript;
+          if (e.results[i].isFinal) final += t + " ";
+          else interim += t;
         }
-
-        const prefix = existingText ? existingText + " " : "";
-        el.inpVoice.value = prefix + finalTranscript + interim;
+        el.inpVoice.value = (existing ? existing + " " : "") + final + interim;
+        updateQuality();
       };
-
-      recognition.onerror = () => {
-        stopVoice();
-      };
-
-      recognition.onend = () => {
-        if (finalTranscript.trim()) {
-          const prefix = existingText ? existingText + " " : "";
-          el.inpVoice.value = prefix + finalTranscript.trim();
-        }
-        stopVoice();
-      };
-
+      recognition.onerror = () => stopVoice();
+      recognition.onend = () => { if (final.trim()) el.inpVoice.value = (existing ? existing + " " : "") + final.trim(); updateQuality(); stopVoice(); };
       recognition.start();
     }
+    function toggleVoice() { state.isRecording ? stopVoice() : startVoice(); }
 
-    function toggleVoice() {
-      if (state.isRecording) stopVoice();
-      else startVoice();
+    /* ─── CARD COUNT ─────────────────────────────── */
+    function setCardCount(btn) {
+      $$("button", el.cardCountRow).forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     }
+    function getCardCount() { return $("#card-count-row button.active")?.dataset.count || "5"; }
 
-    function setCardCount(button) {
-      const buttons = $$("button", el.cardCountRow);
-      buttons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-    }
-
-    function getSelectedCardCount() {
-      return $("#card-count-row button.active")?.dataset.count || "5";
-    }
-
-    function startGenerateLoadingMessages() {
-      const messages = [
-        ["Analyzing your photos...", "Detecting product details"],
-        ["Creating studio shots...", "Inpainting backgrounds"],
-        ["Writing descriptions...", "Hindi + English + Hashtags"],
-        ["Researching prices...", "Finding fair market value"],
-        ["Adding heritage story...", "Connecting to craft tradition"],
-        ["Applying text overlays...", "Generating polished card assets"],
-        ["Generating QR code...", "Preparing provenance verification hash"],
-        ["Almost done...", "Finalizing your cards"]
-      ];
-
-      let index = 0;
-
+    /* ─── GENERATE ───────────────────────────────── */
+    const loadingMsgs = [
+      ["Analyzing your photos...", "Detecting product details"],
+      ["Creating studio shots...", "Inpainting backgrounds"],
+      ["Writing descriptions...", "Hindi + English + Hashtags"],
+      ["Researching prices...", "Finding fair market value"],
+      ["Adding heritage story...", "Connecting to craft tradition"],
+      ["Applying text overlays...", "Generating card assets"],
+      ["Generating QR code...", "Preparing provenance hash"],
+      ["Almost done...", "Finalizing your cards"]
+    ];
+    function startLoadingMsgs() {
+      let idx = 0;
       clearInterval(state.generateMessageTimer);
       state.generateMessageTimer = setInterval(() => {
-        index = (index + 1) % messages.length;
-        el.loadingText.textContent = messages[index][0];
-        el.loadingSub.textContent = messages[index][1];
+        idx = (idx + 1) % loadingMsgs.length;
+        el.loadingText.textContent = loadingMsgs[idx][0];
+        el.loadingSub.textContent = loadingMsgs[idx][1];
       }, 2200);
     }
-
-    function stopGenerateLoadingMessages() {
-      clearInterval(state.generateMessageTimer);
-      state.generateMessageTimer = null;
-    }
+    function stopLoadingMsgs() { clearInterval(state.generateMessageTimer); state.generateMessageTimer = null; }
 
     async function doGenerate() {
       const files = [...(el.inpPhotos.files || [])];
-      const voice = el.inpVoice.value.trim();
-      const productType = el.inpProdType.value.trim();
-      const numCards = getSelectedCardCount();
-
-      if (!files.length) {
-        showToast("Please add at least one photo");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("artisan_id", state.artisanId);
-      formData.append("voice_description", voice);
-      formData.append("product_type", productType);
-      formData.append("preferred_language", "hi");
-      formData.append("num_cards", numCards);
-
-      files.forEach((file) => formData.append("photos", file));
-
+      if (!files.length) { showToast("Please add at least one photo"); return; }
+      const fd = new FormData();
+      fd.append("artisan_id", state.artisanId);
+      fd.append("voice_description", el.inpVoice.value.trim());
+      fd.append("product_type", el.inpProdType.value.trim());
+      fd.append("preferred_language", el.inpLanguage?.value || "hi");
+      fd.append("num_cards", getCardCount());
+      fd.append("story_tone", el.inpStoryTone?.value || "premium");
+      fd.append("platform_focus", el.inpPlatformFocus?.value || "whatsapp");
+      files.forEach(f => fd.append("photos", f));
       try {
-        showLoading(
-          "Generating your listing...",
-          "AI is analyzing your product, creating images, writing descriptions..."
-        );
-        startGenerateLoadingMessages();
-
-        const res = await fetch(API + "/products/generate", {
-          method: "POST",
-          body: formData
-        });
-
-        stopGenerateLoadingMessages();
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.detail || `HTTP ${res.status}`);
-        }
-
-        const result = await res.json();
+        showLoading("Generating your listing...", "AI is analyzing your product…");
+        startLoadingMsgs();
+        const res = await fetch(API + "/products/generate", { method: "POST", body: fd });
+        stopLoadingMsgs();
+        if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `HTTP ${res.status}`); }
         hideLoading();
-        showResults(result);
-      } catch (error) {
-        stopGenerateLoadingMessages();
-        hideLoading();
-        showToast("Error: " + error.message);
-      }
+        showResults(await res.json());
+      } catch (e) { stopLoadingMsgs(); hideLoading(); showToast("Error: " + e.message); }
     }
 
-    function renderResultDetails(parsedData) {
-      const productType = sanitizeHTML(parsedData.product_type || "—");
-      const materials = (parsedData.materials || []).map(sanitizeHTML).join(", ") || "—";
-      const description = sanitizeHTML(parsedData.description || "—");
-
+    /* ─── RESULTS ────────────────────────────────── */
+    function renderDetails(pd) {
+      const type = sanitize(pd.product_type || "—");
+      const mats = (pd.materials || []).map(sanitize).join(", ") || "—";
+      const desc = sanitize(pd.description || "—");
       let html = `
-        <div class="info-row"><span class="label">Product</span><span class="value">${productType}</span></div>
-        <div class="info-row"><span class="label">Materials</span><span class="value">${materials}</span></div>
-        <div class="info-row"><span class="label">Description</span><span class="value">${description}</span></div>
+        <div class="detail-row"><span class="detail-label">Product</span><span class="detail-value">${type}</span></div>
+        <div class="detail-row"><span class="detail-label">Materials</span><span class="detail-value">${mats}</span></div>
+        <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${desc}</span></div>
       `;
-
-      if (parsedData.features?.length) {
-        html += `
-          <div class="feature-wrap">
-            ${parsedData.features.map((feature) => `<span class="feature-pill">${sanitizeHTML(feature)}</span>`).join("")}
-          </div>
-        `;
+      if (pd.features?.length) {
+        html += `<div class="feature-pills">${pd.features.map(f => `<span class="feature-pill">${sanitize(f)}</span>`).join("")}</div>`;
       }
-
       el.resultDetails.innerHTML = html;
     }
 
     function showResults(result) {
       state.currentProductId = result.product_id;
       state.currentParsedData = result.parsed_data || {};
-
       showScreen("screen-results");
 
-      const parsedData = result.parsed_data || {};
+      const pd = result.parsed_data || {};
       const cards = result.cards || [];
+      const labels = { hero: "Hero Shot", features: "Features", heritage: "Heritage", macro: "Detail", lifestyle: "Lifestyle" };
 
-      const cardLabels = {
-        hero: "Hero Shot",
-        features: "Features",
-        heritage: "Heritage",
-        macro: "Detail",
-        lifestyle: "Lifestyle"
-      };
-
-      el.resultImages.innerHTML = cards.map((card, index) => {
-        const cardType = card.card_type;
-        const label = cardLabels[cardType] || cardType;
-        const src = `${API}/products/${result.product_id}/card/${cardType}`;
-        const layoutClass = index === 0 ? "span-2" : "";
-
+      el.resultImages.innerHTML = cards.map((card, i) => {
+        const label = labels[card.card_type] || card.card_type;
+        const src = `${API}/products/${result.product_id}/card/${card.card_type}`;
         return `
-          <div class="${layoutClass} image-card-wrap">
-            <img
-              src="${src}"
-              alt="${sanitizeHTML(label)}"
-              title="Click to view — ${sanitizeHTML(label)}"
-              onclick="openLightbox(${index})"
-              onerror="this.parentElement.style.display='none'"
-            />
-            <span class="image-label">${sanitizeHTML(label)}</span>
+          <div class="image-card${i === 0 ? ' first' : ''}">
+            <img src="${src}" alt="${sanitize(label)}" onclick="openLightbox(${i})" onerror="this.parentElement.style.display='none'" />
+            <span class="image-card-label">${sanitize(label)}</span>
           </div>
         `;
       }).join("");
 
-      state.lightboxImages = cards.map((card) => ({
-        src: `${API}/products/${result.product_id}/card/${card.card_type}`,
-        label: cardLabels[card.card_type] || card.card_type
+      state.lightboxImages = cards.map(c => ({
+        src: `${API}/products/${result.product_id}/card/${c.card_type}`,
+        label: labels[c.card_type] || c.card_type
       }));
 
-      el.resultPrice.textContent = `₹${parsedData.price_recommended || "—"}`;
-      el.resultPriceMain.textContent = `₹${parsedData.price_recommended || "—"}`;
-      el.resultPriceRange.textContent = `Market range: ₹${parsedData.price_min || "?"} — ₹${parsedData.price_max || "?"}`;
+      el.resultPrice.textContent = `₹${pd.price_recommended || "—"}`;
+      el.resultPriceMain.textContent = `₹${pd.price_recommended || "—"}`;
+      el.resultPriceRange.textContent = `Market range: ₹${pd.price_min || "?"} — ₹${pd.price_max || "?"}`;
 
-      renderResultDetails(parsedData);
+      renderDetails(pd);
 
-      if (parsedData.heritage_story) {
-        el.resultHeritageCard.style.display = "block";
-        el.resultHeritage.textContent = parsedData.heritage_story;
-      } else {
-        el.resultHeritageCard.style.display = "none";
-        el.resultHeritage.textContent = "";
-      }
+      if (pd.heritage_story) { el.resultHeritageCard.style.display = "block"; el.resultHeritage.textContent = pd.heritage_story; }
+      else { el.resultHeritageCard.style.display = "none"; }
 
-      if (parsedData.seo_keywords?.length) {
+      if (pd.seo_keywords?.length) {
         el.resultKeywordsCard.style.display = "block";
-        el.resultKeywords.innerHTML = parsedData.seo_keywords
-          .map((keyword) => `<span class="feature-pill">${sanitizeHTML(keyword)}</span>`)
-          .join("");
-      } else {
-        el.resultKeywordsCard.style.display = "none";
-        el.resultKeywords.innerHTML = "";
-      }
+        el.resultKeywords.innerHTML = pd.seo_keywords.map(k => `<span class="keyword-pill">${sanitize(k)}</span>`).join("");
+      } else { el.resultKeywordsCard.style.display = "none"; }
 
-      const processingTime = result.processing_time_seconds || "—";
-      const provenanceHash = result.provenance_hash
-        ? result.provenance_hash.slice(0, 16) + "..."
-        : "—";
-
-      el.resultTime.textContent = processingTime;
-      el.resultTimeSide.textContent = processingTime;
-      el.resultHash.textContent = provenanceHash;
-
-      el.resultCardCount.textContent = `${cards.length} Card${cards.length === 1 ? "" : "s"}`;
-      el.resultKeywordCount.textContent = parsedData.seo_keywords?.length || 0;
-      el.resultFeatureCount.textContent = parsedData.features?.length || 0;
+      const time = result.processing_time_seconds || "—";
+      const hash = result.provenance_hash ? result.provenance_hash.slice(0, 16) + "…" : "—";
+      el.resultTime.textContent = time; el.resultTimeSide.textContent = time;
+      el.resultHash.textContent = hash;
+      el.resultCardCount.textContent = `${cards.length} Card${cards.length !== 1 ? "s" : ""}`;
+      el.resultKeywordCount.textContent = pd.seo_keywords?.length || 0;
+      el.resultFeatureCount.textContent = pd.features?.length || 0;
     }
 
+    /* ─── SHARE ─────────────────────────────────── */
     async function doShare(platform) {
       const pid = state.currentProductId;
-      if (!pid) {
-        showToast("No product to share");
-        return;
-      }
-
+      if (!pid) { showToast("No product to share"); return; }
       try {
-        if (platform === "whatsapp") {
-          const data = await apiGet(`/sharing/${pid}/whatsapp`);
-          if (data.deep_link) window.open(data.deep_link, "_blank");
-          showToast("WhatsApp share ready");
-          return;
-        }
-
-        if (platform === "instagram") {
-          const data = await apiGet(`/sharing/${pid}/instagram`);
-          await navigator.clipboard.writeText(data.caption);
-          showToast("Caption copied");
-          return;
-        }
-
-        if (platform === "landing") {
-          window.open(`${API}/sharing/${pid}/landing-page`, "_blank");
-          return;
-        }
-
-        if (platform === "download") {
-          window.open(`${API}/sharing/${pid}/download-kit`, "_blank");
-          return;
-        }
-
-        if (platform === "brand-card") {
-          window.open(`${API}/sharing/${pid}/brand-card`, "_blank");
-        }
-      } catch (error) {
-        showToast("Error: " + error.message);
-      }
+        if (platform === "whatsapp") { const d = await apiGet(`/sharing/${pid}/whatsapp`); if (d.deep_link) window.open(d.deep_link, "_blank"); showToast("WhatsApp share ready"); return; }
+        if (platform === "instagram") { const d = await apiGet(`/sharing/${pid}/instagram`); await navigator.clipboard.writeText(d.caption); showToast("Caption copied to clipboard"); return; }
+        if (platform === "landing") return void window.open(`${API}/sharing/${pid}/landing-page`, "_blank");
+        if (platform === "download") return void window.open(`${API}/sharing/${pid}/download-kit`, "_blank");
+        if (platform === "brand-card") return void window.open(`${API}/sharing/${pid}/brand-card`, "_blank");
+      } catch (e) { showToast("Error: " + e.message); }
     }
 
+    /* ─── VIEW PRODUCT ───────────────────────────── */
     async function viewProduct(productId) {
       state.currentProductId = productId;
-
       try {
         const product = await apiGet(`/products/${productId}`);
         state.currentParsedData = product.description_json || {};
-
         showResults({
           product_id: productId,
-          cards: (product.generated_images || []).map((file) => ({
-            card_type: file.replace("Viraasat_", "").replace(".png", ""),
+          cards: (product.generated_images || []).map(file => ({
+            card_type: file.replace("Viraasat_","").replace(".png",""),
             filename: file
           })),
           parsed_data: product.description_json || {},
           provenance_hash: product.provenance_hash || "",
           processing_time_seconds: "—"
         });
-      } catch (_) {
-        showToast("Error loading product");
-      }
+      } catch (_) { showToast("Error loading product"); }
     }
 
+    /* ─── LIGHTBOX ───────────────────────────────── */
     function renderLightbox() {
-      const images = state.lightboxImages;
-      const item = images[state.lightboxIndex];
+      const item = state.lightboxImages[state.lightboxIndex];
       if (!item) return;
-
       el.lightboxImg.src = item.src;
       el.lightboxImg.alt = item.label;
-
       el.lightboxLabel.textContent = item.label;
-      el.lightboxCounter.textContent = `${state.lightboxIndex + 1} / ${images.length}`;
-
-      el.lightboxThumbs.innerHTML = images.map((img, index) => {
-        return `
-          <img
-            src="${img.src}"
-            alt="${sanitizeHTML(img.label)}"
-            class="${index === state.lightboxIndex ? "active" : ""}"
-            onclick="openLightbox(${index})"
-            onerror="this.style.display='none'"
-          />
-        `;
-      }).join("");
+      el.lightboxCounter.textContent = `${state.lightboxIndex + 1} / ${state.lightboxImages.length}`;
+      el.lightboxThumbs.innerHTML = state.lightboxImages.map((img, i) =>
+        `<img src="${img.src}" alt="${sanitize(img.label)}" class="${i === state.lightboxIndex ? 'active' : ''}" onclick="openLightbox(${i})" onerror="this.style.display='none'" />`
+      ).join("");
     }
-
-    function openLightbox(index) {
+    function openLightbox(i) {
       if (!state.lightboxImages.length) return;
-
-      state.lightboxIndex = index;
-      renderLightbox();
-      el.lightbox.classList.add("active");
-      document.body.style.overflow = "hidden";
+      state.lightboxIndex = i; renderLightbox();
+      el.lightbox.classList.add("active"); document.body.style.overflow = "hidden";
     }
-
-    function closeLightbox() {
-      el.lightbox.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-
-    function navLightbox(direction) {
+    function closeLightbox() { el.lightbox.classList.remove("active"); document.body.style.overflow = ""; }
+    function navLightbox(dir) {
       const total = state.lightboxImages.length;
       if (!total) return;
-
-      state.lightboxIndex = (state.lightboxIndex + direction + total) % total;
+      state.lightboxIndex = (state.lightboxIndex + dir + total) % total;
       renderLightbox();
     }
 
+    /* ─── EVENT BINDINGS ─────────────────────────── */
     function bindEvents() {
       $("#btn-register").addEventListener("click", doRegister);
       $("#btn-resend-otp").addEventListener("click", doRegister);
@@ -1931,70 +1298,50 @@
       $("#btn-create-profile").addEventListener("click", doCreateProfile);
       $("#btn-generate").addEventListener("click", doGenerate);
       $("#btn-back-dashboard").addEventListener("click", goToDashboard);
+      el.themeToggle?.addEventListener("click", toggleTheme);
 
-      el.inpProfilePhoto.addEventListener("change", function () {
-        previewProfilePhoto(this);
-      });
+      $$("[data-go-screen]").forEach(btn => btn.addEventListener("click", () => showScreen(btn.dataset.goScreen)));
+      $$("[data-share]").forEach(btn => btn.addEventListener("click", () => doShare(btn.dataset.share)));
 
-      el.craftChips.forEach((chip) => {
-        chip.addEventListener("click", () => toggleChip(chip));
-      });
+      el.inpProfilePhoto.addEventListener("change", function () { previewProfilePhoto(this); });
+      el.craftChips.forEach(chip => chip.addEventListener("click", () => toggleChip(chip)));
 
       el.uploadTrigger.addEventListener("click", () => el.inpPhotos.click());
-      el.uploadTrigger.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          el.inpPhotos.click();
-        }
-      });
+      el.uploadTrigger.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.inpPhotos.click(); } });
+      el.inpPhotos.addEventListener("change", function () { previewPhotos(this); });
 
-      el.inpPhotos.addEventListener("change", function () {
-        previewPhotos(this);
-      });
+      el.inpVoice.addEventListener("input", updateQuality);
+      el.inpProdType.addEventListener("input", updateQuality);
 
-      $$("button", el.voiceLangRow).forEach((button) => {
-        button.addEventListener("click", () => setVoiceLang(button));
-      });
-
+      $$("button", el.voiceLangRow).forEach(btn => btn.addEventListener("click", () => setVoiceLang(btn)));
       el.btnMic.addEventListener("click", toggleVoice);
-
-      $$("button", el.cardCountRow).forEach((button) => {
-        button.addEventListener("click", () => setCardCount(button));
-      });
-
-      $$("[data-share]").forEach((button) => {
-        button.addEventListener("click", () => doShare(button.dataset.share));
-      });
+      $$("button", el.cardCountRow).forEach(btn => btn.addEventListener("click", () => setCardCount(btn)));
 
       $("#lightbox-close").addEventListener("click", closeLightbox);
       $("#lightbox-prev").addEventListener("click", () => navLightbox(-1));
       $("#lightbox-next").addEventListener("click", () => navLightbox(1));
+      el.lightbox.addEventListener("click", e => { if (e.target === el.lightbox) closeLightbox(); });
 
-      el.lightbox.addEventListener("click", (event) => {
-        if (event.target.id === "lightbox") closeLightbox();
-      });
-
-      document.addEventListener("keydown", (event) => {
+      document.addEventListener("keydown", e => {
         if (el.lightbox.classList.contains("active")) {
-          if (event.key === "Escape") closeLightbox();
-          if (event.key === "ArrowLeft") navLightbox(-1);
-          if (event.key === "ArrowRight") navLightbox(1);
-          return;
-        }
-
-        if (event.key === "Enter") {
-          const activeScreen = $(".screen.active");
-          const primaryBtn = activeScreen?.querySelector(".btn");
-          if (primaryBtn) primaryBtn.click();
+          if (e.key === "Escape") closeLightbox();
+          if (e.key === "ArrowLeft") navLightbox(-1);
+          if (e.key === "ArrowRight") navLightbox(1);
         }
       });
+
+      // Enter to advance auth
+      el.inpPhone.addEventListener("keydown", e => { if (e.key === "Enter") doRegister(); });
     }
 
+    /* ─── INIT ───────────────────────────────────── */
     window.viewProduct = viewProduct;
     window.openLightbox = openLightbox;
 
-    initOtpInputs();
+    applyTheme(state.theme);
+    initOtp();
     bindEvents();
+    updateQuality();
   </script>
 </body>
 </html>

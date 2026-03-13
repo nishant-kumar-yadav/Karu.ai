@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#201308"/>
+      <stop offset="0.55" stop-color="#120c07"/>
+      <stop offset="1" stop-color="#3c1f0c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="17" y1="14" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fde5a8"/>
+      <stop offset="0.45" stop-color="#f7c565"/>
+      <stop offset="1" stop-color="#e8a228"/>
+    </linearGradient>
+    <linearGradient id="terra" x1="15" y1="48" x2="52" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c4623a"/>
+      <stop offset="1" stop-color="#e07b50"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)"/>
+  <rect x="5.5" y="5.5" width="53" height="53" rx="14.5" fill="none" stroke="#8d6840" stroke-opacity="0.35"/>
+  <path d="M18 18h28l-4.5 5H22.5L18 18Z" fill="url(#gold)"/>
+  <path d="M21 24h22v4H21z" fill="url(#terra)"/>
+  <path d="M18 28h28v4H18z" fill="url(#gold)"/>
+  <path d="M23 18.5h5v27h-5zM36 18.5h5v27h-5z" fill="url(#gold)"/>
+  <path d="M28 31.5l12 14h-7.2l-9.6-11.3V45.5H18V18.5h5.2v11.4l9.5-11.4H40L28 31.5Z" fill="url(#gold)"/>
+  <circle cx="48" cy="18" r="3" fill="url(#terra)"/>
+</svg>
