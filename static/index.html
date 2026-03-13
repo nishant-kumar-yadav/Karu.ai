@@ -37,10 +37,9 @@
               <div class="logo-tagline">One-Tap Digital Agency</div>
             </div>
           </a>
-          <nav class="nav-links" aria-label="Primary">
-            <button class="nav-btn active" type="button" data-go-screen="screen-welcome">Home</button>
-            <button class="nav-btn" type="button" data-go-screen="screen-dashboard">Studio</button>
-            <button class="nav-btn" type="button" data-go-screen="screen-results">Results</button>
+          <nav class="nav-links" id="main-nav" aria-label="Primary" style="display: none;">
+            <button class="nav-btn active" type="button" data-go-screen="screen-dashboard">Home</button>
+            <button class="nav-btn" type="button" data-go-screen="screen-listed-results">Listed Results</button>
           </nav>
         </div>
         <div class="topnav-right">
@@ -513,12 +512,7 @@
                 </button>
               </div>
 
-              <!-- Recent creations -->
-              <div class="glass-card dash-card" id="past-products" style="display: none;">
-                <div class="card-eyebrow">Recent Creations</div>
-                <div class="card-h3">Your Product Listings</div>
-                <div id="past-products-list"></div>
-              </div>
+
             </div>
 
             <!-- Right panel -->
@@ -583,6 +577,27 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ─── LISTED RESULTS ─────────────────────── -->
+      <section class="screen" id="screen-listed-results" aria-labelledby="listed-results-title">
+        <div class="dashboard-shell" style="padding-top: 24px;">
+
+          <!-- Populated state -->
+          <div class="glass-card dash-card" id="past-products" style="display: none; min-height: 400px; padding: 40px;">
+            <h2 id="listed-results-title" style="font-family: var(--font-display); font-size: 2.2rem; color: var(--heading); margin-bottom: 5px;">Listed Results</h2>
+            <p style="color: var(--text-soft); margin-bottom: 30px;">Your previously generated product listings and landing pages.</p>
+            <div id="past-products-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="no-past-products" class="glass-card dash-card" style="text-align: center; padding: 80px 20px;">
+            <i class="bi bi-box-seam" style="font-size: 3.5rem; color: var(--gold-light); margin-bottom: 15px; display: block;"></i>
+            <h3 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--heading);">No listings yet</h3>
+            <p style="color: var(--text-soft); margin-top: 10px;">Generate your first product in the Home tab.</p>
+          </div>
+
         </div>
       </section>
 
@@ -812,7 +827,10 @@
       lightboxImg: $("#lightbox-img"),
       lightboxLabel: $("#lightbox-label"),
       lightboxCounter: $("#lightbox-counter"),
-      lightboxThumbs: $("#lightbox-thumbs")
+      lightboxThumbs: $("#lightbox-thumbs"),
+
+      mainNav: $("#main-nav"),
+      noPastProducts: $("#no-past-products")
     };
 
     /* ─── THEME ─────────────────────────────────── */
@@ -1011,6 +1029,7 @@
     }
 
     async function showDashboard() {
+      if (el.mainNav) el.mainNav.style.display = "flex";
       showScreen("screen-dashboard");
       const profile = state.profile || {};
       const name = profile.name || "Artisan Name";
@@ -1041,18 +1060,34 @@
         const prods = await apiGet(`/products/artisan/${state.artisanId}`);
         const products = prods.products || [];
         listingsCount = Number(prods.count || products.length || 0);
+        
+        const noProdsEl = el.noPastProducts;
+        
         if (listingsCount > 0) {
-          el.pastProducts.style.display = "block";
-          el.pastProductsList.innerHTML = products.map(p => `
-            <div class="recent-row">
-              <span>${sanitize(p.product_type || "Product")}</span>
-              <button class="btn btn-sm btn-gold-outline" type="button" onclick="viewProduct('${sanitize(p.id)}')">
-                <i class="bi bi-eye"></i> View
-              </button>
-            </div>
-          `).join("");
-        } else { el.pastProducts.style.display = "none"; }
-      } catch (_) { el.pastProducts.style.display = "none"; }
+          if (el.pastProducts) el.pastProducts.style.display = "block";
+          if (noProdsEl) noProdsEl.style.display = "none";
+          
+          if (el.pastProductsList) {
+            el.pastProductsList.innerHTML = products.map(p => `
+              <div class="recent-row" style="padding: 16px 20px; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; background: rgba(255,248,220,0.03); border: 1px solid var(--border); border-radius: var(--radius-sm);">
+                <div>
+                  <strong style="color: var(--gold-light); display: block; font-size: 1.1rem; margin-bottom: 4px;">${sanitize(p.product_type || "Product")}</strong>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="bi bi-clock-history"></i> Generated: ${new Date(p.created_at * 1000).toLocaleDateString()}</span>
+                </div>
+                <button class="btn btn-sm btn-gold-outline" type="button" onclick="viewProduct('${sanitize(p.id)}')">
+                  <i class="bi bi-eye"></i> View Assets
+                </button>
+              </div>
+            `).join("");
+          }
+        } else { 
+          if (el.pastProducts) el.pastProducts.style.display = "none"; 
+          if (noProdsEl) noProdsEl.style.display = "block";
+        }
+      } catch (_) { 
+        if (el.pastProducts) el.pastProducts.style.display = "none"; 
+        if (el.noPastProducts) el.noPastProducts.style.display = "block";
+      }
 
       updateStats({ listings: listingsCount, completion, drafts: Math.max(0, Math.floor(listingsCount / 2)), shares: Math.max(0, listingsCount * 3) });
       updateQuality();

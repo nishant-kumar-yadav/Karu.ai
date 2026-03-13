@@ -974,18 +974,20 @@ code {
 ══════════════════════════════════════════════════════════════ */
 .dashboard-screen {
   max-width: 100% !important; width: 100%; margin: 0;
-  padding: 24px 28px 48px !important;
+  padding: calc(var(--topnav-h) + 24px) 28px 48px !important;
 }
 .dashboard-shell { max-width: var(--container); margin: 0 auto; }
 
 /* ── Dashboard hero ── */
 .dash-hero {
   position: relative; overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg) !important;
   border: 1px solid var(--border-gold);
   box-shadow: var(--shadow-lg);
-  margin-bottom: 20px;
+  margin: 0 auto 24px auto !important;
   padding: 28px 32px;
+  width: 100%;
+  box-sizing: border-box;
   background:
     radial-gradient(ellipse 60% 80% at 90% 50%, rgba(232,162,40,0.10), transparent),
     radial-gradient(ellipse 50% 70% at 10% 50%, rgba(196,98,58,0.09), transparent),

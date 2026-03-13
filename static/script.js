@@ -77,7 +77,11 @@ const els = {
   priceDisplay: document.querySelector(".insight-price-display"),
   seoKeywords: document.querySelector(".seo-tags"),
   heritageStory: document.querySelector(".heritage-story-text"),
-  
+
+  // Navigation
+  mainNav: document.getElementById("main-nav"),
+  noPastProducts: document.getElementById("no-past-products"),
+
   // Results Actions
   btnShareWhatsapp: document.getElementById("btn-share-whatsapp"),
   btnShareInstagram: document.getElementById("btn-share-instagram"),
@@ -92,26 +96,32 @@ let currentResultProductId = null;
 // ==============================================
 async function init() {
   attachListeners();
-  
+
   if (state.artisanId) {
     try {
-      const res = await fetch(\`/profile/\${state.artisanId}\`);
+      const res = await fetch(`/profile/${state.artisanId}`);
       if (res.ok) {
         state.profile = await res.json();
         populateDashboard();
-        showScreen("dashboard");
+        await showDashboard(); // This will unhide the nav
       } else {
-        localStorage.removeItem("karu_artisan_id");
-        state.artisanId = "";
-        showScreen("welcome");
+        throw new Error("Invalid session");
       }
     } catch (e) {
-      console.error(e);
+      localStorage.removeItem("karu_artisan_id");
+      state.artisanId = "";
+      if (els.mainNav) els.mainNav.style.display = "none";
       showScreen("welcome");
     }
   } else {
+    if (els.mainNav) els.mainNav.style.display = "none";
     showScreen("welcome");
   }
+}
+
+async function showDashboard() {
+  if (els.mainNav) els.mainNav.style.display = "flex"; // Reveal nav on login
+  showScreen("dashboard");
 }
 
 function showScreen(screenKey) {
@@ -195,11 +205,11 @@ function attachListeners() {
           showScreen("profile");
         } else {
           // fetch profile
-          const pRes = await fetch(\`/profile/\${state.artisanId}\`);
+          const pRes = await fetch(`/profile/${state.artisanId}`);
           if (pRes.ok) {
             state.profile = await pRes.json();
             populateDashboard();
-            showScreen("dashboard");
+            await showDashboard();
           }
         }
       } else {
@@ -272,7 +282,7 @@ function attachListeners() {
       if (res.ok) {
         state.profile = await res.json();
         populateDashboard();
-        showScreen("dashboard");
+        await showDashboard();
       } else {
         alert("Failed to create profile");
       }
