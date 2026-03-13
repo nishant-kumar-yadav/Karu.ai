@@ -9,8 +9,23 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# ── API Keys ──────────────────────────────────────────────
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+# ── API Keys (5 keys from separate projects for parallel generation) ──
+GEMINI_API_KEYS: list[str] = [
+    k for k in [
+        os.getenv("GEMINI_API_KEY_1", ""),
+        os.getenv("GEMINI_API_KEY_2", ""),
+        os.getenv("GEMINI_API_KEY_3", ""),
+        os.getenv("GEMINI_API_KEY_4", ""),
+        os.getenv("GEMINI_API_KEY_5", ""),
+    ] if k and not k.startswith("PASTE")
+]
+# Fallback: legacy single-key env var
+if not GEMINI_API_KEYS:
+    _legacy = os.getenv("GEMINI_API_KEY", "")
+    if _legacy:
+        GEMINI_API_KEYS = [_legacy]
+
+GEMINI_API_KEY = GEMINI_API_KEYS[0] if GEMINI_API_KEYS else ""
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 
@@ -60,8 +75,8 @@ DEFAULT_LANGUAGE = "hi"
 BADGE_LEVELS = {
     "new": {"label": "New Artisan", "emoji": "🥉", "min_products": 0, "min_trust": 0},
     "active": {"label": "Active Artisan", "emoji": "🥈", "min_products": 5, "min_trust": 0},
-    "master": {"label": "Master Artisan", "emoji": "🥇", "min_products": 15, "min_trust": 90},
-    "heritage": {"label": "Heritage Master", "emoji": "💎", "min_products": 25, "min_trust": 90},
+    "master": {"label": "Master Artisan", "emoji": "🥇", "min_products": 15, "min_trust": 75},
+    "heritage": {"label": "Heritage Master", "emoji": "💎", "min_products": 25, "min_trust": 85},
 }
 
 # ── Category Templates ────────────────────────────────────

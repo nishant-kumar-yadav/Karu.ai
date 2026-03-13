@@ -23,8 +23,12 @@ def test(name: str, method: str, path: str, body=None, expect_status=200):
         req = urllib.request.Request(url, data=data, headers=headers, method=method)
         r = urllib.request.urlopen(req)
         result = json.loads(r.read().decode())
-        print(f"  ✅ {name}")
-        PASS += 1
+        if expect_status == 200:
+            print(f"  ✅ {name}")
+            PASS += 1
+        else:
+            print(f"  ❌ {name} — expected {expect_status} but got 200")
+            FAIL += 1
         return result
     except urllib.error.HTTPError as e:
         if e.code == expect_status:

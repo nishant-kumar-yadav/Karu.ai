@@ -90,6 +90,14 @@ async def startup():
     logger.info(f"   Output directory: {OUTPUT_DIR}")
     logger.info(f"   Static directory: {STATIC_DIR}")
 
+    # ── Validate required config ──
+    from config import GEMINI_API_KEY, SUPABASE_URL, SUPABASE_KEY
+    if not GEMINI_API_KEY:
+        logger.error("⚠️  GEMINI_API_KEY is not set! AI features will fail.")
+        logger.error("   → Copy .env.example to .env and add your key.")
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        logger.warning("ℹ️  Supabase not configured — using in-memory database (data will not persist).")
+
 
 # ── Run with uvicorn ──
 if __name__ == "__main__":

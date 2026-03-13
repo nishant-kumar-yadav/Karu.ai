@@ -86,8 +86,21 @@ class ArtisanProfile(BaseModel):
     preferred_language: str = "hi"
     badge_level: str = "new"
     product_count: int = 0
+    authenticity: Optional[dict] = None  # AuthenticityBreakdown from trust_engine
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class AuthenticityBreakdown(BaseModel):
+    """Per-signal breakdown of the authenticity score."""
+    craft_forensics: float = 0.0        # 0-100: AI handmade detection score
+    heritage_verification: float = 0.0   # 0-100: GI tag, regional match
+    identity_verification: float = 0.0   # 0-100: phone, UPI, photo, location
+    community_engagement: float = 0.0    # 0-100: scans, shares, uploads
+    composite_score: float = 0.0         # 0-100: weighted total
+    is_handcrafted: bool = True          # AI determination
+    confidence: str = "medium"           # low / medium / high
+    craft_type_detected: str = ""        # what AI thinks the craft is
 
 
 class ArtisanUpdate(BaseModel):

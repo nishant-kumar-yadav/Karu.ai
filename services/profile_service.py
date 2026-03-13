@@ -108,6 +108,8 @@ async def enrich_profile_from_product(
     artisan_id: str,
     parsed_data: dict,
     product_image: Optional[Image.Image] = None,
+    product_image_bytes: Optional[bytes] = None,
+    pre_computed_trust: Optional[dict] = None,
 ) -> ArtisanProfile:
     """
     Auto-enrich the artisan profile after each product upload.
@@ -144,10 +146,34 @@ async def enrich_profile_from_product(
     # Increment product count
     updates["product_count"] = profile.product_count + 1
 
-    # Recalculate badge level
-    new_count = updates.get("product_count", profile.product_count)
-    new_trust = profile.trust_score
-    updates["badge_level"] = _calculate_badge(new_count, new_trust)
+    # ── Compute authenticity score via trust engine ──
+    if pre_computed_trust:
+        authenticity = pre_computed_trust
+    else:
+        from services.trust_engine import compute_authenticity_score
+
+        profile_dict = profile.model_dump()
+        profile_dict["product_count"] = updates["product_count"]
+
+        authenticity = await compute_authenticity_score(
+            profile=profile_dict,
+            parsed_data=parsed_data,
+            product_image_bytes=product_image_bytes,
+        )
+
+    updates["trust_score"] = authenticity["trust_score"]
+    updates["authenticity"] = authenticity["breakdown"]
+
+    # Recalculate badge level with updated trust
+    updates["badge_level"] = _calculate_badge(
+        updates["product_count"], updates["trust_score"]
+    )
+
+    logger.info(
+        f"🔬 Authenticity: {authenticity['trust_score']}/100 "
+        f"(handcrafted={authenticity['is_handcrafted']}, "
+        f"confidence={authenticity['confidence']})"
+    )
 
     if updates:
         data = await db.update_artisan(artisan_id, updates)

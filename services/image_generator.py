@@ -16,13 +16,21 @@ from google import genai
 from google.genai import types
 from PIL import Image, ImageFilter
 
-from config import GEMINI_API_KEY, IMAGE_MODEL, FLASH_MODEL, OUTPUT_SIZE, PADDING_PX
+from config import GEMINI_API_KEY, GEMINI_API_KEYS, IMAGE_MODEL, FLASH_MODEL, OUTPUT_SIZE, PADDING_PX
 from models import GeminiParsedOutput
 from templates.prompts import get_filled_prompt, CARD_TYPES, CONSTRAINT_SUFFIX
 
 logger = logging.getLogger(__name__)
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+# ── Multi-key client pool ─────────────────────────────────
+# Each client uses a separate API key (= separate GCP project)
+# so parallel image generation doesn't compete for the same quota.
+_clients: list[genai.Client] = [genai.Client(api_key=k) for k in GEMINI_API_KEYS]
+client = _clients[0]  # default for non-image calls
+
+def _get_client(index: int) -> genai.Client:
+    """Round-robin: pick a client from the pool."""
+    return _clients[index % len(_clients)]
 
 
 # ═══════════════════════════════════════════════════════════
@@ -32,11 +40,13 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 async def inpaint_background(
     product_image_bytes: bytes,
     background_prompt: str,
+    api_client: genai.Client | None = None,
 ) -> Image.Image:
     """
     Send product photo + instructions to replace background only.
     The model keeps the product intact and generates a new background.
     """
+    api_client = api_client or client
     edit_prompt = (
         f"Keep the product in this photo EXACTLY as it is — same shape, color, texture, "
         f"every detail preserved pixel-perfect. ONLY replace the background with: "
@@ -47,7 +57,7 @@ async def inpaint_background(
     )
 
     response = await asyncio.to_thread(
-        client.models.generate_content,
+        api_client.models.generate_content,
         model=IMAGE_MODEL,
         contents=[
             types.Part.from_bytes(data=product_image_bytes, mime_type="image/jpeg"),
@@ -59,7 +69,8 @@ async def inpaint_background(
         ),
     )
 
-    image_parts = [p for p in response.parts if p.inline_data]
+    parts = response.parts or []
+    image_parts = [p for p in parts if p.inline_data]
     if not image_parts:
         raise RuntimeError("Inpainting returned no image")
 
@@ -70,11 +81,19 @@ async def inpaint_background(
 # Full Generation (fallback or lifestyle/heritage shots)
 # ═══════════════════════════════════════════════════════════
 
+# Fast model for cards where quality matters less (e.g. features gets text overlay)
+FAST_IMAGE_MODEL = "gemini-2.5-flash-image"
+
+
 async def generate_image(
     prompt: str,
     reference_image_bytes: bytes | None = None,
+    api_client: genai.Client | None = None,
+    model: str | None = None,
 ) -> Image.Image:
     """Generate an image from prompt, optionally with a reference photo."""
+    api_client = api_client or client
+    use_model = model or IMAGE_MODEL
     contents = []
     if reference_image_bytes:
         contents.append(
@@ -83,8 +102,8 @@ async def generate_image(
     contents.append(prompt)
 
     response = await asyncio.to_thread(
-        client.models.generate_content,
-        model=IMAGE_MODEL,
+        api_client.models.generate_content,
+        model=use_model,
         contents=contents,
         config=types.GenerateContentConfig(
             response_modalities=["IMAGE"],
@@ -92,7 +111,8 @@ async def generate_image(
         ),
     )
 
-    image_parts = [p for p in response.parts if p.inline_data]
+    parts = response.parts or []
+    image_parts = [p for p in parts if p.inline_data]
     if not image_parts:
         raise RuntimeError("Image generation returned no image")
 
@@ -161,48 +181,62 @@ async def generate_all_cards(
         "macro_focus_area": parsed.macro_focus_area or parsed.texture_description or "the surface texture and material quality",
     }
 
-    async def _gen_card(card_type: str) -> tuple[str, Image.Image]:
+    async def _gen_card(card_type: str, api_client: genai.Client) -> tuple[str, Image.Image]:
         bg = BACKGROUND_PROMPTS.get(card_type)
 
         if card_type == "hero":
             # Full generation — Gemini can restyle/arrange product beautifully
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
 
         elif card_type == "features":
-            # Inpainting — same product, space for overlays
-            try:
-                img = await inpaint_background(product_image_bytes, bg)
-            except Exception as e:
-                logger.warning(f"Inpainting failed for features, using full gen: {e}")
-                prompt = get_filled_prompt(category, card_type, template_values)
-                img = await generate_image(prompt, product_image_bytes)
+            # Use fast model — features card gets text overlay so quality matters less
+            prompt = get_filled_prompt(category, card_type, template_values)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client, model=FAST_IMAGE_MODEL)
 
         elif card_type == "macro":
             # Use the actual product photo enhanced — or generate macro
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
 
         else:
             # Heritage & Lifestyle — full generation with reference
             prompt = get_filled_prompt(category, card_type, template_values)
-            img = await generate_image(prompt, product_image_bytes)
+            img = await generate_image(prompt, product_image_bytes, api_client=api_client)
 
         img = postprocess(img)
         return (card_type, img)
 
     # Select card types based on num_cards preset
     types_to_gen = CARD_PRESETS.get(num_cards, CARD_TYPES)
-    tasks = [_gen_card(ct) for ct in types_to_gen]
+    # Distribute cards across API keys (round-robin)
+    num_keys = len(_clients)
+    logger.info(f"Generating {len(types_to_gen)} cards across {num_keys} API key(s)")
+    tasks = [_gen_card(ct, _get_client(i)) for i, ct in enumerate(types_to_gen)]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
     cards = {}
-    for result in results:
+    retry_types = []
+    for i, result in enumerate(results):
         if isinstance(result, Exception):
-            logger.error(f"Card generation failed: {result}")
+            logger.warning(f"Card '{types_to_gen[i]}' failed (will retry): {result}")
+            retry_types.append(types_to_gen[i])
             continue
         card_type, img = result
         cards[card_type] = img
+
+    # One retry for failed cards (use a different key than the original)
+    if retry_types:
+        logger.info(f"Retrying {len(retry_types)} failed card(s): {retry_types}")
+        offset = len(types_to_gen)  # shift the index so retries get different keys
+        retry_tasks = [_gen_card(ct, _get_client(offset + i)) for i, ct in enumerate(retry_types)]
+        retry_results = await asyncio.gather(*retry_tasks, return_exceptions=True)
+        for i, result in enumerate(retry_results):
+            if isinstance(result, Exception):
+                logger.error(f"Card '{retry_types[i]}' failed after retry: {result}")
+                continue
+            card_type, img = result
+            cards[card_type] = img
 
     return cards
 

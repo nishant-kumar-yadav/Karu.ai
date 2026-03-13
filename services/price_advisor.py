@@ -71,36 +71,26 @@ async def get_price_advice(
         is_handcrafted="HANDCRAFTED / artisan-made" if is_handcrafted else "MANUFACTURED / factory-made / branded",
     )
 
-    # Use search grounding for real market data
-    try:
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model=FLASH_MODEL,
-            contents=[prompt],
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT"],
-                response_mime_type="application/json",
-                tools=[types.Tool(google_search=types.GoogleSearch())],
-            ),
-        )
-    except Exception:
-        # Fallback without search grounding if not available
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model=FLASH_MODEL,
-            contents=[prompt],
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT"],
-                response_mime_type="application/json",
-            ),
-        )
+    response = await asyncio.to_thread(
+        client.models.generate_content,
+        model=FLASH_MODEL,
+        contents=[prompt],
+        config=types.GenerateContentConfig(
+            response_modalities=["TEXT"],
+            response_mime_type="application/json",
+        ),
+    )
 
     raw = response.text.strip()
     json_match = re.search(r"\{.*\}", raw, re.DOTALL)
     if json_match:
         raw = json_match.group(0)
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Price advice JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {}
 
 
 # ═══════════════════════════════════════════════════════════
@@ -160,4 +150,8 @@ async def negotiate(
     if json_match:
         raw = json_match.group(0)
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.warning(f"Negotiation JSON parse failed: {e}. Raw: {raw[:200]}")
+        return {}

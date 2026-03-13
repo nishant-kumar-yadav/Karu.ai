@@ -62,6 +62,33 @@ def _truncate_text(draw: ImageDraw.Draw, text: str, font: ImageFont.FreeTypeFont
     return text + "..."
 
 
+def _wrap_text(draw: ImageDraw.Draw, text: str, font: ImageFont.FreeTypeFont, max_width: int, max_lines: int = 2) -> list[str]:
+    """Word-wrap text into multiple lines, truncating the last line if needed."""
+    words = text.split()
+    if not words:
+        return [text]
+    lines = []
+    current = words[0]
+    for word in words[1:]:
+        test = current + " " + word
+        bbox = draw.textbbox((0, 0), test, font=font)
+        if bbox[2] - bbox[0] <= max_width:
+            current = test
+        else:
+            lines.append(current)
+            current = word
+            if len(lines) >= max_lines:
+                break
+    if len(lines) < max_lines:
+        lines.append(current)
+    # Truncate last line if we ran out of room
+    if len(lines) == max_lines:
+        leftover_words = words[len(" ".join(lines).split()):]
+        if leftover_words:
+            lines[-1] = _truncate_text(draw, lines[-1] + " " + " ".join(leftover_words), font, max_width)
+    return lines
+
+
 # ═══════════════════════════════════════════════════════════
 # Card 1: Hero Shot — No overlays (clean image)
 # ═══════════════════════════════════════════════════════════
@@ -82,10 +109,17 @@ def create_hero_card(base_image: Image.Image) -> Image.Image:
 
 
 # ═══════════════════════════════════════════════════════════
-# Card 2: Features & Benefits
+# Card 2: Features & Benefits — Solid Panel Layout
 # ═══════════════════════════════════════════════════════════
 
-FEATURE_ICONS = ["⚡", "✦", "◉", "★", "▣"]
+# Accent colors for each feature bullet (cycling teal/gold/navy)
+_BULLET_COLORS = [
+    (0, 150, 136),    # teal
+    (212, 175, 55),   # gold
+    (18, 32, 56),     # navy
+    (0, 150, 136),    # teal
+    (212, 175, 55),   # gold
+]
 
 
 def create_features_card(
@@ -93,85 +127,122 @@ def create_features_card(
     title: str = "PREMIUM FEATURES",
     features: list[str] | None = None,
 ) -> Image.Image:
-    """Add feature title + icon list on the right side with bold branded panel."""
-    img = base_image.copy().convert("RGBA")
+    """
+    Professional feature card: product on left, solid white panel on right.
+    Clean typography, colored bullet accents, no amateur icons.
+    """
+    img = base_image.copy().convert("RGB")
     w, h = img.size
 
-    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(overlay)
+    # ── Step 1: Create solid white right panel ──
+    # This COVERS the right 55% completely — clean white canvas for text
+    panel_x = int(w * 0.42)
+    # Soft gradient edge: blend from image to white over ~3% width
+    blend_start = panel_x - int(w * 0.03)
+    blend_end = panel_x
 
-    # Bold panel on the right — navy background with gold accent
-    panel_x = int(w * 0.52)
-    panel_top = int(h * 0.05)
-    panel_bottom = int(h * 0.95)
-    # Navy panel
-    draw.rounded_rectangle(
-        [(panel_x, panel_top), (w - 20, panel_bottom)],
-        radius=24,
-        fill=(*NAVY, 235),
-    )
-    # Gold accent bar on left edge of panel
-    draw.rectangle(
-        [(panel_x, panel_top + 30), (panel_x + 6, panel_bottom - 30)],
-        fill=(*GOLD, 255),
-    )
+    # Draw white panel
+    panel = Image.new("RGB", (w - blend_start, h), (255, 255, 255))
+    # Create alpha mask for smooth blend
+    mask = Image.new("L", (w - blend_start, h), 255)
+    mask_draw = ImageDraw.Draw(mask)
+    blend_width = blend_end - blend_start
+    for x_off in range(blend_width):
+        alpha = int(255 * (x_off / blend_width))
+        mask_draw.line([(x_off, 0), (x_off, h)], fill=alpha)
+    img.paste(panel, (blend_start, 0), mask)
 
-    # Title — truncated to fit panel
-    title_font = font_bold(int(h * 0.042))
-    title_max_w = (w - 60) - (panel_x + 40)
+    draw = ImageDraw.Draw(img)
+
+    # ── Step 2: Title — bold, dark, top of white area ──
+    text_left = panel_x + int(w * 0.03)
+    text_right = w - int(w * 0.04)
+    title_max_w = text_right - text_left
+
+    title_font = font_bold(int(h * 0.036))
     truncated_title = _truncate_text(draw, title.upper(), title_font, title_max_w)
+    title_y = int(h * 0.06)
     draw.text(
-        (panel_x + 40, int(h * 0.10)),
+        (text_left, title_y),
         truncated_title,
-        fill=(*GOLD, 255),
+        fill=NAVY,
         font=title_font,
     )
 
-    # Divider line (gold)
-    div_y = int(h * 0.17)
+    # Thin teal underline below title
+    title_bbox = draw.textbbox((text_left, title_y), truncated_title, font=title_font)
+    line_y = title_bbox[3] + int(h * 0.015)
     draw.line(
-        [(panel_x + 40, div_y), (w - 60, div_y)],
-        fill=(*GOLD, 180),
-        width=2,
+        [(text_left, line_y), (text_left + int(w * 0.12), line_y)],
+        fill=TEAL,
+        width=3,
     )
 
-    # Feature items
+    # ── Step 3: Feature items — clean bullets + wrapped text ──
     if features is None:
         features = ["Premium Quality", "Handcrafted", "Durable", "Authentic", "Eco-Friendly"]
 
-    feat_font = font_regular(int(h * 0.028))
-    y_offset = int(h * 0.21)
-    line_spacing = int(h * 0.13)
-    max_text_w = (w - 60) - (panel_x + 75)  # right edge - text start
+    num_features = min(len(features), 5)
 
-    for i, feature in enumerate(features[:5]):
-        # Teal dot indicator
-        dot_x = panel_x + 50
-        dot_y = y_offset + i * line_spacing + int(h * 0.012)
+    feat_area_top = line_y + int(h * 0.035)
+    feat_area_bottom = int(h * 0.92)
+    total_feat_h = feat_area_bottom - feat_area_top
+    slot_h = total_feat_h // num_features
+
+    feat_font = font_regular(int(h * 0.025))
+    feat_line_h = int(h * 0.033)
+    bullet_r = int(h * 0.010)  # small clean circle
+
+    for i, feature in enumerate(features[:num_features]):
+        slot_top = feat_area_top + i * slot_h
+        slot_cy = slot_top + slot_h // 2
+
+        # ── Colored bullet circle ──
+        bullet_cx = text_left + bullet_r
+        bullet_cy = slot_cy
+        bullet_color = _BULLET_COLORS[i % len(_BULLET_COLORS)]
         draw.ellipse(
-            [(dot_x - 8, dot_y - 8), (dot_x + 8, dot_y + 8)],
-            fill=(*TEAL, 255),
-        )
-        # Feature text — truncated to fit panel
-        truncated = _truncate_text(draw, feature, feat_font, max_text_w)
-        draw.text(
-            (dot_x + 25, dot_y - int(h * 0.016)),
-            truncated,
-            fill=(*WHITE, 255),
-            font=feat_font,
+            [(bullet_cx - bullet_r, bullet_cy - bullet_r),
+             (bullet_cx + bullet_r, bullet_cy + bullet_r)],
+            fill=bullet_color,
         )
 
-    # Bottom branding
-    brand_font = font_bold(int(h * 0.022))
+        # ── Feature text — word-wrapped, up to 3 lines ──
+        ft_x = bullet_cx + bullet_r + int(w * 0.02)
+        max_text_w = text_right - ft_x
+        lines = _wrap_text(draw, feature, feat_font, max_text_w, max_lines=3)
+
+        text_block_h = len(lines) * feat_line_h
+        text_y = bullet_cy - text_block_h // 2
+
+        for j, line in enumerate(lines):
+            draw.text(
+                (ft_x, text_y + j * feat_line_h),
+                line,
+                fill=(40, 40, 50),  # dark charcoal, not harsh black
+                font=feat_font,
+            )
+
+        # ── Subtle separator line between features ──
+        if i < num_features - 1:
+            sep_y = slot_top + slot_h - 1
+            draw.line(
+                [(text_left, sep_y), (text_right, sep_y)],
+                fill=(230, 230, 230),
+                width=1,
+            )
+
+    # ── Step 4: Bottom branding ──
+    brand_font = font_semibold(int(h * 0.016))
+    brand_text = "VIRAASAT.AI"
     draw.text(
-        (panel_x + 40, panel_bottom - int(h * 0.06)),
-        "VIRAASAT.AI",
-        fill=(*TEAL, 160),
+        (text_left, int(h * 0.95)),
+        brand_text,
+        fill=TEAL,
         font=brand_font,
     )
 
-    img = Image.alpha_composite(img, overlay)
-    return img.convert("RGB")
+    return img
 
 
 # ═══════════════════════════════════════════════════════════
@@ -262,9 +333,6 @@ def create_heritage_card(
     img = Image.alpha_composite(img, overlay)
     return img.convert("RGB")
 
-    img = Image.alpha_composite(img, overlay)
-    return img.convert("RGB")
-
 
 # ═══════════════════════════════════════════════════════════
 # Card 4: Macro / Texture Label
@@ -297,27 +365,27 @@ def create_macro_card(
         fill=(*GOLD, 255), width=3,
     )
 
-    # Main label
-    label_font = font_bold(int(h * 0.034))
+    # Main label — truncate to fit panel
+    label_font = font_bold(int(h * 0.032))
+    label_max_w = panel_w - 50
+    label_text = _truncate_text(draw, texture_label.upper(), label_font, label_max_w)
     draw.text(
         (55, panel_y + int(panel_h * 0.18)),
-        texture_label.upper()[:30],
+        label_text,
         fill=(*WHITE, 255),
         font=label_font,
     )
 
-    # Sub-label (material)
+    # Sub-label (material) — also truncated
     if material:
-        sub_font = font_regular(int(h * 0.024))
+        sub_font = font_regular(int(h * 0.022))
+        mat_text = _truncate_text(draw, material, sub_font, label_max_w)
         draw.text(
             (55, panel_y + int(panel_h * 0.58)),
-            material,
+            mat_text,
             fill=(*TEAL, 240),
             font=sub_font,
         )
-
-    img = Image.alpha_composite(img, overlay)
-    return img.convert("RGB")
 
     img = Image.alpha_composite(img, overlay)
     return img.convert("RGB")
@@ -700,7 +768,16 @@ def apply_overlays(
 
     # Card 4: Macro — texture label
     if "macro" in cards:
-        macro_label = parsed_data.get("macro_focus_area", "") or parsed_data.get("texture_description", "DETAIL CLOSE-UP")
+        raw_macro = parsed_data.get("macro_focus_area", "") or parsed_data.get("texture_description", "")
+        # Extract a short label: take first phrase (before comma/period/—) and cap length
+        if raw_macro:
+            import re as _re
+            short = _re.split(r"[,\.\—\-;]", raw_macro)[0].strip()
+            # If still long, take first 4-5 words
+            words = short.split()
+            macro_label = " ".join(words[:5]) if len(words) > 5 else short
+        else:
+            macro_label = "DETAIL CLOSE-UP"
         result["macro"] = create_macro_card(
             cards["macro"],
             texture_label=macro_label,
