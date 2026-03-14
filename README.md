@@ -163,6 +163,6 @@ Open your browser and navigate to the local portal:
 
 <br>
 
-![Karu.ai Dashboard Preview](https://via.placeholder.com/800x400/1e1e1e/d4af37?text=The+One-Tap+Agency)
+![Karu.ai Dashboard Preview](static/dashboard_preview.png)
 
 </div>
