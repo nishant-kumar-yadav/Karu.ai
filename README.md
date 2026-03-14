@@ -2,9 +2,8 @@
 
 <img src="static/favicon.svg" alt="Karu.ai Logo" width="120" />
 
-# 🪔 Karu.ai (formerly Viraasat.ai)
+# 🪔 Karu.ai
 
-**The One-Tap Digital Agency for India’s 200 Million Artisans & MSMEs.**
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Google Gemini](https://img.shields.io/badge/Gemini%202.5%20Flash-8E75B2?style=for-the-badge&logo=google)](https://ai.google.dev/)
