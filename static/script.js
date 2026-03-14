@@ -305,7 +305,7 @@ function attachListeners() {
   });
   
   els.dashBadge?.parentElement?.addEventListener("click", () => {
-      fetch(\`/profile/\${state.artisanId}\`)
+      fetch(`/profile/${state.artisanId}`)
           .then(r => r.json())
           .then(data => {
               state.profile = data;
@@ -325,12 +325,12 @@ function attachListeners() {
       reader.onload = (ev) => {
         const div = document.createElement("div");
         div.className = "preview-thumbnail";
-        div.innerHTML = \`
-          <img src="\${ev.target.result}" alt="Product \${index + 1}">
-          <button class="remove-btn" type="button" data-idx="\${index}">
+        div.innerHTML = `
+          <img src="${ev.target.result}" alt="Product ${index + 1}">
+          <button class="remove-btn" type="button" data-idx="${index}">
             <i class="bi bi-x"></i>
           </button>
-        \`;
+        `;
         els.photoPreviewArea.appendChild(div);
       };
       reader.readAsDataURL(file);
@@ -445,7 +445,7 @@ function attachListeners() {
       currentResultProductId = productData.product_id;
       
       // We need profile info updated for trust score + dashboard stats
-      const pRes = await fetch(\`/profile/\${state.artisanId}\`);
+      const pRes = await fetch(`/profile/${state.artisanId}`);
       if (pRes.ok) {
         state.profile = await pRes.json();
       }
@@ -483,7 +483,7 @@ function attachListeners() {
   
   els.btnShareWhatsapp?.addEventListener("click", async () => {
       if(!currentResultProductId) return;
-      const res = await fetch(\`/share/whatsapp/\${currentResultProductId}\`);
+      const res = await fetch(`/share/whatsapp/${currentResultProductId}`);
       const data = await res.json();
       if(data.deep_link) {
           window.open(data.deep_link, '_blank');
@@ -494,7 +494,7 @@ function attachListeners() {
 
   els.btnShareInstagram?.addEventListener("click", async () => {
       if(!currentResultProductId) return;
-      const res = await fetch(\`/share/instagram/\${currentResultProductId}\`);
+      const res = await fetch(`/share/instagram/${currentResultProductId}`);
       const data = await res.json();
       alert("Caption copied to clipboard ready for Instagram!\n\n" + data.caption.substring(0, 100) + "...");
   });
@@ -508,10 +508,10 @@ function populateDashboard() {
   if (!p) return;
 
   const names = p.name.split(" ");
-  els.dashGreeting.textContent = \`Good Evening, \${names[0]}\`;
+  els.dashGreeting.textContent = `Good Evening, ${names[0]}`;
   
   els.dashName.textContent = p.name;
-  els.dashLocation.textContent = \`\${p.district}, \${p.state}\`;
+  els.dashLocation.textContent = `${p.district}, ${p.state}`;
   
   if (p.monogram_url) {
     els.dashMonogram.src = p.monogram_url + "?t=" + new Date().getTime();
@@ -546,8 +546,8 @@ function populateDashboard() {
       badgeClass = "badge-teal";
   }
   
-  els.dashBadge.innerHTML = \`<i class="bi bi-patch-check"></i> \${badgeLabel}\`;
-  els.dashBadge.className = \`badge \${badgeClass}\`;
+  els.dashBadge.innerHTML = `<i class="bi bi-patch-check"></i> ${badgeLabel}`;
+  els.dashBadge.className = `badge ${badgeClass}`;
 }
 
 // ==============================================
@@ -559,16 +559,16 @@ function populateResults(data) {
   data.cards.forEach(card => {
     const div = document.createElement("div");
     div.className = "result-card-item";
-    div.innerHTML = \`
-      <img src="/output/\${card.filename}" alt="\${card.card_type}">
-      <div class="result-card-label">\${formatCardType(card.card_type)}</div>
-    \`;
+    div.innerHTML = `
+      <img src="/output/${card.filename}" alt="${card.card_type}">
+      <div class="result-card-label">${formatCardType(card.card_type)}</div>
+    `;
     els.resultsGrid.appendChild(div);
   });
   
   // 2. Trust Score
   const score = Math.round(data.trust_score);
-  els.trustScoreCircle.innerHTML = \`<strong>\${score}</strong><span>/100</span>\`;
+  els.trustScoreCircle.innerHTML = `<strong>${score}</strong><span>/100</span>`;
   
   if (score >= 80) {
       els.trustLabel.innerHTML = '<i class="bi bi-shield-fill-check"></i> High Authenticity';
@@ -582,17 +582,17 @@ function populateResults(data) {
   // 3. Pricing
   const parsed = data.parsed_data;
   if (parsed.price_recommended) {
-      els.priceDisplay.innerHTML = \`
-          <span class="currency">₹</span><span class="amount">\${parsed.price_recommended}</span>
+      els.priceDisplay.innerHTML = `
+          <span class="currency">₹</span><span class="amount">${parsed.price_recommended}</span>
           <br><small style="font-size: 0.6em; font-weight: 500; color: #7e8ca4;">Recommended Retail</small>
-      \`;
+      `;
   } else if (parsed.price_artisan_asked) {
-      els.priceDisplay.innerHTML = \`
-          <span class="currency">₹</span><span class="amount">\${parsed.price_artisan_asked}</span>
+      els.priceDisplay.innerHTML = `
+          <span class="currency">₹</span><span class="amount">${parsed.price_artisan_asked}</span>
           <br><small style="font-size: 0.6em; font-weight: 500; color: #7e8ca4;">Artisan Asked</small>
-      \`;
+      `;
   } else {
-      els.priceDisplay.innerHTML = \`<span class="amount" style="font-size: 1.2rem">AI Analyzing...</span>\`;
+      els.priceDisplay.innerHTML = `<span class="amount" style="font-size: 1.2rem">AI Analyzing...</span>`;
   }
   
   // 4. SEO Tags
