@@ -24,3 +24,5 @@ Thumbs.db
 
 # Fonts (large binary files — download separately)
 static/fonts/*.ttf
+
+venv/

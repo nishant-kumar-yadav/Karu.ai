@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0d0905" />
-  <meta name="description" content="KARU.ai helps artisans launch digital storefronts with AI-generated product listings, pricing insights, and share-ready assets." />
+  <meta name="description"
+    content="KARU.ai helps artisans launch digital storefronts with AI-generated product listings, pricing insights, and share-ready assets." />
   <title>KARU.ai — AI Digital Agency for Artisans</title>
 
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
+
 <body>
   <div class="ambient" aria-hidden="true">
     <div class="orb orb-1"></div>
@@ -24,7 +29,75 @@
   <div class="grid-lines" aria-hidden="true"></div>
 
   <div class="app">
-    <!-- ─── TOPNAV ──────────────────────────────── -->
+    <!-- ─── SIDEBAR ──────────────────────────────── -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button class="theme-btn" id="sidebar-close" style="width: 32px; height: 32px; font-size: 0.8rem;"><i
+            class="bi bi-x-lg"></i></button>
+      </div>
+
+      <!-- Login drawer (unauthenticated) -->
+      <div id="sidebar-unauth" class="sidebar-content" style="padding: 0 24px;">
+        <div class="gold-card auth-card" style="padding: 24px;">
+          <h2 class="auth-h2" style="font-size: 1.4rem;">Already signed up?<br>Login here</h2>
+          <div class="form-group" style="margin-top:20px;">
+            <label class="form-label">Mobile Number</label>
+            <div class="phone-field">
+              <div class="phone-prefix">+91</div>
+              <input type="tel" id="sb-phone" placeholder="98765 43210" />
+            </div>
+          </div>
+          <button class="btn btn-primary" id="sb-btn-send" style="min-height: 44px; font-size: 0.85rem;">Send
+            OTP</button>
+
+          <div id="sb-otp-section" style="display:none; margin-top:20px;">
+            <label class="form-label">Enter OTP</label>
+            <input type="text" id="sb-otp"
+              style="text-align:center; letter-spacing: 0.5em; font-size: 1.5rem; padding: 10px;" maxlength="6" />
+            <button class="btn btn-primary" id="sb-btn-login"
+              style="margin-top:15px; min-height: 44px; font-size: 0.85rem;">Login</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artisan profile (authenticated) -->
+      <div id="sidebar-auth" class="sidebar-content" style="display:none; padding: 0 24px;">
+        <div class="glass-card dash-card" style="padding: 24px;">
+          <div class="card-eyebrow">Artisan Identity</div>
+          <div class="artisan-top">
+            <div id="dash-avatar-wrap">
+              <div class="artisan-avatar-placeholder" id="dash-monogram-placeholder">A</div>
+              <img id="dash-monogram" class="artisan-avatar hidden" src="" alt="Artisan" />
+            </div>
+            <div class="artisan-meta">
+              <h2 id="dash-name">Artisan Name</h2>
+              <p class="artisan-location" id="dash-location">District, State</p>
+              <div class="artisan-badge"><i class="bi bi-award"></i> <span id="dash-badge">New Artisan</span></div>
+            </div>
+          </div>
+          <div class="progress-row">
+            <span>Profile Completion</span>
+            <strong><span id="dash-percent">0</span>%</strong>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="dash-progress" style="width: 0%"></div>
+          </div>
+          <div class="stats-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px;">
+            <div class="stat-box"><strong id="stat-listings">0</strong><span>Total Listings</span></div>
+            <div class="stat-box"><strong id="stat-shares">0</strong><span>Total Shares</span></div>
+          </div>
+          <button class="btn btn-outline" style="width: 100%; margin-bottom: 22px; font-size: 0.85rem;" id="btn-view-id-card">
+            <i class="bi bi-person-vcard"></i> View Digital Identity Card
+          </button>
+          
+          <div class="card-eyebrow">Profile Setup</div>
+          <div id="profile-checklist" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-soft);">
+          </div>
+        </div>
+      </div>
+    </aside>
+
     <header class="topnav">
       <div class="topnav-inner">
         <div class="topnav-left">
@@ -47,8 +120,15 @@
             <div class="status-dot"></div>
             <span>Live Platform</span>
           </div>
+          <button class="theme-btn" id="lang-toggle" type="button" aria-label="Toggle language"
+            style="font-family: var(--font-body); font-weight: 700; font-size: 0.85rem;">
+            हिं
+          </button>
           <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
             <i class="bi bi-sun"></i>
+          </button>
+          <button class="theme-btn" id="menu-toggle" type="button" aria-label="Menu">
+            <i class="bi bi-list"></i>
           </button>
         </div>
       </div>
@@ -69,25 +149,30 @@
               Build a <em>premium digital storefront</em> for every handmade product.
             </h1>
             <p class="hero-body">
-              KARU.ai helps artisans create polished product cards, pricing ideas, storytelling copy, and share-ready assets in minutes — all from a simple phone-first workflow.
+              KARU.ai helps artisans create polished product cards, pricing ideas, storytelling copy, and share-ready
+              assets in minutes — all from a simple phone-first workflow.
             </p>
 
             <div class="hero-features">
               <div class="hero-feat">
                 <div class="hero-feat-icon"><i class="bi bi-image"></i></div>
-                <div class="hero-feat-text"><strong>AI Visual Cards</strong><span>Generate clean, premium commerce creatives instantly</span></div>
+                <div class="hero-feat-text"><strong>AI Visual Cards</strong><span>Generate clean, premium commerce
+                    creatives instantly</span></div>
               </div>
               <div class="hero-feat">
                 <div class="hero-feat-icon"><i class="bi bi-translate"></i></div>
-                <div class="hero-feat-text"><strong>Multilingual</strong><span>Describe products in voice or text, any language</span></div>
+                <div class="hero-feat-text"><strong>Multilingual</strong><span>Describe products in voice or text, any
+                    language</span></div>
               </div>
               <div class="hero-feat">
                 <div class="hero-feat-icon"><i class="bi bi-cash-coin"></i></div>
-                <div class="hero-feat-text"><strong>Smart Pricing</strong><span>AI-suggested price ranges for your craft</span></div>
+                <div class="hero-feat-text"><strong>Smart Pricing</strong><span>AI-suggested price ranges for your
+                    craft</span></div>
               </div>
               <div class="hero-feat">
                 <div class="hero-feat-icon"><i class="bi bi-share"></i></div>
-                <div class="hero-feat-text"><strong>Share-Ready</strong><span>WhatsApp, Instagram, and landing page assets</span></div>
+                <div class="hero-feat-text"><strong>Share-Ready</strong><span>WhatsApp, Instagram, and landing page
+                    assets</span></div>
               </div>
             </div>
 
@@ -114,13 +199,15 @@
                 <span class="icon"><i class="bi bi-phone"></i></span>
                 Continue with Phone
               </h2>
-              <p class="auth-sub">Enter your mobile number to receive a one-time verification code. Used only for secure account access.</p>
+              <p class="auth-sub">Enter your mobile number to receive a one-time verification code. Used only for secure
+                account access.</p>
 
               <div class="form-group">
                 <label class="form-label" for="inp-phone">Mobile Number</label>
                 <div class="phone-field">
                   <div class="phone-prefix"><i class="bi bi-geo-alt"></i> IN <strong>+91</strong></div>
-                  <input type="tel" id="inp-phone" placeholder="98765 43210" inputmode="numeric" autocomplete="tel-national" />
+                  <input type="tel" id="inp-phone" placeholder="98765 43210" inputmode="numeric"
+                    autocomplete="tel-national" />
                 </div>
               </div>
 
@@ -184,7 +271,8 @@
               Verify &amp; Continue
             </button>
 
-            <p class="form-hint" style="margin-top: 16px; text-align: center;"><i class="bi bi-info-circle"></i> For demo, enter any 6 digits</p>
+            <p class="form-hint" style="margin-top: 16px; text-align: center;"><i class="bi bi-info-circle"></i> For
+              demo, enter any 6 digits</p>
           </div>
         </div>
       </section>
@@ -197,7 +285,8 @@
             <div class="glass-card profile-aside">
               <div class="profile-aside-icon"><i class="bi bi-person-badge"></i></div>
               <h3>Create Your Artisan Identity</h3>
-              <p>Add your details, choose your craft, and upload a photo to make your storefront feel trusted, human, and premium.</p>
+              <p>Add your details, choose your craft, and upload a photo to make your storefront feel trusted, human,
+                and premium.</p>
               <div class="profile-aside-points">
                 <div><i class="bi bi-check2-circle"></i><span>Personal brand identity</span></div>
                 <div><i class="bi bi-check2-circle"></i><span>Professional storefront feel</span></div>
@@ -218,7 +307,8 @@
             <div class="auth-card-label">Step 3 of 4 — Profile Setup</div>
 
             <h2 id="profile-title"><i class="bi bi-person"></i> Your Profile</h2>
-            <p class="auth-sub" style="margin-bottom: 24px;">Fill in your details to personalise your artisan storefront.</p>
+            <p class="auth-sub" style="margin-bottom: 24px;">Fill in your details to personalise your artisan
+              storefront.</p>
 
             <!-- Photo upload -->
             <div class="photo-block">
@@ -291,7 +381,8 @@
                 <button class="chip" type="button" data-val="pottery"><i class="bi bi-bank"></i> Pottery</button>
                 <button class="chip" type="button" data-val="jewelry"><i class="bi bi-gem"></i> Jewelry</button>
                 <button class="chip" type="button" data-val="woodwork"><i class="bi bi-tree"></i> Woodwork</button>
-                <button class="chip" type="button" data-val="metalwork"><i class="bi bi-wrench-adjustable-circle"></i> Metalwork</button>
+                <button class="chip" type="button" data-val="metalwork"><i class="bi bi-wrench-adjustable-circle"></i>
+                  Metalwork</button>
                 <button class="chip" type="button" data-val="leather"><i class="bi bi-handbag"></i> Leather</button>
                 <button class="chip" type="button" data-val="paintings"><i class="bi bi-palette"></i> Paintings</button>
                 <button class="chip" type="button" data-val="generic"><i class="bi bi-grid"></i> Other</button>
@@ -336,86 +427,20 @@
               <div class="dash-hero-copy">
                 <div class="dash-hero-badge"><i class="bi bi-stars"></i> AI Studio Active</div>
                 <h1 id="dashboard-greeting">Good Evening, Artisan</h1>
-                <p class="dash-hero-desc">Your AI-powered digital agency — generate listings, pricing insights, and share-ready assets in minutes.</p>
+                <p class="dash-hero-desc">Your AI-powered digital agency — generate listings, pricing insights, and
+                  share-ready assets in minutes.</p>
                 <div class="dash-hero-tags">
                   <span class="dash-hero-tag"><i class="bi bi-lightning-charge"></i> Fast workflow</span>
                   <span class="dash-hero-tag"><i class="bi bi-shield-check"></i> Smart generation</span>
                   <span class="dash-hero-tag"><i class="bi bi-palette"></i> Premium visuals</span>
                 </div>
               </div>
-              <div class="dash-hero-stats">
-                <div class="dash-hero-stat highlight">
-                  <strong id="hero-stat-listings">0</strong>
-                  <span>Listings</span>
-                </div>
-                <div class="dash-hero-stat">
-                  <strong id="hero-stat-profile">0%</strong>
-                  <span>Profile</span>
-                </div>
-                <div class="dash-hero-stat">
-                  <strong>Live</strong>
-                  <span>Studio</span>
-                </div>
-                <div class="dash-hero-stat">
-                  <strong id="hero-stat-streak">0</strong>
-                  <span>Streak</span>
-                </div>
+              <div class="dash-hero-stats" id="dash-hero-stats-container">
               </div>
             </div>
           </div>
 
-          <!-- 3-col grid -->
           <div class="dash-grid">
-            <!-- Left panel -->
-            <div class="dash-panel">
-              <!-- Artisan Identity -->
-              <div class="glass-card dash-card">
-                <div class="card-eyebrow">Artisan Identity</div>
-                <div class="artisan-top">
-                  <div id="dash-avatar-wrap">
-                    <div class="artisan-avatar-placeholder" id="dash-monogram-placeholder">A</div>
-                    <img id="dash-monogram" class="artisan-avatar hidden" src="" alt="Artisan" />
-                  </div>
-                  <div class="artisan-meta">
-                    <h2 id="dash-name">Artisan Name</h2>
-                    <p class="artisan-location" id="dash-location">District, State</p>
-                    <div class="artisan-badge"><i class="bi bi-award"></i> <span id="dash-badge">New Artisan</span></div>
-                  </div>
-                </div>
-
-                <div class="progress-row">
-                  <span>Profile Completion</span>
-                  <strong><span id="dash-percent">0</span>%</strong>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" id="dash-progress" style="width: 0%"></div></div>
-
-                <div class="stats-3">
-                  <div class="stat-box"><strong id="stat-listings">0</strong><span>Listings</span></div>
-                  <div class="stat-box"><strong id="stat-drafts">0</strong><span>Drafts</span></div>
-                  <div class="stat-box"><strong id="stat-shares">0</strong><span>Shares</span></div>
-                </div>
-
-                <div class="card-eyebrow">Achievements</div>
-                <div class="achieve-pills">
-                  <span class="achieve-pill"><i class="bi bi-award"></i> New Artisan</span>
-                  <span class="achieve-pill"><i class="bi bi-lightning-charge"></i> AI Ready</span>
-                  <span class="achieve-pill"><i class="bi bi-brush"></i> Creative</span>
-                  <span class="achieve-pill"><i class="bi bi-globe2"></i> Multilingual</span>
-                </div>
-              </div>
-
-              <!-- Quick Actions -->
-              <div class="glass-card dash-card">
-                <div class="card-eyebrow">Quick Actions</div>
-                <div class="card-h3">Shortcuts</div>
-                <div class="quick-actions">
-                  <button class="quick-action-btn" type="button"><i class="bi bi-file-earmark-plus"></i><span>New Draft</span></button>
-                  <button class="quick-action-btn" type="button"><i class="bi bi-grid-3x3-gap"></i><span>Templates</span></button>
-                  <button class="quick-action-btn" type="button"><i class="bi bi-bar-chart-line"></i><span>Insights</span></button>
-                  <button class="quick-action-btn" type="button"><i class="bi bi-share"></i><span>Share</span></button>
-                </div>
-              </div>
-            </div>
 
             <!-- Center panel -->
             <div class="dash-panel">
@@ -424,8 +449,11 @@
                 <div class="studio-header">
                   <div>
                     <div class="card-eyebrow">AI Product Studio</div>
-                    <h2 style="font-family: var(--font-display); font-size: 26px; font-weight: 600; margin-bottom: 6px;">Create New Listing</h2>
-                    <p style="font-size: 13px; color: var(--text-2);">Upload product photos, describe the craft, and let KARU.ai generate premium commerce-ready cards.</p>
+                    <h2
+                      style="font-family: var(--font-display); font-size: 26px; font-weight: 600; margin-bottom: 6px;">
+                      Create New Listing</h2>
+                    <p style="font-size: 13px; color: var(--text-2);">Upload product photos, describe the craft, and let
+                      KARU.ai generate premium commerce-ready cards.</p>
                   </div>
                   <div class="studio-live-pill"><i class="bi bi-magic"></i> Smart Generate</div>
                 </div>
@@ -437,7 +465,8 @@
                 </div>
 
                 <!-- Upload zone -->
-                <div class="upload-zone" id="upload-trigger" role="button" tabindex="0" aria-label="Upload product photos">
+                <div class="upload-zone" id="upload-trigger" role="button" tabindex="0"
+                  aria-label="Upload product photos">
                   <i class="bi bi-cloud-arrow-up upload-icon"></i>
                   <h3>Upload Product Photos</h3>
                   <p>Add 1–5 images for better product storytelling</p>
@@ -455,7 +484,8 @@
                 <div class="form-group">
                   <label class="form-label" for="inp-voice">Describe your product / उत्पाद का विवरण</label>
                   <div class="voice-wrap">
-                    <textarea id="inp-voice" placeholder="Example: Handmade clay diya with traditional design, मिट्टी से बना handmade diya, festive use, warm earthy finish..."></textarea>
+                    <textarea id="inp-voice"
+                      placeholder="Example: Handmade clay diya with traditional design, मिट्टी से बना handmade diya, festive use, warm earthy finish..."></textarea>
                     <button class="btn-mic" id="btn-mic" type="button" title="Speak">
                       <i class="bi bi-mic-fill"></i>
                     </button>
@@ -477,9 +507,12 @@
                   <div class="form-group">
                     <label class="form-label">Card Output Style</label>
                     <div class="card-count-row" id="card-count-row">
-                      <button type="button" data-count="3" class="card-count-btn active"><strong>3</strong><span>Quick</span></button>
-                      <button type="button" data-count="4" class="card-count-btn"><strong>4</strong><span>Standard</span></button>
-                      <button type="button" data-count="5" class="card-count-btn"><strong>5</strong><span>Full</span></button>
+                      <button type="button" data-count="3"
+                        class="card-count-btn active"><strong>3</strong><span>Quick</span></button>
+                      <button type="button" data-count="4"
+                        class="card-count-btn"><strong>4</strong><span>Standard</span></button>
+                      <button type="button" data-count="5"
+                        class="card-count-btn"><strong>5</strong><span>Full</span></button>
                     </div>
                   </div>
                 </div>
@@ -517,11 +550,10 @@
 
             <!-- Right panel -->
             <div class="dash-panel">
-              <!-- AI Assistant -->
+              <!-- Smart Suggestions -->
               <div class="glass-card dash-card">
                 <div class="section-row">
                   <div>
-                    <div class="card-eyebrow">AI Assistant</div>
                     <div class="card-h3" style="margin-bottom: 0;">Smart Suggestions</div>
                   </div>
                   <div class="section-row-icon"><i class="bi bi-stars"></i></div>
@@ -529,52 +561,38 @@
                 <div class="assistant-tips" id="assistant-suggestions">
                   <div class="assistant-tip">
                     <i class="bi bi-check2-circle"></i>
-                    <div><strong>Add a close-up image</strong><p>Texture shots improve listing quality and buyer trust significantly.</p></div>
+                    <div><strong>Add a close-up image</strong>
+                      <p>Texture shots improve listing quality and buyer trust significantly.</p>
+                    </div>
                   </div>
                   <div class="assistant-tip">
                     <i class="bi bi-translate"></i>
-                    <div><strong>Multilingual ready</strong><p>Your workflow supports Hindi and English-friendly product copy.</p></div>
+                    <div><strong>Multilingual ready</strong>
+                      <p>Your workflow supports Hindi and English-friendly product copy.</p>
+                    </div>
                   </div>
                   <div class="assistant-tip">
                     <i class="bi bi-grid-1x2"></i>
-                    <div><strong>Best format: Standard</strong><p>4-card output balances speed, detail, and elegant storytelling.</p></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Quality Score -->
-              <div class="glass-card dash-card">
-                <div class="card-eyebrow">Quality Overview</div>
-                <div class="quality-wrap">
-                  <div class="quality-circle" id="quality-circle" style="--pct: 86;">
-                    <div class="quality-circle-inner">
-                      <strong id="quality-score-number">86</strong>
-                      <span>/100</span>
+                    <div><strong>Best format: Standard</strong>
+                      <p>4-card output balances speed, detail, and elegant storytelling.</p>
                     </div>
                   </div>
-                  <div class="quality-label">
-                    <h4>Studio Quality Score</h4>
-                    <p>Better images and descriptions improve the output quality.</p>
+                  <div class="assistant-tip">
+                    <i class="bi bi-mic"></i>
+                    <div><strong>Use Voice Descriptions</strong>
+                      <p>Speak naturally in your dialect. The AI will capture the best details automatically.</p>
+                    </div>
                   </div>
-                </div>
-                <div class="quality-checks">
-                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Photo count</span></div>
-                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Description strength</span></div>
-                  <div class="quality-check"><i class="bi bi-check-circle"></i><span>Craft clarity</span></div>
+                  <div class="assistant-tip">
+                    <i class="bi bi-brightness-high"></i>
+                    <div><strong>Natural Lighting</strong>
+                      <p>Photograph items near a window. Good lighting helps the AI stage the background perfectly.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Suggested Modes -->
-              <div class="glass-card dash-card">
-                <div class="card-eyebrow">Suggested Modes</div>
-                <div class="template-pills-wrap">
-                  <span class="template-pill">Traditional</span>
-                  <span class="template-pill">Luxury</span>
-                  <span class="template-pill">Minimal</span>
-                  <span class="template-pill">Festival</span>
-                  <span class="template-pill">Heritage</span>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -586,14 +604,18 @@
 
           <!-- Populated state -->
           <div class="glass-card dash-card" id="past-products" style="display: none; min-height: 400px; padding: 40px;">
-            <h2 id="listed-results-title" style="font-family: var(--font-display); font-size: 2.2rem; color: var(--heading); margin-bottom: 5px;">Listed Results</h2>
-            <p style="color: var(--text-soft); margin-bottom: 30px;">Your previously generated product listings and landing pages.</p>
+            <h2 id="listed-results-title"
+              style="font-family: var(--font-display); font-size: 2.2rem; color: var(--heading); margin-bottom: 5px;">
+              Listed Results</h2>
+            <p style="color: var(--text-soft); margin-bottom: 30px;">Your previously generated product listings and
+              landing pages.</p>
             <div id="past-products-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
           </div>
 
           <!-- Empty state -->
           <div id="no-past-products" class="glass-card dash-card" style="text-align: center; padding: 80px 20px;">
-            <i class="bi bi-box-seam" style="font-size: 3.5rem; color: var(--gold-light); margin-bottom: 15px; display: block;"></i>
+            <i class="bi bi-box-seam"
+              style="font-size: 3.5rem; color: var(--gold-light); margin-bottom: 15px; display: block;"></i>
             <h3 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--heading);">No listings yet</h3>
             <p style="color: var(--text-soft); margin-top: 10px;">Generate your first product in the Home tab.</p>
           </div>
@@ -609,17 +631,23 @@
             <div>
               <div class="results-success-badge"><i class="bi bi-stars"></i> AI Listing Generated Successfully</div>
               <h1 id="results-title">Listing Ready!</h1>
-              <p>Your professional e-commerce assets are ready. Review cards, pricing, SEO keywords, and heritage story before sharing.</p>
+              <p>Your professional e-commerce assets are ready. Review cards, pricing, SEO keywords, and heritage story
+                before sharing.</p>
               <div class="results-meta-pills">
-                <div class="results-meta-pill"><i class="bi bi-images"></i><span id="results-card-count">0 Cards</span></div>
-                <div class="results-meta-pill"><i class="bi bi-clock-history"></i><span><strong id="result-time">0</strong>s generation time</span></div>
+                <div class="results-meta-pill"><i class="bi bi-images"></i><span id="results-card-count">0 Cards</span>
+                </div>
+                <div class="results-meta-pill"><i class="bi bi-clock-history"></i><span><strong
+                      id="result-time">0</strong>s generation time</span></div>
                 <div class="results-meta-pill"><i class="bi bi-patch-check"></i><span>Ready to share</span></div>
               </div>
             </div>
             <div class="results-summary">
-              <div class="results-summary-stat"><strong id="result-price-main">₹0</strong><span>Recommended Price</span></div>
-              <div class="results-summary-stat"><strong id="result-keyword-count">0</strong><span>SEO Keywords</span></div>
-              <div class="results-summary-stat"><strong id="result-feature-count">0</strong><span>Key Features</span></div>
+              <div class="results-summary-stat"><strong id="result-price-main">₹0</strong><span>Recommended Price</span>
+              </div>
+              <div class="results-summary-stat"><strong id="result-keyword-count">0</strong><span>SEO Keywords</span>
+              </div>
+              <div class="results-summary-stat"><strong id="result-feature-count">0</strong><span>Key Features</span>
+              </div>
             </div>
           </div>
         </div>
@@ -648,7 +676,8 @@
                     <div class="price-big" id="result-price">₹0</div>
                     <div class="price-range" id="result-price-range">Market range: ₹0 — ₹0</div>
                   </div>
-                  <div class="price-insight"><i class="bi bi-graph-up-arrow"></i><span>Balanced pricing based on craft positioning and quality.</span></div>
+                  <div class="price-insight"><i class="bi bi-graph-up-arrow"></i><span>Balanced pricing based on craft
+                      positioning and quality.</span></div>
                 </div>
 
                 <div class="glass-card result-card" id="result-keywords-card">
@@ -685,13 +714,20 @@
                   <div class="section-row-icon"><i class="bi bi-send-check"></i></div>
                 </div>
                 <div class="share-row">
-                  <button class="btn btn-whatsapp" type="button" data-share="whatsapp"><i class="bi bi-whatsapp"></i> WhatsApp</button>
-                  <button class="btn btn-instagram" type="button" data-share="instagram"><i class="bi bi-instagram"></i> Instagram</button>
+                  <button class="btn btn-whatsapp" type="button" data-share="whatsapp"><i class="bi bi-whatsapp"></i>
+                    WhatsApp</button>
+                  <button class="btn btn-instagram" type="button" data-share="instagram"><i class="bi bi-instagram"></i>
+                    Instagram</button>
                 </div>
                 <div class="share-actions">
-                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="landing"><i class="bi bi-globe2"></i> Open Landing Page</button>
-                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="download"><i class="bi bi-download"></i> Download Kit</button>
-                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button" data-share="brand-card"><i class="bi bi-person-vcard"></i> Open Brand Card</button>
+                  <button class="btn btn-fb" style="width: 100%; justify-content: flex-start;" type="button"
+                    data-share="facebook" id="btn-share-fb"><i class="bi bi-facebook"></i> Share to Facebook</button>
+                  <button class="btn btn-pin" style="width: 100%; justify-content: flex-start;" type="button"
+                    data-share="pinterest" id="btn-share-pin"><i class="bi bi-pinterest"></i> Share to Pinterest</button>
+                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button"
+                    data-share="download"><i class="bi bi-download"></i> Download Kit</button>
+                  <button class="btn btn-outline" style="width: 100%; justify-content: flex-start;" type="button"
+                    data-share="brand-card"><i class="bi bi-person-vcard"></i> Open Brand Card</button>
                 </div>
               </div>
 
@@ -699,7 +735,8 @@
               <div class="glass-card result-card">
                 <div class="card-eyebrow"><i class="bi bi-shield-check"></i> Traceability</div>
                 <div class="card-h3">Generation Metadata</div>
-                <div class="provenance-line"><span>Processing Time</span><strong><span id="result-time-side">0</span>s</strong></div>
+                <div class="provenance-line"><span>Processing Time</span><strong><span
+                      id="result-time-side">0</span>s</strong></div>
                 <div class="provenance-line"><span>Provenance Hash</span><code id="result-hash">—</code></div>
               </div>
 
@@ -830,7 +867,14 @@
       lightboxThumbs: $("#lightbox-thumbs"),
 
       mainNav: $("#main-nav"),
-      noPastProducts: $("#no-past-products")
+      noPastProducts: $("#no-past-products"),
+
+      menuToggle: $("#menu-toggle"),
+      sidebarOverlay: $("#sidebar-overlay"),
+      sidebar: $("#sidebar"),
+      sidebarClose: $("#sidebar-close"),
+      sidebarUnauth: $("#sidebar-unauth"),
+      sidebarAuth: $("#sidebar-auth")
     };
 
     /* ─── THEME ─────────────────────────────────── */
@@ -877,6 +921,34 @@
       el.toast._t = setTimeout(() => el.toast.classList.remove("show"), 3000);
     }
 
+    /* ─── TRANSLATION ───────────────────────── */
+    function toggleLanguage() {
+      const select = document.querySelector(".goog-te-combo");
+      if (!select) {
+        showToast("Loading translator...");
+        let attempts = 0;
+        const poll = setInterval(() => {
+          const s = document.querySelector(".goog-te-combo");
+          if (s) { clearInterval(poll); doToggle(s); }
+          if (++attempts > 20) { clearInterval(poll); showToast("Translator unavailable. Try refreshing."); }
+        }, 500);
+        return;
+      }
+      doToggle(select);
+    }
+    function doToggle(select) {
+      const langBtn = document.getElementById("lang-toggle");
+      const isCurrentlyHindi = langBtn.textContent.trim() === "EN";
+      if (isCurrentlyHindi) {
+        select.value = "en";
+        langBtn.textContent = "हिं";
+      } else {
+        select.value = "hi";
+        langBtn.textContent = "EN";
+      }
+      select.dispatchEvent(new Event("change"));
+    }
+
     /* ─── API ───────────────────────────────────── */
     async function apiGet(path) {
       const res = await fetch(API + path);
@@ -895,7 +967,7 @@
       return h < 12 ? "Good Morning" : h < 17 ? "Good Afternoon" : "Good Evening";
     }
     function sanitize(v) {
-      return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+      return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
     /* ─── OTP ───────────────────────────────────── */
@@ -905,7 +977,7 @@
       el.otpDigits.forEach((input, idx) => {
         input.setAttribute("autocomplete", "one-time-code");
         input.addEventListener("input", e => {
-          const c = e.target.value.replace(/\D/g,"").slice(0,1);
+          const c = e.target.value.replace(/\D/g, "").slice(0, 1);
           e.target.value = c; syncOtp();
           if (c && idx < el.otpDigits.length - 1) el.otpDigits[idx + 1].focus();
         });
@@ -917,7 +989,7 @@
         });
         input.addEventListener("paste", e => {
           e.preventDefault();
-          const p = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g,"").slice(0,6);
+          const p = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 6);
           if (!p) return;
           el.otpDigits.forEach((box, i) => { box.value = p[i] || ""; });
           syncOtp();
@@ -945,9 +1017,9 @@
 
     /* ─── AUTH FLOWS ─────────────────────────────── */
     async function doRegister() {
-      const raw = el.inpPhone.value.replace(/\s/g,"").trim();
+      const raw = el.inpPhone.value.replace(/\s/g, "").trim();
       const phone = raw.startsWith("+91") ? raw : `+91${raw}`;
-      if (phone.replace(/\D/g,"").length < 12) { showToast("Enter a valid phone number"); return; }
+      if (phone.replace(/\D/g, "").length < 12) { showToast("Enter a valid phone number"); return; }
       try {
         showLoading("Sending verification code...", "Secure OTP delivery");
         const data = await apiPost("/auth/register", { phone });
@@ -1030,6 +1102,8 @@
 
     async function showDashboard() {
       if (el.mainNav) el.mainNav.style.display = "flex";
+      if (el.sidebarUnauth) el.sidebarUnauth.style.display = "none";
+      if (el.sidebarAuth) el.sidebarAuth.style.display = "block";
       showScreen("screen-dashboard");
       const profile = state.profile || {};
       const name = profile.name || "Artisan Name";
@@ -1055,14 +1129,19 @@
       }
 
       let completion = 0, listingsCount = 0;
-      try { const c = await apiGet(`/auth/profile/${state.artisanId}/completion`); completion = Number(c.percentage || 0); } catch (_) {}
+      try { const c = await apiGet(`/auth/profile/${state.artisanId}/completion`); completion = Number(c.percentage || 0); } catch (_) { }
       try {
         const prods = await apiGet(`/products/artisan/${state.artisanId}`);
         const products = prods.products || [];
         listingsCount = Number(prods.count || products.length || 0);
         
+        // Save the latest product ID to generate the ID card
+        if (products.length > 0) {
+          state.latestProductId = products[0].id;
+        }
+
         const noProdsEl = el.noPastProducts;
-        
+
         if (listingsCount > 0) {
           if (el.pastProducts) el.pastProducts.style.display = "block";
           if (noProdsEl) noProdsEl.style.display = "none";
@@ -1080,21 +1159,47 @@
               </div>
             `).join("");
           }
-        } else { 
-          if (el.pastProducts) el.pastProducts.style.display = "none"; 
+        } else {
+          if (el.pastProducts) el.pastProducts.style.display = "none";
           if (noProdsEl) noProdsEl.style.display = "block";
         }
-      } catch (_) { 
-        if (el.pastProducts) el.pastProducts.style.display = "none"; 
+      } catch (_) {
+        if (el.pastProducts) el.pastProducts.style.display = "none";
         if (el.noPastProducts) el.noPastProducts.style.display = "block";
       }
 
-      updateStats({ listings: listingsCount, completion, drafts: Math.max(0, Math.floor(listingsCount / 2)), shares: Math.max(0, listingsCount * 3) });
+      if (el.statListings) el.statListings.textContent = listingsCount;
+      if (el.statShares) el.statShares.textContent = listingsCount * 3; // Estimated reach
+
+      // Dynamic Profile Completion Checklist
+      let newCompletion = 40; // Base details 
+      let tasksHTML = `<div style="display: flex; align-items: center; gap: 8px; color: var(--green);"><i class="bi bi-check-circle-fill"></i> Base Profile Created</div>`;
+      
+      if (profile.profile_photo_url || state.profilePhotoPreview) {
+          newCompletion += 30;
+          tasksHTML += `<div style="display: flex; align-items: center; gap: 8px; color: var(--green);"><i class="bi bi-check-circle-fill"></i> Upload Profile Photo</div>`;
+      } else {
+          tasksHTML += `<div style="display: flex; align-items: center; gap: 8px;"><i class="bi bi-circle"></i> Upload Profile Photo</div>`;
+      }
+
+      if (profile.upi_id) {
+          newCompletion += 30;
+          tasksHTML += `<div style="display: flex; align-items: center; gap: 8px; color: var(--green);"><i class="bi bi-check-circle-fill"></i> Add UPI ID for Payments</div>`;
+      } else {
+          tasksHTML += `<div style="display: flex; align-items: center; gap: 8px;"><i class="bi bi-circle"></i> Add UPI ID for Payments</div>`;
+      }
+
+      if (el.dashPercent) el.dashPercent.textContent = newCompletion;
+      if (el.dashProgress) el.dashProgress.style.width = `${newCompletion}%`;
+      
+      const checklistEl = document.getElementById("profile-checklist");
+      if (checklistEl) checklistEl.innerHTML = tasksHTML;
+
       updateQuality();
     }
 
     async function goToDashboard() {
-      try { const p = await apiGet(`/auth/profile/${state.artisanId}`); state.profile = p; } catch (_) {}
+      try { const p = await apiGet(`/auth/profile/${state.artisanId}`); state.profile = p; } catch (_) { }
       if (state.profilePhotoPreview && state.profile) state.profile.custom_profile_photo = state.profilePhotoPreview;
       await showDashboard();
     }
@@ -1122,7 +1227,7 @@
       state.voiceLang = btn.dataset.lang;
     }
     function stopVoice() {
-      try { state.recognition?.stop(); } catch (_) {}
+      try { state.recognition?.stop(); } catch (_) { }
       state.isRecording = false;
       el.btnMic.classList.remove("recording");
       el.btnMic.innerHTML = '<i class="bi bi-mic-fill"></i>';
@@ -1292,7 +1397,7 @@
         showResults({
           product_id: productId,
           cards: (product.generated_images || []).map(file => ({
-            card_type: file.replace("Viraasat_","").replace(".png",""),
+            card_type: file.replace("Viraasat_", "").replace(".png", ""),
             filename: file
           })),
           parsed_data: product.description_json || {},
@@ -1336,6 +1441,88 @@
       $("#btn-generate").addEventListener("click", doGenerate);
       $("#btn-back-dashboard").addEventListener("click", goToDashboard);
       el.themeToggle?.addEventListener("click", toggleTheme);
+      document.getElementById("lang-toggle")?.addEventListener("click", toggleLanguage);
+
+      // Sidebar
+      el.menuToggle?.addEventListener("click", () => {
+        el.sidebar.classList.add("active");
+        el.sidebarOverlay.classList.add("active");
+      });
+      const closeSidebar = () => { el.sidebar.classList.remove("active"); el.sidebarOverlay.classList.remove("active"); };
+      el.sidebarClose?.addEventListener("click", closeSidebar);
+      el.sidebarOverlay?.addEventListener("click", closeSidebar);
+
+      $("#sb-btn-send")?.addEventListener("click", async () => {
+        const phone = $("#sb-phone").value.replace(/\D/g, "");
+        if (phone.length < 10) return showToast("Enter valid number");
+        state.phone = "+91" + phone;
+        try {
+          showLoading("Sending code...");
+          await apiPost("/auth/register", { phone: state.phone });
+          hideLoading();
+          $("#sb-otp-section").style.display = "block";
+          $("#sb-btn-send").style.display = "none";
+        } catch (e) { hideLoading(); showToast("Error"); }
+      });
+
+      $("#sb-btn-login")?.addEventListener("click", async () => {
+        const otp = $("#sb-otp").value;
+        if (otp.length < 6) return showToast("Enter 6 digit OTP");
+        try {
+          showLoading("Logging in...");
+          const data = await apiPost("/auth/verify", { phone: state.phone, otp });
+          hideLoading();
+          if (data.status === "existing_user") {
+            state.artisanId = data.profile.id;
+            localStorage.setItem("karu_artisan_id", state.artisanId);
+            state.profile = data.profile;
+            closeSidebar();
+            await showDashboard();
+          } else {
+            closeSidebar();
+            showScreen("screen-profile");
+          }
+        } catch (e) { hideLoading(); showToast("Invalid OTP"); }
+      });
+
+      document.getElementById("btn-view-id-card")?.addEventListener("click", () => {
+        if (!state.latestProductId) {
+          return showToast("Generate your first product to unlock your Identity Card!");
+        }
+        window.open(`${API}/sharing/${state.latestProductId}/brand-card`, "_blank");
+      });
+
+      // Facebook Share Logic
+      document.getElementById("btn-share-fb")?.addEventListener("click", async () => {
+        if (!state.currentProductId) return;
+        try {
+          showLoading("Preparing Facebook Assets...");
+          const shareData = await apiGet(`/sharing/${state.currentProductId}/facebook`);
+          hideLoading();
+          await navigator.clipboard.writeText(shareData.caption);
+          showToast("Facebook caption copied! Opening Facebook...");
+          setTimeout(() => window.open("https://www.facebook.com/marketplace/create", "_blank"), 1500);
+        } catch (e) {
+          hideLoading();
+          showToast("Failed to prepare Facebook share.");
+        }
+      });
+
+      // Pinterest Share Logic
+      document.getElementById("btn-share-pin")?.addEventListener("click", async () => {
+        if (!state.currentProductId) return;
+        try {
+          showLoading("Preparing Pinterest Board...");
+          const shareData = await apiGet(`/sharing/${state.currentProductId}/instagram`); // Reusing IG text/tags
+          hideLoading();
+          await navigator.clipboard.writeText(shareData.caption);
+          showToast("Pin description copied! Opening Pinterest...");
+          setTimeout(() => window.open("https://www.pinterest.com/pin-builder/", "_blank"), 1500);
+        } catch (e) {
+          hideLoading();
+          showToast("Failed to prepare Pinterest share.");
+        }
+      });
 
       $$("[data-go-screen]").forEach(btn => btn.addEventListener("click", () => showScreen(btn.dataset.goScreen)));
       $$("[data-share]").forEach(btn => btn.addEventListener("click", () => doShare(btn.dataset.share)));
@@ -1380,5 +1567,21 @@
     bindEvents();
     updateQuality();
   </script>
+  <div id="google_translate_element"
+    style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none;z-index:-1;">
+  </div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
+
 </html>
