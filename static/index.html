@@ -340,37 +340,47 @@
             <div class="form-group">
               <label class="form-label" for="inp-state">State / राज्य</label>
               <select id="inp-state">
-                <option value="">Select your state</option>
-                <option>Andhra Pradesh</option>
-                <option>Arunachal Pradesh</option>
-                <option>Assam</option>
-                <option>Bihar</option>
-                <option>Chhattisgarh</option>
-                <option>Goa</option>
-                <option>Gujarat</option>
-                <option>Haryana</option>
-                <option>Himachal Pradesh</option>
-                <option>Jammu &amp; Kashmir</option>
-                <option>Jharkhand</option>
-                <option>Karnataka</option>
-                <option>Kerala</option>
-                <option>Madhya Pradesh</option>
-                <option>Maharashtra</option>
-                <option>Manipur</option>
-                <option>Meghalaya</option>
-                <option>Mizoram</option>
-                <option>Nagaland</option>
-                <option>Odisha</option>
-                <option>Punjab</option>
-                <option>Rajasthan</option>
-                <option>Sikkim</option>
-                <option>Tamil Nadu</option>
-                <option>Telangana</option>
-                <option>Tripura</option>
-                <option>Uttar Pradesh</option>
-                <option>Uttarakhand</option>
-                <option>West Bengal</option>
-                <option>Other</option>
+                <option value="">Select your state / UT</option>
+                <optgroup label="States">
+                  <option>Andhra Pradesh</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Assam</option>
+                  <option>Bihar</option>
+                  <option>Chhattisgarh</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Odisha</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Uttarakhand</option>
+                  <option>West Bengal</option>
+                </optgroup>
+                <optgroup label="Union Territories">
+                  <option>Andaman &amp; Nicobar Islands</option>
+                  <option>Chandigarh</option>
+                  <option>Dadra &amp; Nagar Haveli and Daman &amp; Diu</option>
+                  <option>Delhi (NCT)</option>
+                  <option>Jammu &amp; Kashmir</option>
+                  <option>Ladakh</option>
+                  <option>Lakshadweep</option>
+                  <option>Puducherry</option>
+                </optgroup>
               </select>
             </div>
 
@@ -1077,7 +1087,7 @@
 
     function calcQuality() {
       let score = 40;
-      score += Math.min([...(el.inpPhotos.files || [])].length * 8, 24);
+      score += Math.min(_selectedFiles.length * 8, 24);
       score += Math.min(Math.floor(el.inpVoice.value.trim().length / 12), 24);
       if (el.inpProdType.value.trim()) score += 8;
       return Math.min(score, 100);
@@ -1205,19 +1215,43 @@
     }
 
     /* ─── PHOTOS ─────────────────────────────────── */
-    function previewPhotos(input) {
-      const files = [...(input.files || [])];
+    // We maintain our own mutable file list so deletions work correctly
+    let _selectedFiles = [];
+
+    function renderPhotoThumbs() {
       el.photoPreview.innerHTML = "";
-      if (!files.length) return;
-      files.forEach((file, i) => {
+      _selectedFiles.forEach((file, i) => {
         const url = URL.createObjectURL(file);
         const wrap = document.createElement("div");
         wrap.className = "photo-thumb";
-        wrap.innerHTML = `<img src="${url}" alt="Product preview ${i + 1}" />`;
+        wrap.innerHTML = `
+          <img src="${url}" alt="Product preview ${i + 1}" />
+          <button class="photo-thumb-remove" type="button" title="Remove photo" aria-label="Remove photo ${i + 1}">
+            <i class="bi bi-x"></i>
+          </button>
+        `;
+        wrap.querySelector(".photo-thumb-remove").addEventListener("click", (e) => {
+          e.stopPropagation();
+          URL.revokeObjectURL(url);
+          _selectedFiles.splice(i, 1);
+          renderPhotoThumbs();
+          updateQuality();
+          showToast("Photo removed");
+        });
         el.photoPreview.appendChild(wrap);
       });
+    }
+
+    function previewPhotos(input) {
+      const newFiles = [...(input.files || [])];
+      if (!newFiles.length) return;
+      // Merge, capping at 5 total
+      _selectedFiles = [..._selectedFiles, ...newFiles].slice(0, 5);
+      // Reset input so same file can be re-added later if needed
+      input.value = "";
+      renderPhotoThumbs();
       updateQuality();
-      showToast(`${files.length} photo${files.length > 1 ? "s" : ""} added`);
+      showToast(`${_selectedFiles.length} photo${_selectedFiles.length > 1 ? "s" : ""} selected`);
     }
 
     /* ─── VOICE ─────────────────────────────────── */
@@ -1289,7 +1323,7 @@
     function stopLoadingMsgs() { clearInterval(state.generateMessageTimer); state.generateMessageTimer = null; }
 
     async function doGenerate() {
-      const files = [...(el.inpPhotos.files || [])];
+      const files = _selectedFiles;
       if (!files.length) { showToast("Please add at least one photo"); return; }
       const fd = new FormData();
       fd.append("artisan_id", state.artisanId);
